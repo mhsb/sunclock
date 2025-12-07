@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sunset Clock</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .clock-display {
+            font-size: 4em;
+            font-weight: bold;
+            margin: 30px 0;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 0.05em;
+        }
+
+        .clock-label {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .location-info {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 0.9em;
+        }
+
+        .location-form {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1em;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .status {
+            margin-top: 15px;
+            font-size: 0.85em;
+            opacity: 0.8;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .error {
+            color: #ff6b6b;
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+
+        .loading {
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌅 Sunset Clock</h1>
+        <div class="clock-label">Time since sunset</div>
+        <div class="clock-display" id="clock">00:00:00</div>
+        <div class="location-info" id="locationInfo">
+            <div id="locationText">Loading location...</div>
+            <div class="status" id="status"></div>
+        </div>
+        <div class="location-form" id="locationForm">
+            <div class="form-group">
+                <label for="country">Country:</label>
+                <input type="text" id="country" placeholder="e.g., United States">
+            </div>
+            <div class="form-group">
+                <label for="city">City:</label>
+                <input type="text" id="city" placeholder="e.g., New York">
+            </div>
+            <button onclick="saveLocation()">Save Location</button>
+            <div class="error" id="error"></div>
+        </div>
+    </div>
+
+    <script>
+        let sunsetTime = null;
+        let locationData = null;
+        let clockInterval = null;
+
+        // Load saved location on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadSavedLocation();
+        });
+
+        function loadSavedLocation() {
+            const saved = localStorage.getItem('sunsetClockLocation');
+            if (saved) {
+                try {
+                    locationData = JSON.parse(saved);
+                    document.getElementById('country').value = locationData.country || '';
+                    document.getElementById('city').value = locationData.city || '';
+                    updateLocationInfo();
+                    fetchSunsetTime();
+                } catch (e) {
+                    console.error('Error loading saved location:', e);
+                }
+            } else {
+                updateLocationInfo();
+            }
+        }
+
+        function saveLocation() {
+            const country = document.getElementById('country').value.trim();
+            const city = document.getElementById('city').value.trim();
+            const errorDiv = document.getElementById('error');
+
+            if (!country || !city) {
+                errorDiv.textContent = 'Please enter both country and city';
+                return;
+            }
+
+            errorDiv.textContent = '';
+            locationData = { country, city };
+            localStorage.setItem('sunsetClockLocation', JSON.stringify(locationData));
+            updateLocationInfo();
+            fetchSunsetTime();
+        }
+
+        function updateLocationInfo() {
+            const locationText = document.getElementById('locationText');
+            if (locationData) {
+                locationText.textContent = `${locationData.city}, ${locationData.country}`;
+            } else {
+                locationText.textContent = 'Please enter your location';
+            }
+        }
+
+        async function fetchSunsetTime() {
+            if (!locationData) {
+                document.getElementById('status').textContent = 'Location not set';
+                return;
+            }
+
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = 'Fetching sunset time...';
+            statusDiv.classList.add('loading');
+
+            // Check if we have cached sunset time
+            const cached = localStorage.getItem('sunsetTimeCache');
+            let useCached = false;
+            if (cached) {
+                try {
+                    const cachedData = JSON.parse(cached);
+                    // Use cached data if it's for today (or if offline)
+                    if (cachedData.date === new Date().toDateString() || !navigator.onLine) {
+                        sunsetTime = new Date(cachedData.sunsetTime);
+                        useCached = true;
+                        if (!navigator.onLine || cachedData.date === new Date().toDateString()) {
+                            statusDiv.textContent = 'Using cached sunset time';
+                            statusDiv.classList.remove('loading');
+                            startClock();
+                        }
+                    }
+                } catch (e) {
+                    console.error('Error parsing cached data:', e);
+                }
+            }
+
+            // Try to fetch fresh data if online
+            if (navigator.onLine) {
+                try {
+                    // Use a geocoding API to get coordinates, then sunset API
+                    const geocodeUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationData.city)},${encodeURIComponent(locationData.country)}&limit=1`;
+                    
+                    const geocodeResponse = await fetch(geocodeUrl);
+                    if (!geocodeResponse.ok) throw new Error('Geocoding failed');
+                    
+                    const geocodeData = await geocodeResponse.json();
+                    if (!geocodeData || geocodeData.length === 0) {
+                        throw new Error('Location not found');
+                    }
+
+                    const lat = geocodeData[0].lat;
+                    const lon = geocodeData[0].lon;
+
+                    // Get today's date
+                    const today = new Date();
+                    const dateStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+
+                    // Fetch sunset time from sunrise-sunset API
+                    const sunsetUrl = `https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lon}&date=${dateStr}&formatted=0`;
+                    const sunsetResponse = await fetch(sunsetUrl);
+                    
+                    if (!sunsetResponse.ok) throw new Error('Sunset API failed');
+                    
+                    const sunsetData = await sunsetResponse.json();
+                    if (sunsetData.status !== 'OK') {
+                        throw new Error('Sunset API error');
+                    }
+
+                    // Parse sunset time (API returns UTC, Date constructor converts to local time)
+                    sunsetTime = new Date(sunsetData.results.sunset);
+                    
+                    // Cache the sunset time (store as ISO string for consistency)
+                    localStorage.setItem('sunsetTimeCache', JSON.stringify({
+                        date: today.toDateString(),
+                        sunsetTime: sunsetTime.toISOString(),
+                        location: `${locationData.city}, ${locationData.country}`
+                    }));
+
+                    statusDiv.textContent = 'Sunset time updated';
+                    statusDiv.classList.remove('loading');
+                    startClock();
+                } catch (error) {
+                    console.error('Error fetching sunset time:', error);
+                    statusDiv.textContent = 'Error fetching sunset time. Using cached data if available.';
+                    statusDiv.classList.remove('loading');
+                    
+                    // If we have cached data and haven't used it yet, use it as fallback
+                    if (cached && !useCached) {
+                        try {
+                            const cachedData = JSON.parse(cached);
+                            sunsetTime = new Date(cachedData.sunsetTime);
+                            statusDiv.textContent = 'Using cached sunset time (may be outdated)';
+                            startClock();
+                        } catch (e) {
+                            statusDiv.textContent = 'Unable to load sunset time';
+                        }
+                    } else if (!useCached) {
+                        statusDiv.textContent = 'Unable to load sunset time';
+                    }
+                }
+            } else {
+                statusDiv.textContent = 'Offline - using cached sunset time';
+                statusDiv.classList.remove('loading');
+                if (sunsetTime) {
+                    startClock();
+                }
+            }
+        }
+
+        function startClock() {
+            if (clockInterval) {
+                clearInterval(clockInterval);
+            }
+
+            if (!sunsetTime) {
+                document.getElementById('clock').textContent = '--:--:--';
+                return;
+            }
+
+            function updateClock() {
+                const now = new Date();
+                
+                // Get today's sunset time in local timezone
+                const todaySunset = new Date(sunsetTime);
+                todaySunset.setHours(todaySunset.getHours(), todaySunset.getMinutes(), todaySunset.getSeconds(), 0);
+                
+                // Get yesterday's sunset
+                const yesterdaySunset = new Date(todaySunset);
+                yesterdaySunset.setDate(yesterdaySunset.getDate() - 1);
+                
+                // Determine which sunset to use (yesterday's if before today's sunset)
+                let referenceSunset = todaySunset;
+                if (now < todaySunset) {
+                    referenceSunset = yesterdaySunset;
+                }
+                
+                // Calculate time since the reference sunset
+                let timeSinceSunset = now - referenceSunset;
+                
+                // Handle wrap-around (shouldn't happen, but just in case)
+                if (timeSinceSunset < 0) {
+                    timeSinceSunset = 0;
+                }
+                
+                // Calculate hours, minutes, seconds
+                const totalSeconds = Math.floor(timeSinceSunset / 1000);
+                const hours = Math.floor(totalSeconds / 3600);
+                const minutes = Math.floor((totalSeconds % 3600) / 60);
+                const seconds = totalSeconds % 60;
+
+                const display = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                document.getElementById('clock').textContent = display;
+            }
+
+            updateClock();
+            clockInterval = setInterval(updateClock, 1000);
+        }
+
+        // Listen for online/offline events
+        window.addEventListener('online', () => {
+            if (locationData) {
+                fetchSunsetTime();
+            }
+        });
+
+        window.addEventListener('offline', () => {
+            document.getElementById('status').textContent = 'Offline - using cached data';
+        });
+    </script>
+</body>
+</html>
+
