@@ -4,9 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sunset Clock</title>
+    <!-- Iranian Font Server (Primary) -->
+    <link rel="preconnect" href="//fdn.fontcdn.ir">
+    <link rel="preconnect" href="//v1.fontapi.ir">
+    <link href="https://v1.fontapi.ir/css/Vazir" rel="stylesheet">
+    
+    <!-- Fallback: Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">
+    
+    <!-- Fallback: jsDelivr CDN -->
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirfont@v30.1.0/dist/font-face.css" rel="stylesheet">
     <style>
         * {
@@ -28,8 +36,32 @@
             transition: background 2s ease;
         }
 
-        body[dir="rtl"] {
-            font-family: 'Vazir', 'Vazirmatn', 'Tahoma', 'Arial', sans-serif;
+        /* Apply Vazir font to all elements when in RTL mode */
+        html[dir="rtl"],
+        html[dir="rtl"] body,
+        html[dir="rtl"] * {
+            font-family: 'Vazir', Vazir, 'Vazirmatn', 'Tahoma', 'Arial', sans-serif !important;
+        }
+        
+        /* Specific overrides for elements that might have inline styles */
+        html[dir="rtl"] h1,
+        html[dir="rtl"] h2,
+        html[dir="rtl"] h3,
+        html[dir="rtl"] p,
+        html[dir="rtl"] div,
+        html[dir="rtl"] span,
+        html[dir="rtl"] button,
+        html[dir="rtl"] input,
+        html[dir="rtl"] label,
+        html[dir="rtl"] .clock-display,
+        html[dir="rtl"] .clock-label,
+        html[dir="rtl"] .location-text,
+        html[dir="rtl"] .status,
+        html[dir="rtl"] .language-toggle,
+        html[dir="rtl"] .location-toggle-btn,
+        html[dir="rtl"] .about-text,
+        html[dir="rtl"] .about-title {
+            font-family: 'Vazir', Vazir, 'Vazirmatn', 'Tahoma', 'Arial', sans-serif !important;
         }
 
         .language-toggle {
@@ -37,31 +69,50 @@
             top: 20px;
             right: 20px;
             padding: 10px 16px;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 25px;
             color: white;
             cursor: pointer;
             font-size: 0.9em;
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 1000;
             display: flex;
             align-items: center;
             gap: 8px;
             white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .language-toggle-icon {
-            font-size: 1.1em;
+            width: 18px;
+            height: 18px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .language-toggle-text {
             font-weight: 600;
+            transition: opacity 0.3s ease;
         }
 
         .language-toggle:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .language-toggle:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .language-toggle:hover .language-toggle-icon {
+            transform: rotate(15deg) scale(1.1);
         }
 
         .container {
@@ -74,6 +125,14 @@
             max-width: 700px;
             width: 100%;
             text-align: center;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .container:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 12px 48px 0 rgba(31, 38, 135, 0.5);
+            transform: translateY(-4px);
         }
 
         h1 {
@@ -129,21 +188,49 @@
         }
 
         .location-toggle-btn {
-            padding: 8px 20px;
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 8px;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
             color: white;
             cursor: pointer;
             font-size: 0.9em;
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             margin-left: 15px;
             white-space: nowrap;
             width: auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 44px;
+            min-height: 44px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .location-toggle-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .location-toggle-btn:active {
+            transform: translateY(0) scale(1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .location-toggle-btn svg {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .location-toggle-btn:hover svg {
+            transform: rotate(90deg) scale(1.1);
+        }
+
+        #aboutToggleBtn:hover svg {
+            transform: scale(1.15);
         }
 
         body[dir="rtl"] .location-toggle-btn {
@@ -284,6 +371,12 @@
 
         button:hover {
             background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        button:active {
+            transform: translateY(0);
         }
 
         .error {
@@ -332,24 +425,33 @@
             padding: 40px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             position: relative;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .about-content:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
+            transform: translateY(-4px);
         }
 
         .about-close-btn {
             position: absolute;
             top: 20px;
             right: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             color: white;
             cursor: pointer;
-            font-size: 1.2em;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         body[dir="rtl"] .about-close-btn {
@@ -358,7 +460,20 @@
         }
 
         .about-close-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: rotate(90deg) scale(1.1);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .about-close-btn:active {
+            transform: rotate(90deg) scale(1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .about-close-btn svg {
+            width: 20px;
+            height: 20px;
         }
 
         .about-content h2 {
@@ -397,7 +512,13 @@
 </head>
 <body>
     <button class="language-toggle" id="languageToggle" onclick="toggleLanguage()">
-        <span class="language-toggle-icon">🌐</span>
+        <span class="language-toggle-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+        </span>
         <span class="language-toggle-text" id="languageToggleText">en</span>
     </button>
     
@@ -409,7 +530,12 @@
 
     <div class="about-panel" id="aboutPanel">
         <div class="about-content">
-            <button class="about-close-btn" onclick="toggleAbout()">✕</button>
+            <button class="about-close-btn" onclick="toggleAbout()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
             <h2 id="aboutTitle">About Sunset Clock</h2>
             <div class="about-text" id="aboutText"></div>
         </div>
@@ -421,8 +547,19 @@
             <div class="status" id="status"></div>
         </div>
         <div style="display: flex; gap: 10px;">
-            <button class="location-toggle-btn" id="aboutToggleBtn" onclick="toggleAbout()" title="About">ℹ️</button>
-            <button class="location-toggle-btn" id="locationToggleBtn" onclick="toggleLocationPanel()">⚙️</button>
+            <button class="location-toggle-btn" id="aboutToggleBtn" onclick="toggleAbout()" title="About">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+            </button>
+            <button class="location-toggle-btn" id="locationToggleBtn" onclick="toggleLocationPanel()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M12 1v6m0 6v6M5.64 5.64l4.24 4.24m4.24 4.24l4.24 4.24M1 12h6m6 0h6M5.64 18.36l4.24-4.24m4.24-4.24l4.24-4.24"></path>
+                </svg>
+            </button>
         </div>
     </div>
 
@@ -481,7 +618,7 @@
                 aboutText: '<p>Sunset Clock is a unique time display that shows time elapsed since the last sunset. The clock resets every day at sunset, creating a natural 24-hour cycle.</p><p>The background gradient changes throughout the day to reflect the time of day, transitioning from deep night blues to morning purples and afternoon oranges.</p><p>You can set your location to get accurate sunset times for your area. The app works offline using cached sunset times when internet is unavailable.</p>'
             },
             fa: {
-                title: '🌅 ساعت غروب',
+                title: '🌅 ساعت غروب کوک',
                 clockLabel: 'زمان از غروب',
                 countryLabel: 'کشور:',
                 cityLabel: 'شهر:',
@@ -527,13 +664,25 @@
 
         // Initialize
         window.addEventListener('DOMContentLoaded', () => {
+            // Wait for fonts to load
+            if (document.fonts && document.fonts.ready) {
+                document.fonts.ready.then(() => {
+                    initializeApp();
+                });
+            } else {
+                // Fallback if font loading API not available
+                setTimeout(initializeApp, 500);
+            }
+        });
+
+        function initializeApp() {
             setLanguage(currentLang);
             initializeCountries();
             setupEventListeners();
             loadSavedLocation();
             updateGradient();
             setInterval(updateGradient, 60000); // Update gradient every minute
-        });
+        }
 
         function setLanguage(lang) {
             currentLang = lang;
@@ -571,12 +720,19 @@
             const mainContainer = document.getElementById('mainContainer');
             
             if (aboutPanel.classList.contains('show')) {
-                aboutPanel.classList.remove('show');
-                mainContainer.classList.remove('main-hidden');
+                closeAbout();
             } else {
                 aboutPanel.classList.add('show');
                 mainContainer.classList.add('main-hidden');
             }
+        }
+
+        function closeAbout() {
+            const aboutPanel = document.getElementById('aboutPanel');
+            const mainContainer = document.getElementById('mainContainer');
+            
+            aboutPanel.classList.remove('show');
+            mainContainer.classList.remove('main-hidden');
         }
 
         function updateGradient() {
@@ -692,6 +848,29 @@
                     !panel.contains(e.target) && 
                     !toggleBtn.contains(e.target)) {
                     panel.classList.remove('show');
+                }
+            });
+
+            // Close about panel when clicking outside the content area
+            document.addEventListener('click', (e) => {
+                const aboutPanel = document.getElementById('aboutPanel');
+                const aboutContent = document.querySelector('.about-content');
+                const aboutToggleBtn = document.getElementById('aboutToggleBtn');
+                
+                if (aboutPanel.classList.contains('show') && 
+                    !aboutContent.contains(e.target) && 
+                    !aboutToggleBtn.contains(e.target)) {
+                    closeAbout();
+                }
+            });
+
+            // Close about panel with ESC key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' || e.keyCode === 27) {
+                    const aboutPanel = document.getElementById('aboutPanel');
+                    if (aboutPanel.classList.contains('show')) {
+                        closeAbout();
+                    }
                 }
             });
         }
