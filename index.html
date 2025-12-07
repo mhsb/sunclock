@@ -95,6 +95,67 @@
             color: rgba(255, 255, 255, 0.6);
         }
 
+        .dropdown-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .dropdown-input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        .dropdown-input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .dropdown-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            max-height: 200px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 5px;
+            margin-top: 5px;
+            z-index: 1000;
+            display: none;
+        }
+
+        .dropdown-list.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 10px;
+            cursor: pointer;
+            color: white;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dropdown-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .loading-cities {
+            padding: 10px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9em;
+        }
+
         button {
             width: 100%;
             padding: 12px;
@@ -145,11 +206,17 @@
         <div class="location-form" id="locationForm">
             <div class="form-group">
                 <label for="country">Country:</label>
-                <input type="text" id="country" placeholder="e.g., United States">
+                <div class="dropdown-container">
+                    <input type="text" class="dropdown-input" id="country" placeholder="Search country..." autocomplete="off">
+                    <div class="dropdown-list" id="countryList"></div>
+                </div>
             </div>
             <div class="form-group">
                 <label for="city">City:</label>
-                <input type="text" id="city" placeholder="e.g., New York">
+                <div class="dropdown-container">
+                    <input type="text" class="dropdown-input" id="city" placeholder="Select country first..." autocomplete="off" disabled>
+                    <div class="dropdown-list" id="cityList"></div>
+                </div>
             </div>
             <button onclick="saveLocation()">Save Location</button>
             <div class="error" id="error"></div>
@@ -160,26 +227,288 @@
         let sunsetTime = null;
         let locationData = null;
         let clockInterval = null;
+        let countriesList = [];
+        let citiesList = [];
+        let selectedCountry = null;
+        let filteredCountries = [];
+        let filteredCities = [];
+
+        // Default values
+        const DEFAULT_COUNTRY = 'Iran';
+        const DEFAULT_CITY = 'Qom';
 
         // Load saved location on page load
         window.addEventListener('DOMContentLoaded', () => {
+            initializeCountries();
+            setupEventListeners();
             loadSavedLocation();
         });
 
-        function loadSavedLocation() {
+        function setupEventListeners() {
+            const countryInput = document.getElementById('country');
+            const cityInput = document.getElementById('city');
+
+            countryInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                filteredCountries = countriesList.filter(country => 
+                    country.toLowerCase().includes(searchTerm)
+                );
+                renderCountryDropdown();
+                document.getElementById('countryList').classList.add('show');
+            });
+
+            countryInput.addEventListener('focus', () => {
+                if (countryInput.value === '') {
+                    filteredCountries = [...countriesList];
+                    renderCountryDropdown();
+                }
+                document.getElementById('countryList').classList.add('show');
+            });
+
+            cityInput.addEventListener('input', (e) => {
+                if (!selectedCountry) return;
+                const searchTerm = e.target.value.toLowerCase();
+                filteredCities = citiesList.filter(city => 
+                    city.name.toLowerCase().includes(searchTerm)
+                );
+                renderCityDropdown();
+                document.getElementById('cityList').classList.add('show');
+            });
+
+            cityInput.addEventListener('focus', () => {
+                if (!selectedCountry) return;
+                if (cityInput.value === '') {
+                    filteredCities = [...citiesList];
+                    renderCityDropdown();
+                }
+                document.getElementById('cityList').classList.add('show');
+            });
+
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.dropdown-container')) {
+                    document.getElementById('countryList').classList.remove('show');
+                    document.getElementById('cityList').classList.remove('show');
+                }
+            });
+        }
+
+        async function initializeCountries() {
+            // Comprehensive list of countries
+            countriesList = [
+                'Afghanistan', 'Albania', 'Algeria', 'Argentina', 'Australia', 'Austria',
+                'Bangladesh', 'Belgium', 'Brazil', 'Bulgaria', 'Canada', 'Chile', 'China',
+                'Colombia', 'Croatia', 'Czech Republic', 'Denmark', 'Egypt', 'Finland',
+                'France', 'Germany', 'Greece', 'Hungary', 'India', 'Indonesia', 'Iran',
+                'Iraq', 'Ireland', 'Israel', 'Italy', 'Japan', 'Jordan', 'Kenya',
+                'Kuwait', 'Lebanon', 'Malaysia', 'Mexico', 'Morocco', 'Netherlands',
+                'New Zealand', 'Nigeria', 'Norway', 'Pakistan', 'Peru', 'Philippines',
+                'Poland', 'Portugal', 'Qatar', 'Romania', 'Russia', 'Saudi Arabia',
+                'Singapore', 'South Africa', 'South Korea', 'Spain', 'Sweden', 'Switzerland',
+                'Syria', 'Thailand', 'Turkey', 'Ukraine', 'United Arab Emirates',
+                'United Kingdom', 'United States', 'Venezuela', 'Vietnam', 'Yemen'
+            ].sort();
+
+            filteredCountries = [...countriesList];
+            renderCountryDropdown();
+        }
+
+        function renderCountryDropdown() {
+            const countryList = document.getElementById('countryList');
+            countryList.innerHTML = '';
+            
+            if (filteredCountries.length === 0) {
+                countryList.innerHTML = '<div class="dropdown-item">No countries found</div>';
+                countryList.classList.add('show');
+                return;
+            }
+
+            filteredCountries.forEach(country => {
+                const item = document.createElement('div');
+                item.className = 'dropdown-item';
+                item.textContent = country;
+                item.onclick = () => selectCountry(country);
+                countryList.appendChild(item);
+            });
+        }
+
+        function renderCityDropdown() {
+            const cityList = document.getElementById('cityList');
+            cityList.innerHTML = '';
+            
+            if (filteredCities.length === 0) {
+                cityList.innerHTML = '<div class="dropdown-item">No cities found</div>';
+                cityList.classList.add('show');
+                return;
+            }
+
+            filteredCities.forEach(city => {
+                const item = document.createElement('div');
+                item.className = 'dropdown-item';
+                item.textContent = city.name;
+                item.onclick = () => selectCity(city.name);
+                cityList.appendChild(item);
+            });
+        }
+
+        function selectCountry(country) {
+            selectedCountry = country;
+            document.getElementById('country').value = country;
+            document.getElementById('countryList').classList.remove('show');
+            document.getElementById('city').disabled = false;
+            document.getElementById('city').placeholder = 'Search city...';
+            document.getElementById('city').value = '';
+            citiesList = [];
+            filteredCities = [];
+            fetchCitiesForCountry(country);
+        }
+
+        function selectCity(city) {
+            document.getElementById('city').value = city;
+            document.getElementById('cityList').classList.remove('show');
+        }
+
+        async function fetchCitiesForCountry(country) {
+            const cityList = document.getElementById('cityList');
+            cityList.innerHTML = '<div class="loading-cities">Loading cities...</div>';
+            cityList.classList.add('show');
+
+            try {
+                // Use GeoNames API to get cities (free, no API key required for small requests)
+                // Using a search endpoint that returns cities
+                const searchUrl = `https://secure.geonames.org/searchJSON?q=${encodeURIComponent(country)}&maxRows=1000&featureClass=P&username=demo`;
+                
+                // Note: GeoNames requires a username. Using 'demo' for basic usage.
+                // For production, you'd want to register for a free account.
+                // Alternative: Use REST Countries API + a cities database
+                
+                // Try GeoNames first
+                let response = await fetch(searchUrl);
+                if (!response.ok) throw new Error('GeoNames failed');
+                
+                let data = await response.json();
+                
+                if (data.geonames && data.geonames.length > 0) {
+                    // Filter cities that belong to the selected country
+                    citiesList = data.geonames
+                        .filter(place => place.countryName === country || place.adminName1)
+                        .map(place => ({ name: place.name, country: place.countryName }))
+                        .filter((city, index, self) => 
+                            index === self.findIndex(c => c.name === city.name)
+                        )
+                        .sort((a, b) => a.name.localeCompare(b.name));
+                    
+                    filteredCities = [...citiesList];
+                    renderCityDropdown();
+                } else {
+                    // Fallback: Use a static list of major cities for common countries
+                    citiesList = getMajorCitiesForCountry(country);
+                    filteredCities = [...citiesList];
+                    renderCityDropdown();
+                }
+            } catch (error) {
+                console.error('Error fetching cities:', error);
+                // Fallback to static list
+                citiesList = getMajorCitiesForCountry(country);
+                filteredCities = [...citiesList];
+                renderCityDropdown();
+            }
+        }
+
+        function getMajorCitiesForCountry(country) {
+            const majorCities = {
+                'Iran': ['Tehran', 'Mashhad', 'Isfahan', 'Karaj', 'Shiraz', 'Tabriz', 'Qom', 'Ahvaz', 'Kermanshah', 'Urmia', 'Rasht', 'Zahedan', 'Hamadan', 'Kerman', 'Yazd', 'Ardabil', 'Bandar Abbas', 'Arak', 'Eslamshahr', 'Zanjan'],
+                'United States': ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix', 'Philadelphia', 'San Antonio', 'San Diego', 'Dallas', 'San Jose'],
+                'United Kingdom': ['London', 'Birmingham', 'Manchester', 'Glasgow', 'Liverpool', 'Leeds', 'Edinburgh', 'Bristol', 'Cardiff', 'Belfast'],
+                'Canada': ['Toronto', 'Montreal', 'Vancouver', 'Calgary', 'Edmonton', 'Ottawa', 'Winnipeg', 'Quebec City', 'Hamilton', 'Kitchener'],
+                'Germany': ['Berlin', 'Munich', 'Hamburg', 'Cologne', 'Frankfurt', 'Stuttgart', 'Düsseldorf', 'Dortmund', 'Essen', 'Leipzig'],
+                'France': ['Paris', 'Marseille', 'Lyon', 'Toulouse', 'Nice', 'Nantes', 'Strasbourg', 'Montpellier', 'Bordeaux', 'Lille'],
+                'Italy': ['Rome', 'Milan', 'Naples', 'Turin', 'Palermo', 'Genoa', 'Bologna', 'Florence', 'Bari', 'Catania'],
+                'Spain': ['Madrid', 'Barcelona', 'Valencia', 'Seville', 'Zaragoza', 'Málaga', 'Murcia', 'Palma', 'Las Palmas', 'Bilbao'],
+                'Japan': ['Tokyo', 'Yokohama', 'Osaka', 'Nagoya', 'Sapporo', 'Fukuoka', 'Kobe', 'Kawasaki', 'Kyoto', 'Saitama'],
+                'China': ['Beijing', 'Shanghai', 'Guangzhou', 'Shenzhen', 'Chengdu', 'Hangzhou', 'Wuhan', 'Xi\'an', 'Nanjing', 'Tianjin'],
+                'India': ['Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Ahmedabad', 'Chennai', 'Kolkata', 'Pune', 'Jaipur', 'Surat'],
+                'Australia': ['Sydney', 'Melbourne', 'Brisbane', 'Perth', 'Adelaide', 'Gold Coast', 'Newcastle', 'Canberra', 'Sunshine Coast', 'Wollongong'],
+                'Brazil': ['São Paulo', 'Rio de Janeiro', 'Brasília', 'Salvador', 'Fortaleza', 'Belo Horizonte', 'Manaus', 'Curitiba', 'Recife', 'Porto Alegre'],
+                'Russia': ['Moscow', 'Saint Petersburg', 'Novosibirsk', 'Yekaterinburg', 'Kazan', 'Nizhny Novgorod', 'Chelyabinsk', 'Samara', 'Omsk', 'Rostov-on-Don'],
+                'Turkey': ['Istanbul', 'Ankara', 'Izmir', 'Bursa', 'Antalya', 'Adana', 'Gaziantep', 'Konya', 'Mersin', 'Diyarbakir'],
+                'Mexico': ['Mexico City', 'Guadalajara', 'Monterrey', 'Puebla', 'Tijuana', 'León', 'Juárez', 'Torreón', 'Querétaro', 'San Luis Potosí'],
+                'Argentina': ['Buenos Aires', 'Córdoba', 'Rosario', 'Mendoza', 'Tucumán', 'La Plata', 'Mar del Plata', 'Salta', 'Santa Fe', 'San Juan'],
+                'South Korea': ['Seoul', 'Busan', 'Incheon', 'Daegu', 'Daejeon', 'Gwangju', 'Suwon', 'Ulsan', 'Changwon', 'Goyang'],
+                'Saudi Arabia': ['Riyadh', 'Jeddah', 'Mecca', 'Medina', 'Dammam', 'Khobar', 'Taif', 'Tabuk', 'Buraydah', 'Khamis Mushait'],
+                'Egypt': ['Cairo', 'Alexandria', 'Giza', 'Shubra El Kheima', 'Port Said', 'Suez', 'Luxor', 'Aswan', 'Asyut', 'Ismailia'],
+                'Pakistan': ['Karachi', 'Lahore', 'Faisalabad', 'Rawalpindi', 'Multan', 'Gujranwala', 'Hyderabad', 'Peshawar', 'Islamabad', 'Quetta'],
+                'Indonesia': ['Jakarta', 'Surabaya', 'Bandung', 'Medan', 'Semarang', 'Palembang', 'Makassar', 'Batam', 'Pekanbaru', 'Bandar Lampung'],
+                'Bangladesh': ['Dhaka', 'Chittagong', 'Khulna', 'Rajshahi', 'Sylhet', 'Comilla', 'Rangpur', 'Mymensingh', 'Barisal', 'Jessore'],
+                'Philippines': ['Manila', 'Quezon City', 'Caloocan', 'Davao', 'Cebu', 'Zamboanga', 'Antipolo', 'Pasig', 'Cagayan de Oro', 'Valenzuela'],
+                'Thailand': ['Bangkok', 'Nonthaburi', 'Pak Kret', 'Hat Yai', 'Nakhon Ratchasima', 'Chiang Mai', 'Udon Thani', 'Pattaya', 'Khon Kaen', 'Nakhon Si Thammarat'],
+                'Vietnam': ['Ho Chi Minh City', 'Hanoi', 'Da Nang', 'Haiphong', 'Can Tho', 'Bien Hoa', 'Hue', 'Nha Trang', 'Vung Tau', 'Quy Nhon'],
+                'Malaysia': ['Kuala Lumpur', 'George Town', 'Ipoh', 'Shah Alam', 'Petaling Jaya', 'Johor Bahru', 'Melaka', 'Kota Kinabalu', 'Kuching', 'Seremban'],
+                'Singapore': ['Singapore'],
+                'Iraq': ['Baghdad', 'Basra', 'Mosul', 'Erbil', 'Najaf', 'Karbala', 'Nasiriyah', 'Amara', 'Samarra', 'Ramadi'],
+                'Syria': ['Damascus', 'Aleppo', 'Homs', 'Latakia', 'Hama', 'Tartus', 'Deir ez-Zor', 'Raqqa', 'Idlib', 'Daraa'],
+                'Lebanon': ['Beirut', 'Tripoli', 'Sidon', 'Tyre', 'Nabatieh', 'Jounieh', 'Zahle', 'Baalbek', 'Byblos', 'Batroun'],
+                'Jordan': ['Amman', 'Zarqa', 'Irbid', 'Russeifa', 'Wadi al-Sir', 'Aqaba', 'Madaba', 'Salt', 'Mafraq', 'Karak'],
+                'Yemen': ['Sana\'a', 'Aden', 'Taiz', 'Hodeidah', 'Ibb', 'Dhamar', 'Al-Mukalla', 'Zinjibar', 'Sayyan', 'Lahij'],
+                'Kuwait': ['Kuwait City', 'Al Ahmadi', 'Hawalli', 'Al Jahra', 'Al Farwaniyah', 'Salmiya', 'Mangaf', 'Mahboula', 'Abu Halifa', 'Fahaheel'],
+                'Qatar': ['Doha', 'Al Rayyan', 'Al Wakrah', 'Al Khor', 'Dukhan', 'Mesaieed', 'Lusail', 'Al Shamal', 'Al Daayen', 'Umm Salal'],
+                'United Arab Emirates': ['Dubai', 'Abu Dhabi', 'Sharjah', 'Al Ain', 'Ajman', 'Ras Al Khaimah', 'Fujairah', 'Umm Al Quwain', 'Khor Fakkan', 'Kalba']
+            };
+
+            if (majorCities[country]) {
+                return majorCities[country].map(name => ({ name, country }));
+            }
+            
+            // Generic fallback - return empty array
+            return [];
+        }
+
+        async function loadSavedLocation() {
             const saved = localStorage.getItem('sunsetClockLocation');
             if (saved) {
                 try {
                     locationData = JSON.parse(saved);
                     document.getElementById('country').value = locationData.country || '';
                     document.getElementById('city').value = locationData.city || '';
+                    if (locationData.country) {
+                        selectedCountry = locationData.country;
+                        document.getElementById('city').disabled = false;
+                        document.getElementById('city').placeholder = 'Search city...';
+                        // Load cities for the saved country
+                        await fetchCitiesForCountry(locationData.country);
+                    }
                     updateLocationInfo();
                     fetchSunsetTime();
                 } catch (e) {
                     console.error('Error loading saved location:', e);
+                    await setDefaults();
                 }
             } else {
+                await setDefaults();
+            }
+        }
+
+        async function setDefaults() {
+            // Set default to Iran/Qom
+            document.getElementById('country').value = DEFAULT_COUNTRY;
+            selectedCountry = DEFAULT_COUNTRY;
+            document.getElementById('city').disabled = false;
+            document.getElementById('city').placeholder = 'Search city...';
+            
+            try {
+                await fetchCitiesForCountry(DEFAULT_COUNTRY);
+                // After cities load, set Qom as default
+                document.getElementById('city').value = DEFAULT_CITY;
+                locationData = { country: DEFAULT_COUNTRY, city: DEFAULT_CITY };
                 updateLocationInfo();
+                fetchSunsetTime();
+            } catch (error) {
+                console.error('Error setting defaults:', error);
+                // Still set the defaults even if city fetch fails (static list should work)
+                document.getElementById('city').value = DEFAULT_CITY;
+                locationData = { country: DEFAULT_COUNTRY, city: DEFAULT_CITY };
+                updateLocationInfo();
+                fetchSunsetTime();
             }
         }
 
@@ -189,7 +518,13 @@
             const errorDiv = document.getElementById('error');
 
             if (!country || !city) {
-                errorDiv.textContent = 'Please enter both country and city';
+                errorDiv.textContent = 'Please select both country and city';
+                return;
+            }
+
+            // Validate country is in list
+            if (!countriesList.includes(country)) {
+                errorDiv.textContent = 'Please select a valid country from the list';
                 return;
             }
 
@@ -199,6 +534,7 @@
             updateLocationInfo();
             fetchSunsetTime();
         }
+
 
         function updateLocationInfo() {
             const locationText = document.getElementById('locationText');
