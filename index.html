@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sunset Clock</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,86 +16,184 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             color: white;
             padding: 20px;
+            padding-bottom: 100px;
+            transition: background 2s ease;
+        }
+
+        body[dir="rtl"] {
+            font-family: 'Vazirmatn', 'Tahoma', 'Arial', sans-serif;
+        }
+
+        .language-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 16px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .language-toggle-icon {
+            font-size: 1.1em;
+        }
+
+        .language-toggle-text {
+            font-weight: 600;
+        }
+
+        .language-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
         }
 
         .container {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 20px;
-            padding: 40px;
+            padding: 60px 40px;
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
             border: 1px solid rgba(255, 255, 255, 0.18);
-            max-width: 500px;
+            max-width: 700px;
             width: 100%;
             text-align: center;
         }
 
         h1 {
-            margin-bottom: 30px;
-            font-size: 2.5em;
+            margin-bottom: 40px;
+            font-size: 3em;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .clock-display {
-            font-size: 4em;
+            font-size: 7em;
             font-weight: bold;
-            margin: 30px 0;
+            margin: 40px 0;
             text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
             font-variant-numeric: tabular-nums;
             letter-spacing: 0.05em;
+            line-height: 1.2;
         }
 
         .clock-label {
-            font-size: 1.2em;
+            font-size: 1.5em;
             opacity: 0.9;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
 
-        .location-info {
-            margin: 20px 0;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+        /* Location Bar */
+        .location-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 999;
+            transition: transform 0.3s ease;
+        }
+
+        .location-bar-content {
+            flex: 1;
+            text-align: left;
+        }
+
+        .location-bar-content[dir="rtl"] {
+            text-align: right;
+        }
+
+        .location-text {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .location-toggle-btn {
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
             font-size: 0.9em;
+            transition: all 0.3s;
+            margin-left: 15px;
+            white-space: nowrap;
+            width: auto;
+        }
+
+        .location-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        body[dir="rtl"] .location-toggle-btn {
+            margin-left: 0;
+            margin-right: 15px;
+        }
+
+        /* Location Panel */
+        .location-panel {
+            position: fixed;
+            bottom: -100%;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 30px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 1001;
+            transition: bottom 0.3s ease;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .location-panel.show {
+            bottom: 0;
+        }
+
+        .location-panel-content {
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .location-form {
-            margin-top: 30px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+            padding: 20px 0;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             text-align: left;
+        }
+
+        body[dir="rtl"] .form-group {
+            text-align: right;
         }
 
         label {
             display: block;
-            margin-bottom: 5px;
-            font-size: 0.9em;
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            font-size: 1em;
-        }
-
-        input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 8px;
+            font-size: 0.95em;
+            opacity: 0.9;
         }
 
         .dropdown-container {
@@ -102,10 +203,10 @@
 
         .dropdown-input {
             width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            background: rgba(255, 255, 255, 0.2);
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
             color: white;
             font-size: 1em;
             cursor: pointer;
@@ -113,7 +214,13 @@
 
         .dropdown-input:focus {
             outline: none;
-            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .dropdown-input:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         .dropdown-list {
@@ -123,10 +230,11 @@
             right: 0;
             max-height: 200px;
             overflow-y: auto;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
             margin-top: 5px;
-            z-index: 1000;
+            z-index: 1002;
             display: none;
         }
 
@@ -135,7 +243,7 @@
         }
 
         .dropdown-item {
-            padding: 10px;
+            padding: 12px;
             cursor: pointer;
             color: white;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -150,7 +258,7 @@
         }
 
         .loading-cities {
-            padding: 10px;
+            padding: 12px;
             text-align: center;
             color: rgba(255, 255, 255, 0.7);
             font-size: 0.9em;
@@ -158,29 +266,24 @@
 
         button {
             width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 5px;
-            background: rgba(255, 255, 255, 0.3);
+            padding: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
             color: white;
             font-size: 1em;
             cursor: pointer;
-            transition: background 0.3s;
-            margin-top: 10px;
+            transition: all 0.3s;
+            margin-top: 15px;
+        }
+
+        .location-toggle-btn,
+        .language-toggle {
+            width: auto;
         }
 
         button:hover {
-            background: rgba(255, 255, 255, 0.4);
-        }
-
-        .status {
-            margin-top: 15px;
-            font-size: 0.85em;
-            opacity: 0.8;
-        }
-
-        .hidden {
-            display: none;
+            background: rgba(255, 255, 255, 0.3);
         }
 
         .error {
@@ -189,44 +292,136 @@
             font-size: 0.9em;
         }
 
+        .status {
+            margin-top: 10px;
+            font-size: 0.85em;
+            opacity: 0.7;
+        }
+
         .loading {
             opacity: 0.6;
+        }
+
+        @media (max-width: 768px) {
+            .clock-display {
+                font-size: 5em;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .container {
+                padding: 40px 20px;
+            }
         }
     </style>
 </head>
 <body>
+    <button class="language-toggle" id="languageToggle" onclick="toggleLanguage()">
+        <span class="language-toggle-icon">🌐</span>
+        <span class="language-toggle-text" id="languageToggleText">en</span>
+    </button>
+    
     <div class="container">
-        <h1>🌅 Sunset Clock</h1>
-        <div class="clock-label">Time since sunset</div>
+        <h1 id="title">🌅 Sunset Clock</h1>
+        <div class="clock-label" id="clockLabel">Time since sunset</div>
         <div class="clock-display" id="clock">00:00:00</div>
-        <div class="location-info" id="locationInfo">
-            <div id="locationText">Loading location...</div>
+    </div>
+
+    <div class="location-bar">
+        <div class="location-bar-content" id="locationBarContent">
+            <div class="location-text" id="locationText">Loading location...</div>
             <div class="status" id="status"></div>
         </div>
-        <div class="location-form" id="locationForm">
-            <div class="form-group">
-                <label for="country">Country:</label>
-                <div class="dropdown-container">
-                    <input type="text" class="dropdown-input" id="country" placeholder="Search country..." autocomplete="off">
-                    <div class="dropdown-list" id="countryList"></div>
+        <button class="location-toggle-btn" id="locationToggleBtn" onclick="toggleLocationPanel()">⚙️</button>
+    </div>
+
+    <div class="location-panel" id="locationPanel">
+        <div class="location-panel-content">
+            <div class="location-form">
+                <div class="form-group">
+                    <label for="country" id="countryLabel">Country:</label>
+                    <div class="dropdown-container">
+                        <input type="text" class="dropdown-input" id="country" placeholder="Search country..." autocomplete="off">
+                        <div class="dropdown-list" id="countryList"></div>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="city">City:</label>
-                <div class="dropdown-container">
-                    <input type="text" class="dropdown-input" id="city" placeholder="Select country first..." autocomplete="off" disabled>
-                    <div class="dropdown-list" id="cityList"></div>
+                <div class="form-group">
+                    <label for="city" id="cityLabel">City:</label>
+                    <div class="dropdown-container">
+                        <input type="text" class="dropdown-input" id="city" placeholder="Select country first..." autocomplete="off" disabled>
+                        <div class="dropdown-list" id="cityList"></div>
+                    </div>
                 </div>
+                <button onclick="saveLocation()" id="saveBtn">Save Location</button>
+                <div class="error" id="error"></div>
             </div>
-            <button onclick="saveLocation()">Save Location</button>
-            <div class="error" id="error"></div>
         </div>
     </div>
 
     <script>
+        // Translations
+        const translations = {
+            en: {
+                title: '🌅 Sunset Clock',
+                clockLabel: 'Time since sunset',
+                countryLabel: 'Country:',
+                cityLabel: 'City:',
+                saveBtn: 'Save Location',
+                locationText: 'Loading location...',
+                pleaseEnterLocation: 'Please enter your location',
+                searchCountry: 'Search country...',
+                selectCountryFirst: 'Select country first...',
+                searchCity: 'Search city...',
+                loadingCities: 'Loading cities...',
+                noCountriesFound: 'No countries found',
+                noCitiesFound: 'No cities found',
+                pleaseSelectBoth: 'Please select both country and city',
+                pleaseSelectValidCountry: 'Please select a valid country from the list',
+                locationNotSet: 'Location not set',
+                fetchingSunset: 'Fetching sunset time...',
+                usingCached: 'Using cached sunset time',
+                sunsetUpdated: 'Sunset time updated',
+                errorFetching: 'Error fetching sunset time. Using cached data if available.',
+                usingCachedOutdated: 'Using cached sunset time (may be outdated)',
+                unableToLoad: 'Unable to load sunset time',
+                offline: 'Offline - using cached sunset time',
+                settings: '⚙️'
+            },
+            fa: {
+                title: '🌅 ساعت غروب',
+                clockLabel: 'زمان از غروب',
+                countryLabel: 'کشور:',
+                cityLabel: 'شهر:',
+                saveBtn: 'ذخیره موقعیت',
+                locationText: 'در حال بارگذاری موقعیت...',
+                pleaseEnterLocation: 'لطفاً موقعیت خود را وارد کنید',
+                searchCountry: 'جستجوی کشور...',
+                selectCountryFirst: 'ابتدا کشور را انتخاب کنید...',
+                searchCity: 'جستجوی شهر...',
+                loadingCities: 'در حال بارگذاری شهرها...',
+                noCountriesFound: 'کشوری یافت نشد',
+                noCitiesFound: 'شهری یافت نشد',
+                pleaseSelectBoth: 'لطفاً کشور و شهر را انتخاب کنید',
+                pleaseSelectValidCountry: 'لطفاً یک کشور معتبر از لیست انتخاب کنید',
+                locationNotSet: 'موقعیت تنظیم نشده',
+                fetchingSunset: 'در حال دریافت زمان غروب...',
+                usingCached: 'استفاده از زمان غروب ذخیره شده',
+                sunsetUpdated: 'زمان غروب به‌روزرسانی شد',
+                errorFetching: 'خطا در دریافت زمان غروب. در صورت وجود، از داده‌های ذخیره شده استفاده می‌شود.',
+                usingCachedOutdated: 'استفاده از زمان غروب ذخیره شده (ممکن است قدیمی باشد)',
+                unableToLoad: 'امکان بارگذاری زمان غروب وجود ندارد',
+                offline: 'آفلاین - استفاده از زمان غروب ذخیره شده',
+                settings: '⚙️'
+            }
+        };
+
+        let currentLang = localStorage.getItem('sunsetClockLanguage') || 'en';
         let sunsetTime = null;
         let locationData = null;
         let clockInterval = null;
+        let gradientInterval = null;
         let countriesList = [];
         let citiesList = [];
         let selectedCountry = null;
@@ -237,12 +432,101 @@
         const DEFAULT_COUNTRY = 'Iran';
         const DEFAULT_CITY = 'Qom';
 
-        // Load saved location on page load
+        // Initialize
         window.addEventListener('DOMContentLoaded', () => {
+            setLanguage(currentLang);
             initializeCountries();
             setupEventListeners();
             loadSavedLocation();
+            updateGradient();
+            setInterval(updateGradient, 60000); // Update gradient every minute
         });
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('sunsetClockLanguage', lang);
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
+            
+            const t = translations[lang];
+            document.getElementById('title').textContent = t.title;
+            document.getElementById('clockLabel').textContent = t.clockLabel;
+            document.getElementById('countryLabel').textContent = t.countryLabel;
+            document.getElementById('cityLabel').textContent = t.cityLabel;
+            document.getElementById('saveBtn').textContent = t.saveBtn;
+            document.getElementById('country').placeholder = t.searchCountry;
+            document.getElementById('city').placeholder = selectedCountry ? t.searchCity : t.selectCountryFirst;
+            document.getElementById('languageToggleText').textContent = lang === 'en' ? 'فا' : 'en';
+            
+            updateLocationInfo();
+        }
+
+        function toggleLanguage() {
+            const newLang = currentLang === 'en' ? 'fa' : 'en';
+            setLanguage(newLang);
+        }
+
+        function toggleLocationPanel() {
+            const panel = document.getElementById('locationPanel');
+            panel.classList.toggle('show');
+        }
+
+        function updateGradient() {
+            if (!sunsetTime) {
+                // Default gradient
+                document.body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                return;
+            }
+
+            const now = new Date();
+            const todaySunset = new Date(sunsetTime);
+            todaySunset.setHours(todaySunset.getHours(), todaySunset.getMinutes(), todaySunset.getSeconds(), 0);
+            
+            const yesterdaySunset = new Date(todaySunset);
+            yesterdaySunset.setDate(yesterdaySunset.getDate() - 1);
+            
+            let referenceSunset = todaySunset;
+            if (now < todaySunset) {
+                referenceSunset = yesterdaySunset;
+            }
+            
+            const hoursSinceSunset = (now - referenceSunset) / (1000 * 60 * 60);
+            
+            // Gradient colors based on time of day (0-24 hours since sunset)
+            let color1, color2;
+            
+            if (hoursSinceSunset < 2) {
+                // Early night - deep purple/blue
+                color1 = '#1a1a2e';
+                color2 = '#16213e';
+            } else if (hoursSinceSunset < 6) {
+                // Midnight - dark blue
+                color1 = '#0f0c29';
+                color2 = '#302b63';
+            } else if (hoursSinceSunset < 10) {
+                // Late night - deep blue
+                color1 = '#1e3c72';
+                color2 = '#2a5298';
+            } else if (hoursSinceSunset < 14) {
+                // Early morning - blue to purple
+                color1 = '#667eea';
+                color2 = '#764ba2';
+            } else if (hoursSinceSunset < 18) {
+                // Morning - purple to pink
+                color1 = '#f093fb';
+                color2 = '#f5576c';
+            } else if (hoursSinceSunset < 22) {
+                // Afternoon - orange to red
+                color1 = '#fa709a';
+                color2 = '#fee140';
+            } else {
+                // Evening - red to purple (approaching sunset)
+                color1 = '#f5576c';
+                color2 = '#764ba2';
+            }
+            
+            document.body.style.background = `linear-gradient(135deg, ${color1} 0%, ${color2} 100%)`;
+        }
 
         function setupEventListeners() {
             const countryInput = document.getElementById('country');
@@ -291,16 +575,26 @@
                     document.getElementById('cityList').classList.remove('show');
                 }
             });
+
+            // Close location panel when clicking outside
+            document.addEventListener('click', (e) => {
+                const panel = document.getElementById('locationPanel');
+                const toggleBtn = document.getElementById('locationToggleBtn');
+                if (panel.classList.contains('show') && 
+                    !panel.contains(e.target) && 
+                    !toggleBtn.contains(e.target)) {
+                    panel.classList.remove('show');
+                }
+            });
         }
 
         async function initializeCountries() {
-            // Comprehensive list of countries
             countriesList = [
                 'Afghanistan', 'Albania', 'Algeria', 'Argentina', 'Australia', 'Austria',
                 'Bangladesh', 'Belgium', 'Brazil', 'Bulgaria', 'Canada', 'Chile', 'China',
                 'Colombia', 'Croatia', 'Czech Republic', 'Denmark', 'Egypt', 'Finland',
                 'France', 'Germany', 'Greece', 'Hungary', 'India', 'Indonesia', 'Iran',
-                'Iraq', 'Ireland', 'Israel', 'Italy', 'Japan', 'Jordan', 'Kenya',
+                'Iraq', 'Ireland', 'Italy', 'Japan', 'Jordan', 'Kenya',
                 'Kuwait', 'Lebanon', 'Malaysia', 'Mexico', 'Morocco', 'Netherlands',
                 'New Zealand', 'Nigeria', 'Norway', 'Pakistan', 'Peru', 'Philippines',
                 'Poland', 'Portugal', 'Qatar', 'Romania', 'Russia', 'Saudi Arabia',
@@ -317,8 +611,10 @@
             const countryList = document.getElementById('countryList');
             countryList.innerHTML = '';
             
+            const t = translations[currentLang];
+            
             if (filteredCountries.length === 0) {
-                countryList.innerHTML = '<div class="dropdown-item">No countries found</div>';
+                countryList.innerHTML = `<div class="dropdown-item">${t.noCountriesFound}</div>`;
                 countryList.classList.add('show');
                 return;
             }
@@ -336,8 +632,10 @@
             const cityList = document.getElementById('cityList');
             cityList.innerHTML = '';
             
+            const t = translations[currentLang];
+            
             if (filteredCities.length === 0) {
-                cityList.innerHTML = '<div class="dropdown-item">No cities found</div>';
+                cityList.innerHTML = `<div class="dropdown-item">${t.noCitiesFound}</div>`;
                 cityList.classList.add('show');
                 return;
             }
@@ -356,7 +654,8 @@
             document.getElementById('country').value = country;
             document.getElementById('countryList').classList.remove('show');
             document.getElementById('city').disabled = false;
-            document.getElementById('city').placeholder = 'Search city...';
+            const t = translations[currentLang];
+            document.getElementById('city').placeholder = t.searchCity;
             document.getElementById('city').value = '';
             citiesList = [];
             filteredCities = [];
@@ -370,26 +669,18 @@
 
         async function fetchCitiesForCountry(country) {
             const cityList = document.getElementById('cityList');
-            cityList.innerHTML = '<div class="loading-cities">Loading cities...</div>';
+            const t = translations[currentLang];
+            cityList.innerHTML = `<div class="loading-cities">${t.loadingCities}</div>`;
             cityList.classList.add('show');
 
             try {
-                // Use GeoNames API to get cities (free, no API key required for small requests)
-                // Using a search endpoint that returns cities
                 const searchUrl = `https://secure.geonames.org/searchJSON?q=${encodeURIComponent(country)}&maxRows=1000&featureClass=P&username=demo`;
-                
-                // Note: GeoNames requires a username. Using 'demo' for basic usage.
-                // For production, you'd want to register for a free account.
-                // Alternative: Use REST Countries API + a cities database
-                
-                // Try GeoNames first
                 let response = await fetch(searchUrl);
                 if (!response.ok) throw new Error('GeoNames failed');
                 
                 let data = await response.json();
                 
                 if (data.geonames && data.geonames.length > 0) {
-                    // Filter cities that belong to the selected country
                     citiesList = data.geonames
                         .filter(place => place.countryName === country || place.adminName1)
                         .map(place => ({ name: place.name, country: place.countryName }))
@@ -401,14 +692,12 @@
                     filteredCities = [...citiesList];
                     renderCityDropdown();
                 } else {
-                    // Fallback: Use a static list of major cities for common countries
                     citiesList = getMajorCitiesForCountry(country);
                     filteredCities = [...citiesList];
                     renderCityDropdown();
                 }
             } catch (error) {
                 console.error('Error fetching cities:', error);
-                // Fallback to static list
                 citiesList = getMajorCitiesForCountry(country);
                 filteredCities = [...citiesList];
                 renderCityDropdown();
@@ -459,7 +748,6 @@
                 return majorCities[country].map(name => ({ name, country }));
             }
             
-            // Generic fallback - return empty array
             return [];
         }
 
@@ -473,8 +761,8 @@
                     if (locationData.country) {
                         selectedCountry = locationData.country;
                         document.getElementById('city').disabled = false;
-                        document.getElementById('city').placeholder = 'Search city...';
-                        // Load cities for the saved country
+                        const t = translations[currentLang];
+                        document.getElementById('city').placeholder = t.searchCity;
                         await fetchCitiesForCountry(locationData.country);
                     }
                     updateLocationInfo();
@@ -489,22 +777,20 @@
         }
 
         async function setDefaults() {
-            // Set default to Iran/Qom
             document.getElementById('country').value = DEFAULT_COUNTRY;
             selectedCountry = DEFAULT_COUNTRY;
             document.getElementById('city').disabled = false;
-            document.getElementById('city').placeholder = 'Search city...';
+            const t = translations[currentLang];
+            document.getElementById('city').placeholder = t.searchCity;
             
             try {
                 await fetchCitiesForCountry(DEFAULT_COUNTRY);
-                // After cities load, set Qom as default
                 document.getElementById('city').value = DEFAULT_CITY;
                 locationData = { country: DEFAULT_COUNTRY, city: DEFAULT_CITY };
                 updateLocationInfo();
                 fetchSunsetTime();
             } catch (error) {
                 console.error('Error setting defaults:', error);
-                // Still set the defaults even if city fetch fails (static list should work)
                 document.getElementById('city').value = DEFAULT_CITY;
                 locationData = { country: DEFAULT_COUNTRY, city: DEFAULT_CITY };
                 updateLocationInfo();
@@ -516,15 +802,15 @@
             const country = document.getElementById('country').value.trim();
             const city = document.getElementById('city').value.trim();
             const errorDiv = document.getElementById('error');
+            const t = translations[currentLang];
 
             if (!country || !city) {
-                errorDiv.textContent = 'Please select both country and city';
+                errorDiv.textContent = t.pleaseSelectBoth;
                 return;
             }
 
-            // Validate country is in list
             if (!countriesList.includes(country)) {
-                errorDiv.textContent = 'Please select a valid country from the list';
+                errorDiv.textContent = t.pleaseSelectValidCountry;
                 return;
             }
 
@@ -533,40 +819,41 @@
             localStorage.setItem('sunsetClockLocation', JSON.stringify(locationData));
             updateLocationInfo();
             fetchSunsetTime();
+            document.getElementById('locationPanel').classList.remove('show');
         }
-
 
         function updateLocationInfo() {
             const locationText = document.getElementById('locationText');
+            const t = translations[currentLang];
             if (locationData) {
                 locationText.textContent = `${locationData.city}, ${locationData.country}`;
             } else {
-                locationText.textContent = 'Please enter your location';
+                locationText.textContent = t.pleaseEnterLocation;
             }
         }
 
         async function fetchSunsetTime() {
+            const t = translations[currentLang];
+            const statusDiv = document.getElementById('status');
+            
             if (!locationData) {
-                document.getElementById('status').textContent = 'Location not set';
+                statusDiv.textContent = t.locationNotSet;
                 return;
             }
 
-            const statusDiv = document.getElementById('status');
-            statusDiv.textContent = 'Fetching sunset time...';
+            statusDiv.textContent = t.fetchingSunset;
             statusDiv.classList.add('loading');
 
-            // Check if we have cached sunset time
             const cached = localStorage.getItem('sunsetTimeCache');
             let useCached = false;
             if (cached) {
                 try {
                     const cachedData = JSON.parse(cached);
-                    // Use cached data if it's for today (or if offline)
                     if (cachedData.date === new Date().toDateString() || !navigator.onLine) {
                         sunsetTime = new Date(cachedData.sunsetTime);
                         useCached = true;
                         if (!navigator.onLine || cachedData.date === new Date().toDateString()) {
-                            statusDiv.textContent = 'Using cached sunset time';
+                            statusDiv.textContent = t.usingCached;
                             statusDiv.classList.remove('loading');
                             startClock();
                         }
@@ -576,12 +863,9 @@
                 }
             }
 
-            // Try to fetch fresh data if online
             if (navigator.onLine) {
                 try {
-                    // Use a geocoding API to get coordinates, then sunset API
                     const geocodeUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationData.city)},${encodeURIComponent(locationData.country)}&limit=1`;
-                    
                     const geocodeResponse = await fetch(geocodeUrl);
                     if (!geocodeResponse.ok) throw new Error('Geocoding failed');
                     
@@ -592,12 +876,8 @@
 
                     const lat = geocodeData[0].lat;
                     const lon = geocodeData[0].lon;
-
-                    // Get today's date
                     const today = new Date();
                     const dateStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-
-                    // Fetch sunset time from sunrise-sunset API
                     const sunsetUrl = `https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lon}&date=${dateStr}&formatted=0`;
                     const sunsetResponse = await fetch(sunsetUrl);
                     
@@ -608,40 +888,36 @@
                         throw new Error('Sunset API error');
                     }
 
-                    // Parse sunset time (API returns UTC, Date constructor converts to local time)
                     sunsetTime = new Date(sunsetData.results.sunset);
-                    
-                    // Cache the sunset time (store as ISO string for consistency)
                     localStorage.setItem('sunsetTimeCache', JSON.stringify({
                         date: today.toDateString(),
                         sunsetTime: sunsetTime.toISOString(),
                         location: `${locationData.city}, ${locationData.country}`
                     }));
 
-                    statusDiv.textContent = 'Sunset time updated';
+                    statusDiv.textContent = t.sunsetUpdated;
                     statusDiv.classList.remove('loading');
                     startClock();
                 } catch (error) {
                     console.error('Error fetching sunset time:', error);
-                    statusDiv.textContent = 'Error fetching sunset time. Using cached data if available.';
+                    statusDiv.textContent = t.errorFetching;
                     statusDiv.classList.remove('loading');
                     
-                    // If we have cached data and haven't used it yet, use it as fallback
                     if (cached && !useCached) {
                         try {
                             const cachedData = JSON.parse(cached);
                             sunsetTime = new Date(cachedData.sunsetTime);
-                            statusDiv.textContent = 'Using cached sunset time (may be outdated)';
+                            statusDiv.textContent = t.usingCachedOutdated;
                             startClock();
                         } catch (e) {
-                            statusDiv.textContent = 'Unable to load sunset time';
+                            statusDiv.textContent = t.unableToLoad;
                         }
                     } else if (!useCached) {
-                        statusDiv.textContent = 'Unable to load sunset time';
+                        statusDiv.textContent = t.unableToLoad;
                     }
                 }
             } else {
-                statusDiv.textContent = 'Offline - using cached sunset time';
+                statusDiv.textContent = t.offline;
                 statusDiv.classList.remove('loading');
                 if (sunsetTime) {
                     startClock();
@@ -661,30 +937,21 @@
 
             function updateClock() {
                 const now = new Date();
-                
-                // Get today's sunset time in local timezone
                 const todaySunset = new Date(sunsetTime);
                 todaySunset.setHours(todaySunset.getHours(), todaySunset.getMinutes(), todaySunset.getSeconds(), 0);
-                
-                // Get yesterday's sunset
                 const yesterdaySunset = new Date(todaySunset);
                 yesterdaySunset.setDate(yesterdaySunset.getDate() - 1);
                 
-                // Determine which sunset to use (yesterday's if before today's sunset)
                 let referenceSunset = todaySunset;
                 if (now < todaySunset) {
                     referenceSunset = yesterdaySunset;
                 }
                 
-                // Calculate time since the reference sunset
                 let timeSinceSunset = now - referenceSunset;
-                
-                // Handle wrap-around (shouldn't happen, but just in case)
                 if (timeSinceSunset < 0) {
                     timeSinceSunset = 0;
                 }
                 
-                // Calculate hours, minutes, seconds
                 const totalSeconds = Math.floor(timeSinceSunset / 1000);
                 const hours = Math.floor(totalSeconds / 3600);
                 const minutes = Math.floor((totalSeconds % 3600) / 60);
@@ -692,13 +959,15 @@
 
                 const display = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
                 document.getElementById('clock').textContent = display;
+                
+                // Update gradient
+                updateGradient();
             }
 
             updateClock();
             clockInterval = setInterval(updateClock, 1000);
         }
 
-        // Listen for online/offline events
         window.addEventListener('online', () => {
             if (locationData) {
                 fetchSunsetTime();
@@ -706,9 +975,9 @@
         });
 
         window.addEventListener('offline', () => {
-            document.getElementById('status').textContent = 'Offline - using cached data';
+            const t = translations[currentLang];
+            document.getElementById('status').textContent = t.offline;
         });
     </script>
 </body>
 </html>
-
