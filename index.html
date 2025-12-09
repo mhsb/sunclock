@@ -640,6 +640,7 @@
                 usingCachedOutdated: 'Using cached sunset time (may be outdated)',
                 unableToLoad: 'Unable to load sunset time',
                 offline: 'Offline - using cached sunset time',
+                estimatedOffline: 'Estimated sunset time (offline)',
                 settings: '⚙️',
                 aboutTitle: 'About Sunset Clock',
                 aboutText: '<p>Sunset Clock is a unique time display that shows time elapsed since the last sunset. The clock resets every day at sunset, creating a natural 24-hour cycle.</p><p>The background gradient changes throughout the day to reflect the time of day, transitioning from deep night blues to morning purples and afternoon oranges.</p><p>You can set your location to get accurate sunset times for your area. The app works offline using cached sunset times when internet is unavailable.</p>'
@@ -668,6 +669,7 @@
                 usingCachedOutdated: 'استفاده از زمان غروب ذخیره شده (ممکن است قدیمی باشد)',
                 unableToLoad: 'امکان بارگذاری زمان غروب وجود ندارد',
                 offline: 'آفلاین - استفاده از زمان غروب ذخیره شده',
+                estimatedOffline: 'زمان غروب تخمینی (آفلاین)',
                 settings: '⚙️',
                 aboutTitle: 'درباره ساعت غروب',
                 aboutText: '<p>ساعت غروب یک نمایش زمان منحصر به فرد است که زمان سپری شده از آخرین غروب را نشان می‌دهد. ساعت هر روز در زمان غروب بازنشانی می‌شود و یک چرخه طبیعی 24 ساعته ایجاد می‌کند.</p><p>گرادیان پس‌زمینه در طول روز تغییر می‌کند تا زمان روز را منعکس کند و از آبی‌های عمیق شب به بنفش‌های صبحگاهی و نارنجی‌های بعدازظهر تبدیل می‌شود.</p><p>می‌توانید موقعیت خود را تنظیم کنید تا زمان‌های دقیق غروب برای منطقه خود را دریافت کنید. این برنامه به صورت آفلاین کار می‌کند و از زمان‌های غروب ذخیره شده استفاده می‌کند.</p>'
@@ -829,9 +831,29 @@
         function closeAbout() {
             const aboutPanel = document.getElementById('aboutPanel');
             const mainContainer = document.getElementById('mainContainer');
-            
+
             aboutPanel.classList.remove('show');
             mainContainer.classList.remove('main-hidden');
+        }
+
+        function useFallbackSunsetTime() {
+            const t = translations[currentLang];
+            const statusDiv = document.getElementById('status');
+
+            // Estimate sunset time based on location and season
+            // Default to 6 PM local time as a reasonable fallback
+            const now = new Date();
+            const fallbackSunset = new Date(now);
+            fallbackSunset.setHours(18, 0, 0, 0); // 6:00 PM
+
+            // If current time is before 6 PM, use yesterday's sunset
+            if (now.getHours() < 18) {
+                fallbackSunset.setDate(fallbackSunset.getDate() - 1);
+            }
+
+            sunsetTime = fallbackSunset;
+            statusDiv.textContent = t.estimatedOffline;
+            startClock();
         }
 
         function updateGradient() {
@@ -1235,6 +1257,7 @@
             if (cached) {
                 try {
                     const cachedData = JSON.parse(cached);
+                    // Use cached data if it exists, regardless of date when offline
                     if (cachedData.date === new Date().toDateString() || !navigator.onLine) {
                         sunsetTime = new Date(cachedData.sunsetTime);
                         useCached = true;
@@ -1303,11 +1326,24 @@
                     }
                 }
             } else {
-                statusDiv.textContent = t.offline;
-                statusDiv.classList.remove('loading');
-                if (sunsetTime) {
+                // Offline - try to use any cached data available
+                if (cached && !useCached) {
+                    try {
+                        const cachedData = JSON.parse(cached);
+                        sunsetTime = new Date(cachedData.sunsetTime);
+                        statusDiv.textContent = `${t.usingCachedOutdated}`;
+                        startClock();
+                    } catch (e) {
+                        console.error('Error using cached data offline:', e);
+                        useFallbackSunsetTime();
+                    }
+                } else if (!sunsetTime) {
+                    useFallbackSunsetTime();
+                } else {
+                    // We have sunsetTime from earlier, start clock
                     startClock();
                 }
+                statusDiv.classList.remove('loading');
             }
         }
 
@@ -1317,35 +1353,42 @@
             }
 
             if (!sunsetTime) {
+                // No sunset time available, show a basic clock or try to estimate
                 document.getElementById('clock').textContent = '--:--:--';
                 return;
             }
 
             function updateClock() {
                 const now = new Date();
+
+                // Get the most recent sunset (either today or yesterday)
                 const todaySunset = new Date(sunsetTime);
                 todaySunset.setHours(todaySunset.getHours(), todaySunset.getMinutes(), todaySunset.getSeconds(), 0);
                 const yesterdaySunset = new Date(todaySunset);
                 yesterdaySunset.setDate(yesterdaySunset.getDate() - 1);
-                
-                let referenceSunset = todaySunset;
-                if (now < todaySunset) {
+
+                // Determine which sunset to reference based on current time
+                let referenceSunset;
+                if (now >= todaySunset) {
+                    // After today's sunset, show time since today's sunset
+                    referenceSunset = todaySunset;
+                } else if (now >= yesterdaySunset) {
+                    // Between yesterday's sunset and today's sunset, show time since yesterday's sunset
+                    referenceSunset = yesterdaySunset;
+                } else {
+                    // Before yesterday's sunset (very unlikely), use yesterday's sunset
                     referenceSunset = yesterdaySunset;
                 }
-                
-                let timeSinceSunset = now - referenceSunset;
-                if (timeSinceSunset < 0) {
-                    timeSinceSunset = 0;
-                }
-                
-                const totalSeconds = Math.floor(timeSinceSunset / 1000);
-                const hours = Math.floor(totalSeconds / 3600);
+
+                const timeSinceSunset = now - referenceSunset;
+                const totalSeconds = Math.floor(Math.max(0, timeSinceSunset) / 1000);
+                const hours = Math.floor(totalSeconds / 3600) % 24; // Keep within 24 hours
                 const minutes = Math.floor((totalSeconds % 3600) / 60);
                 const seconds = totalSeconds % 60;
 
                 const display = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
                 document.getElementById('clock').textContent = display;
-                
+
                 // Update gradient
                 updateGradient();
             }
@@ -1362,10 +1405,18 @@
 
         window.addEventListener('offline', () => {
             updateOfflineStatus(true);
+            // Ensure clock keeps running with cached data when offline
+            if (sunsetTime && !clockInterval) {
+                startClock();
+            }
         });
 
         window.addEventListener('online', () => {
             updateOfflineStatus(false);
+            // Refresh sunset time when coming back online
+            if (locationData) {
+                fetchSunsetTime();
+            }
         });
 
         function updateOfflineStatus(isOffline) {
