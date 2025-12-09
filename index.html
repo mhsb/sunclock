@@ -405,6 +405,19 @@
             opacity: 0.7;
         }
 
+        .offline-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: #ff6b6b;
+            font-weight: 500;
+        }
+
+        .offline-indicator svg {
+            width: 14px;
+            height: 14px;
+        }
+
         .loading {
             opacity: 0.6;
         }
@@ -682,24 +695,72 @@
             if ('serviceWorker' in navigator) {
                 const swCode = `
                     const CACHE_NAME = 'sunset-clock-v1';
+                    const urlsToCache = [
+                        './',
+                        './index.html',
+                        'https://cdn.fontserver.ir/css/Vazir.css',
+                        'https://cdn.fontserver.ir/css/Vazirmatn.css',
+                        'https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap',
+                        'https://cdn.jsdelivr.net/gh/rastikerdar/vazirfont@v30.1.0/dist/font-face.css'
+                    ];
+
                     self.addEventListener('install', (e) => {
-                        e.waitUntil(caches.open(CACHE_NAME).then(() => self.skipWaiting()));
+                        e.waitUntil(
+                            caches.open(CACHE_NAME)
+                                .then((cache) => cache.addAll(urlsToCache))
+                                .then(() => self.skipWaiting())
+                        );
                     });
+
                     self.addEventListener('activate', (e) => {
-                        e.waitUntil(caches.keys().then((names) => {
-                            return Promise.all(names.map((name) => {
-                                if (name !== CACHE_NAME) return caches.delete(name);
-                            }));
-                        }).then(() => self.clients.claim()));
+                        e.waitUntil(
+                            caches.keys().then((cacheNames) => {
+                                return Promise.all(
+                                    cacheNames.map((cacheName) => {
+                                        if (cacheName !== CACHE_NAME) {
+                                            return caches.delete(cacheName);
+                                        }
+                                    })
+                                );
+                            }).then(() => self.clients.claim())
+                        );
                     });
+
                     self.addEventListener('fetch', (e) => {
-                        e.respondWith(caches.match(e.request).then((r) => r || fetch(e.request)));
+                        e.respondWith(
+                            caches.match(e.request)
+                                .then((response) => {
+                                    if (response) {
+                                        return response;
+                                    }
+                                    return fetch(e.request).catch(() => {
+                                        // Return a fallback for navigation requests
+                                        if (e.request.mode === 'navigate') {
+                                            return caches.match('./');
+                                        }
+                                    });
+                                })
+                        );
                     });
                 `;
                 const blob = new Blob([swCode], { type: 'application/javascript' });
                 const swUrl = URL.createObjectURL(blob);
                 navigator.serviceWorker.register(swUrl).catch(() => {});
             }
+
+            // Prevent refresh when offline
+            window.addEventListener('beforeunload', (e) => {
+                if (!navigator.onLine) {
+                    e.preventDefault();
+                    e.returnValue = '';
+                    const t = translations[currentLang];
+                    const offlineMessage = currentLang === 'fa' ?
+                        'شما در حالت آفلاین هستید. لطفاً اتصال اینترنت خود را بررسی کنید.' :
+                        'You are offline. Please check your internet connection.';
+                    alert(offlineMessage);
+                    return false;
+                }
+            });
 
             // Wait for fonts to load
             if (document.fonts && document.fonts.ready) {
@@ -718,6 +779,7 @@
             setupEventListeners();
             loadSavedLocation();
             updateGradient();
+            updateOfflineStatus(!navigator.onLine);
             setInterval(updateGradient, 60000); // Update gradient every minute
         }
 
@@ -1299,9 +1361,32 @@
         });
 
         window.addEventListener('offline', () => {
-            const t = translations[currentLang];
-            document.getElementById('status').textContent = t.offline;
+            updateOfflineStatus(true);
         });
+
+        window.addEventListener('online', () => {
+            updateOfflineStatus(false);
+        });
+
+        function updateOfflineStatus(isOffline) {
+            const statusDiv = document.getElementById('status');
+            const t = translations[currentLang];
+
+            if (isOffline) {
+                statusDiv.innerHTML = `
+                    <div class="offline-indicator">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="15" y1="9" x2="9" y2="15"></line>
+                            <line x1="9" y1="9" x2="15" y2="15"></line>
+                        </svg>
+                        ${t.offline}
+                    </div>
+                `;
+            } else {
+                statusDiv.textContent = t.sunsetUpdated;
+            }
+        }
     </script>
 </body>
 </html>
