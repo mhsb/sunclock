@@ -62,3 +62,95 @@ html[dir="rtl"] .about-title {
         padding: 40px 20px;
     }
 }
+/* Mobile-specific fixes */
+@media (max-width: 768px) {
+    .clock-display {
+        font-size: 3.5em !important;
+        margin: 20px 0;
+    }
+
+    h1 {
+        font-size: 2em !important;
+        margin-bottom: 20px;
+    }
+
+    .container {
+        padding: 30px 20px !important;
+        margin: 10px;
+    }
+
+    .clock-label {
+        font-size: 1.2em !important;
+        margin-bottom: 20px;
+    }
+
+    .language-toggle {
+        top: 10px;
+        right: 10px;
+        padding: 8px 12px;
+        font-size: 0.8em;
+    }
+
+    .location-bar {
+        padding: 10px 15px;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .location-bar-content {
+        order: 2;
+        width: 100%;
+    }
+
+    .location-toggle-btn {
+        margin: 0 !important;
+        padding: 8px 12px;
+        font-size: 0.8em;
+    }
+
+    .about-content {
+        padding: 20px !important;
+        margin: 10px;
+    }
+
+    .about-close-btn {
+        top: 10px;
+        right: 10px;
+        width: 36px;
+        height: 36px;
+    }
+
+    body[dir="rtl"] .about-close-btn {
+        right: auto;
+        left: 10px;
+    }
+
+    .location-panel {
+        padding: 20px 15px;
+    }
+
+    .dropdown-input {
+        padding: 10px;
+        font-size: 0.9em;
+    }
+
+    button {
+        padding: 12px;
+        font-size: 0.9em;
+    }
+}
+
+/* Extra small phones */
+@media (max-width: 480px) {
+    .clock-display {
+        font-size: 2.8em !important;
+    }
+
+    h1 {
+        font-size: 1.7em !important;
+    }
+
+    .container {
+        padding: 20px 15px !important;
+    }
+}

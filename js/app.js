@@ -147,4 +147,18 @@ function initializeApp() {
             window.clockState.ensureClockIsRunning();
         }
     }, 3000);
+    // In js/app.js, inside initializeApp() function, add this at the END:
+    setTimeout(() => {
+        // Final guarantee: Ensure clock is running
+        if (window.clockState) {
+            console.log('App: Final clock startup check');
+            window.clockState.ensureClockIsRunning();
+        } else {
+            console.error('App: clockState not available!');
+            // Emergency fallback: Direct clock start
+            if (typeof window.startClock === 'function') {
+                window.startClock();
+            }
+        }
+    }, 2000);
 }
