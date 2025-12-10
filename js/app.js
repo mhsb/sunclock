@@ -136,6 +136,9 @@ window.addEventListener('DOMContentLoaded', () => {
                 console.error('Service Worker registration failed:', error);
             });
     }
+
+    // Initialize the app
+    initializeApp();
 });
 
 function initializeApp() {
