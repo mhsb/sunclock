@@ -1,0 +1,24 @@
+# Cache control for GitHub Pages
+<IfModule mod_headers.c>
+    # Cache CSS, JS, and images for 1 year
+    <FilesMatch "\.(css|js|svg|png|jpg|jpeg|gif|ico)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+    
+    # Cache HTML for 5 minutes
+    <FilesMatch "\.(html|htm)$">
+        Header set Cache-Control "public, max-age=300"
+    </FilesMatch>
+    
+    # Cache manifest and service worker - no cache!
+    <FilesMatch "(manifest\.json|service-worker\.js)$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+    </FilesMatch>
+</IfModule>
+
+# Enable CORS for fonts
+<IfModule mod_headers.c>
+    <FilesMatch "\.(ttf|ttc|otf|eot|woff|woff2|font.css|css)$">
+        Header set Access-Control-Allow-Origin "*"
+    </FilesMatch>
+</IfModule>
