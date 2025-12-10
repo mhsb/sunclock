@@ -1,0 +1,64 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 20px;
+    padding-bottom: 100px;
+    transition: background 2s ease;
+}
+
+/* Apply Vazir font to all elements when in RTL mode */
+html[dir="rtl"],
+html[dir="rtl"] body,
+html[dir="rtl"] * {
+    font-family: 'Vazir', Vazir, 'Vazirmatn', 'Tahoma', 'Arial', sans-serif !important;
+}
+
+/* Specific overrides for elements that might have inline styles */
+html[dir="rtl"] h1,
+html[dir="rtl"] h2,
+html[dir="rtl"] h3,
+html[dir="rtl"] p,
+html[dir="rtl"] div,
+html[dir="rtl"] span,
+html[dir="rtl"] button,
+html[dir="rtl"] input,
+html[dir="rtl"] label,
+html[dir="rtl"] .clock-display,
+html[dir="rtl"] .clock-label,
+html[dir="rtl"] .location-text,
+html[dir="rtl"] .status,
+html[dir="rtl"] .language-toggle,
+html[dir="rtl"] .location-toggle-btn,
+html[dir="rtl"] .about-text,
+html[dir="rtl"] .about-title {
+    font-family: 'Vazir', Vazir, 'Vazirmatn', 'Tahoma', 'Arial', sans-serif !important;
+}
+
+.main-hidden {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .clock-display {
+        font-size: 3.5em;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    .container {
+        padding: 40px 20px;
+    }
+}

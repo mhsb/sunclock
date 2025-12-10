@@ -1,0 +1,224 @@
+let countriesList = [];
+let citiesList = [];
+let selectedCountry = null;
+let filteredCountries = [];
+let filteredCities = [];
+
+async function initializeCountries() {
+    countriesList = [
+        'Afghanistan', 'Albania', 'Algeria', 'Argentina', 'Australia', 'Austria',
+        'Bangladesh', 'Belgium', 'Brazil', 'Bulgaria', 'Canada', 'Chile', 'China',
+        'Colombia', 'Croatia', 'Czech Republic', 'Denmark', 'Egypt', 'Finland',
+        'France', 'Germany', 'Greece', 'Hungary', 'India', 'Indonesia', 'Iran',
+        'Iraq', 'Ireland', 'Italy', 'Japan', 'Jordan', 'Kenya',
+        'Kuwait', 'Lebanon', 'Malaysia', 'Mexico', 'Morocco', 'Netherlands',
+        'New Zealand', 'Nigeria', 'Norway', 'Pakistan', 'Peru', 'Philippines',
+        'Poland', 'Portugal', 'Qatar', 'Romania', 'Russia', 'Saudi Arabia',
+        'Singapore', 'South Africa', 'South Korea', 'Spain', 'Sweden', 'Switzerland',
+        'Syria', 'Thailand', 'Turkey', 'Ukraine', 'United Arab Emirates',
+        'United Kingdom', 'United States', 'Venezuela', 'Vietnam', 'Yemen'
+    ].sort();
+
+    filteredCountries = [...countriesList];
+    renderCountryDropdown();
+}
+
+function renderCountryDropdown() {
+    const countryList = document.getElementById('countryList');
+    if (!countryList) return;
+    
+    countryList.innerHTML = '';
+    
+    const t = window.translations[currentLang];
+    
+    if (filteredCountries.length === 0) {
+        countryList.innerHTML = `<div class="dropdown-item">${t.noCountriesFound}</div>`;
+        countryList.classList.add('show');
+        return;
+    }
+
+    filteredCountries.forEach(country => {
+        const item = document.createElement('div');
+        item.className = 'dropdown-item';
+        item.textContent = country;
+        item.onclick = () => selectCountry(country);
+        countryList.appendChild(item);
+    });
+}
+
+function renderCityDropdown() {
+    const cityList = document.getElementById('cityList');
+    if (!cityList) return;
+    
+    cityList.innerHTML = '';
+    
+    const t = window.translations[currentLang];
+    
+    if (filteredCities.length === 0) {
+        cityList.innerHTML = `<div class="dropdown-item">${t.noCitiesFound}</div>`;
+        cityList.classList.add('show');
+        return;
+    }
+
+    filteredCities.forEach(city => {
+        const item = document.createElement('div');
+        item.className = 'dropdown-item';
+        item.textContent = city.name;
+        item.onclick = () => selectCity(city.name);
+        cityList.appendChild(item);
+    });
+}
+
+function selectCountry(country) {
+    selectedCountry = country;
+    document.getElementById('country').value = country;
+    document.getElementById('countryList').classList.remove('show');
+    document.getElementById('city').disabled = false;
+    const t = window.translations[currentLang];
+    document.getElementById('city').placeholder = t.searchCity;
+    document.getElementById('city').value = '';
+    citiesList = [];
+    filteredCities = [];
+    fetchCitiesForCountry(country);
+}
+
+function selectCity(city) {
+    document.getElementById('city').value = city;
+    document.getElementById('cityList').classList.remove('show');
+}
+
+async function fetchCitiesForCountry(country) {
+    const cityList = document.getElementById('cityList');
+    const t = window.translations[currentLang];
+    cityList.innerHTML = `<div class="loading-cities">${t.loadingCities}</div>`;
+    cityList.classList.add('show');
+
+    try {
+        const searchUrl = `https://secure.geonames.org/searchJSON?q=${encodeURIComponent(country)}&maxRows=1000&featureClass=P&username=demo`;
+        let response = await fetch(searchUrl);
+        if (!response.ok) throw new Error('GeoNames failed');
+        
+        let data = await response.json();
+        
+        if (data.geonames && data.geonames.length > 0) {
+            citiesList = data.geonames
+                .filter(place => place.countryName === country || place.adminName1)
+                .map(place => ({ name: place.name, country: place.countryName }))
+                .filter((city, index, self) => 
+                    index === self.findIndex(c => c.name === city.name)
+                )
+                .sort((a, b) => a.name.localeCompare(b.name));
+            
+            filteredCities = [...citiesList];
+            renderCityDropdown();
+        } else {
+            citiesList = getMajorCitiesForCountry(country);
+            filteredCities = [...citiesList];
+            renderCityDropdown();
+        }
+    } catch (error) {
+        console.error('Error fetching cities:', error);
+        citiesList = getMajorCitiesForCountry(country);
+        filteredCities = [...citiesList];
+        renderCityDropdown();
+    }
+}
+
+async function loadSavedLocation() {
+    const saved = localStorage.getItem('sunsetClockLocation');
+    if (saved) {
+        try {
+            locationData = JSON.parse(saved);
+            document.getElementById('country').value = locationData.country || '';
+            document.getElementById('city').value = locationData.city || '';
+            if (locationData.country) {
+                selectedCountry = locationData.country;
+                document.getElementById('city').disabled = false;
+                const t = window.translations[currentLang];
+                document.getElementById('city').placeholder = t.searchCity;
+                await fetchCitiesForCountry(locationData.country);
+            }
+            updateLocationInfo();
+            if (typeof window.fetchSunsetTime === 'function') {
+                window.fetchSunsetTime();
+            }
+        } catch (e) {
+            console.error('Error loading saved location:', e);
+            await setDefaults();
+        }
+    } else {
+        await setDefaults();
+    }
+}
+
+async function setDefaults() {
+    document.getElementById('country').value = DEFAULT_COUNTRY;
+    selectedCountry = DEFAULT_COUNTRY;
+    document.getElementById('city').disabled = false;
+    const t = window.translations[currentLang];
+    document.getElementById('city').placeholder = t.searchCity;
+    
+    try {
+        await fetchCitiesForCountry(DEFAULT_COUNTRY);
+        document.getElementById('city').value = DEFAULT_CITY;
+        locationData = { country: DEFAULT_COUNTRY, city: DEFAULT_CITY };
+        updateLocationInfo();
+        if (typeof window.fetchSunsetTime === 'function') {
+            window.fetchSunsetTime();
+        }
+    } catch (error) {
+        console.error('Error setting defaults:', error);
+        document.getElementById('city').value = DEFAULT_CITY;
+        locationData = { country: DEFAULT_COUNTRY, city: DEFAULT_CITY };
+        updateLocationInfo();
+        if (typeof window.fetchSunsetTime === 'function') {
+            window.fetchSunsetTime();
+        }
+    }
+}
+
+function saveLocation() {
+    const country = document.getElementById('country').value.trim();
+    const city = document.getElementById('city').value.trim();
+    const errorDiv = document.getElementById('error');
+    const t = window.translations[currentLang];
+
+    if (!country || !city) {
+        errorDiv.textContent = t.pleaseSelectBoth;
+        return;
+    }
+
+    if (!countriesList.includes(country)) {
+        errorDiv.textContent = t.pleaseSelectValidCountry;
+        return;
+    }
+
+    errorDiv.textContent = '';
+    locationData = { country, city };
+    localStorage.setItem('sunsetClockLocation', JSON.stringify(locationData));
+    updateLocationInfo();
+    if (typeof window.fetchSunsetTime === 'function') {
+        window.fetchSunsetTime();
+    }
+    document.getElementById('locationPanel').classList.remove('show');
+}
+
+function updateLocationInfo() {
+    const locationText = document.getElementById('locationText');
+    const t = window.translations[currentLang];
+    if (locationData) {
+        locationText.textContent = `${locationData.city}, ${locationData.country}`;
+    } else {
+        locationText.textContent = t.pleaseEnterLocation;
+    }
+}
+
+// Make functions available globally
+window.initializeCountries = initializeCountries;
+window.selectCountry = selectCountry;
+window.selectCity = selectCity;
+window.fetchCitiesForCountry = fetchCitiesForCountry;
+window.loadSavedLocation = loadSavedLocation;
+window.saveLocation = saveLocation;
+window.updateLocationInfo = updateLocationInfo;
+window.selectedCountry = selectedCountry;

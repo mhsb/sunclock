@@ -1,0 +1,41 @@
+.container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 60px 40px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    max-width: 700px;
+    width: 100%;
+    text-align: center;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.container:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 12px 48px 0 rgba(31, 38, 135, 0.5);
+    transform: translateY(-4px);
+}
+
+h1 {
+    margin-bottom: 40px;
+    font-size: 3em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.clock-display {
+    font-size: 7em;
+    font-weight: bold;
+    margin: 40px 0;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.05em;
+    line-height: 1.2;
+}
+
+.clock-label {
+    font-size: 1.5em;
+    opacity: 0.9;
+    margin-bottom: 30px;
+}

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sunset Clock</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="A beautiful sunset-to-sunset clock with dynamic gradient backgrounds">
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Sunset Clock">
+    
+    <!-- Favicon and App Icons -->
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+    <link rel="apple-touch-icon" href="icons/icon.svg">
+    
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Iranian Font Server (Primary) -->
+    <link rel="preconnect" href="//fdn.fontcdn.ir">
+    <link rel="preconnect" href="//v1.fontapi.ir">
+    <link href="https://v1.fontapi.ir/css/Vazir" rel="stylesheet">
+    
+    <!-- Fallback: Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">
+    
+    <!-- Fallback: jsDelivr CDN -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirfont@v30.1.0/dist/font-face.css" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components/layout.css">
+    <link rel="stylesheet" href="css/components/controls.css">
+    <link rel="stylesheet" href="css/components/panels.css">
+</head>
+<body>
+    <button class="language-toggle" id="languageToggle">
+        <span class="language-toggle-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+        </span>
+        <span class="language-toggle-text" id="languageToggleText">en</span>
+    </button>
+    
+    <div class="container" id="mainContainer">
+        <h1 id="title">🌅 Sunset Clock</h1>
+        <div class="clock-label" id="clockLabel">Time since sunset</div>
+        <div class="clock-display" id="clock">00:00:00</div>
+    </div>
+
+    <div class="about-panel" id="aboutPanel">
+        <div class="about-content">
+            <button class="about-close-btn" id="aboutCloseBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <h2 id="aboutTitle">About Sunset Clock</h2>
+            <div class="about-text" id="aboutText"></div>
+        </div>
+    </div>
+
+    <div class="location-bar">
+        <div class="location-bar-content" id="locationBarContent">
+            <div class="location-text" id="locationText">Loading location...</div>
+            <div class="status" id="status"></div>
+        </div>
+        <div style="display: flex; gap: 10px;">
+            <button class="location-toggle-btn" id="aboutToggleBtn" title="About">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+            </button>
+            <button class="location-toggle-btn" id="locationToggleBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M12 1v6m0 6v6M5.64 5.64l4.24 4.24m4.24 4.24l4.24 4.24M1 12h6m6 0h6M5.64 18.36l4.24-4.24m4.24-4.24l4.24-4.24"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <div class="location-panel" id="locationPanel">
+        <div class="location-panel-content">
+            <div class="location-form">
+                <div class="form-group">
+                    <label for="country" id="countryLabel">Country:</label>
+                    <div class="dropdown-container">
+                        <input type="text" class="dropdown-input" id="country" placeholder="Search country..." autocomplete="off">
+                        <div class="dropdown-list" id="countryList"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="city" id="cityLabel">City:</label>
+                    <div class="dropdown-container">
+                        <input type="text" class="dropdown-input" id="city" placeholder="Select country first..." autocomplete="off" disabled>
+                        <div class="dropdown-list" id="cityList"></div>
+                    </div>
+                </div>
+                <button id="saveBtn">Save Location</button>
+                <div class="error" id="error"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <!-- Update script order in index.html -->
+    <script src="js/utils.js"></script>
+    <script src="js/state.js"></script>  <!-- NEW: Add this FIRST after utils -->
+    <script src="js/translations.js"></script>
+    <script src="js/clock.js"></script>
+    <script src="js/location.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
