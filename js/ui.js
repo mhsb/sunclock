@@ -3,6 +3,22 @@ function toggleLocationPanel() {
     panel.classList.toggle('show');
 }
 
+function switchTab(tabName) {
+    // Remove active class from all tabs and contents
+    const tabButtons = document.querySelectorAll('.about-tab-btn');
+    const tabContents = document.querySelectorAll('.about-tab-content');
+    
+    tabButtons.forEach(btn => btn.classList.remove('active'));
+    tabContents.forEach(content => content.classList.remove('active'));
+    
+    // Add active class to selected tab and content
+    const selectedBtn = document.querySelector(`[data-tab="${tabName}"]`);
+    const selectedContent = document.getElementById(`tabContent${tabName.charAt(0).toUpperCase() + tabName.slice(1)}`);
+    
+    if (selectedBtn) selectedBtn.classList.add('active');
+    if (selectedContent) selectedContent.classList.add('active');
+}
+
 function toggleAbout() {
     const aboutPanel = document.getElementById('aboutPanel');
     const mainContainer = document.getElementById('mainContainer');
@@ -51,6 +67,15 @@ function setupEventListeners() {
     if (aboutCloseBtn) {
         aboutCloseBtn.addEventListener('click', closeAbout);
     }
+
+    // About tabs
+    const tabButtons = document.querySelectorAll('.about-tab-btn');
+    tabButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tabName = btn.getAttribute('data-tab');
+            switchTab(tabName);
+        });
+    });
 
     // Save location button
     if (saveBtn) {

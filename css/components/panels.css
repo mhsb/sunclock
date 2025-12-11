@@ -265,3 +265,55 @@ body[dir="rtl"] .about-close-btn {
 .about-text p {
     margin-bottom: 20px;
 }
+
+/* About Tabs */
+.about-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    flex-wrap: wrap;
+}
+
+.about-tab-btn {
+    padding: 12px 20px;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+    position: relative;
+    bottom: -2px;
+}
+
+.about-tab-btn:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.about-tab-btn.active {
+    color: rgba(255, 255, 255, 1);
+    border-bottom-color: #667eea;
+}
+
+.about-tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.about-tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
