@@ -143,11 +143,21 @@
             const minutes = Math.floor((totalSeconds % 3600) / 60);
             const display = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
 
-            // Create compact item (name + time on same line)
+            // Create item with name and time stacked vertically
             const item = document.createElement('div');
             item.className = 'prayer-item';
+            
+            const nameEl = document.createElement('div');
+            nameEl.className = 'prayer-name';
             const nameText = (t && t['prayer'+k]) ? t['prayer'+k] : k;
-            item.textContent = `${nameText} ${display}`;
+            nameEl.textContent = nameText;
+            
+            const timeEl = document.createElement('div');
+            timeEl.className = 'prayer-time';
+            timeEl.textContent = display;
+            
+            item.appendChild(nameEl);
+            item.appendChild(timeEl);
             container.appendChild(item);
 
             // Determine next/current prayer based on actual clock time
