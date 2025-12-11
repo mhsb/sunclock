@@ -9,6 +9,7 @@
     width: 100%;
     text-align: center;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
 }
 
 .container:hover {
@@ -16,6 +17,47 @@
     border-color: rgba(255, 255, 255, 0.25);
     box-shadow: 0 12px 48px 0 rgba(31, 38, 135, 0.5);
     transform: translateY(-4px);
+}
+
+.about-corner-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+}
+
+.about-corner-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: scale(1.1);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.about-corner-btn:active {
+    transform: scale(1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.about-corner-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+body[dir="rtl"] .about-corner-btn {
+    right: auto;
+    left: 20px;
 }
 
 h1 {

@@ -44,23 +44,32 @@ function setupEventListeners() {
     const cityInput = document.getElementById('city');
     const languageToggle = document.getElementById('languageToggle');
     const locationToggleBtn = document.getElementById('locationToggleBtn');
-    const aboutToggleBtn = document.getElementById('aboutToggleBtn');
+    const aboutToggleBtnCorner = document.getElementById('aboutToggleBtnCorner');
     const aboutCloseBtn = document.getElementById('aboutCloseBtn');
     const saveBtn = document.getElementById('saveBtn');
+    const locationBar = document.getElementById('locationBar');
 
     // Language toggle
     if (languageToggle) {
         languageToggle.addEventListener('click', window.toggleLanguage);
     }
 
-    // Location panel toggle
-    if (locationToggleBtn) {
-        locationToggleBtn.addEventListener('click', toggleLocationPanel);
+    // Location bar drawer toggle
+    if (locationBar) {
+        locationBar.addEventListener('click', toggleLocationPanel);
     }
 
-    // About panel toggle
-    if (aboutToggleBtn) {
-        aboutToggleBtn.addEventListener('click', toggleAbout);
+    // Location settings button toggle
+    if (locationToggleBtn) {
+        locationToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent triggering location bar click
+            toggleLocationPanel();
+        });
+    }
+
+    // About panel toggle (new corner button)
+    if (aboutToggleBtnCorner) {
+        aboutToggleBtnCorner.addEventListener('click', toggleAbout);
     }
 
     // About close button

@@ -59,6 +59,13 @@
         <h1 id="title">🌅 Sunset Clock</h1>
         <div class="clock-label" id="clockLabel">Time since sunset</div>
         <div class="clock-display" id="clock">00:00:00</div>
+        <button class="about-corner-btn" id="aboutToggleBtnCorner" title="About">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+        </button>
     </div>
 
     <div class="about-panel" id="aboutPanel">
@@ -91,26 +98,18 @@
         </div>
     </div>
 
-    <div class="location-bar">
+    <div class="location-bar" id="locationBar">
         <div class="location-bar-content" id="locationBarContent">
             <div class="location-text" id="locationText">Loading location...</div>
             <div class="status" id="status"></div>
+            <div class="drawer-indicator">☰</div>
         </div>
-        <div style="display: flex; gap: 10px;">
-            <button class="location-toggle-btn" id="aboutToggleBtn" title="About">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="12" y1="16" x2="12" y2="12"></line>
-                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                </svg>
-            </button>
-            <button class="location-toggle-btn" id="locationToggleBtn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="3"></circle>
-                    <path d="M12 1v6m0 6v6M5.64 5.64l4.24 4.24m4.24 4.24l4.24 4.24M1 12h6m6 0h6M5.64 18.36l4.24-4.24m4.24-4.24l4.24-4.24"></path>
-                </svg>
-            </button>
-        </div>
+        <button class="location-toggle-btn" id="locationToggleBtn" title="Settings">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M12 1v6m0 6v6M5.64 5.64l4.24 4.24m4.24 4.24l4.24 4.24M1 12h6m6 0h6M5.64 18.36l4.24-4.24m4.24-4.24l4.24-4.24"></path>
+            </svg>
+        </button>
     </div>
 
     <div class="location-panel" id="locationPanel">
