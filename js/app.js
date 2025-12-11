@@ -23,6 +23,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 './js/translations.js',
                 './js/clock.js',
                 './js/location.js',
+                './js/prayertimes.js',
                 './js/ui.js',
                 './js/app.js'
             ];
@@ -170,6 +171,12 @@ function initializeApp() {
                 window.clockState.ensureClockIsRunning();
             }
         }, 1000);
+    }
+
+    // Fetch prayer times (if available)
+    if (typeof window.fetchPrayerTimes === 'function') {
+        window.fetchPrayerTimes();
+        if (typeof window.startPrayerUpdater === 'function') window.startPrayerUpdater();
     }
     
     // Initial gradient update

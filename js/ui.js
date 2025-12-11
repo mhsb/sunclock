@@ -181,6 +181,7 @@ function setupEventListeners() {
     window.addEventListener('online', () => {
         if (locationData && typeof window.fetchSunsetTime === 'function') {
             window.fetchSunsetTime();
+            if (typeof window.fetchPrayerTimes === 'function') window.fetchPrayerTimes();
         }
     });
 
@@ -197,6 +198,7 @@ function setupEventListeners() {
         // Refresh sunset time when coming back online
         if (locationData && typeof window.fetchSunsetTime === 'function') {
             window.fetchSunsetTime();
+            if (typeof window.fetchPrayerTimes === 'function') window.fetchPrayerTimes();
         }
     });
     // Add to setupEventListeners()
@@ -215,6 +217,7 @@ function setupEventListeners() {
         // Refresh but don't stop existing clock
         if (locationData && typeof window.fetchSunsetTime === 'function') {
             window.fetchSunsetTime();
+            if (typeof window.fetchPrayerTimes === 'function') window.fetchPrayerTimes();
         }
     });
 }

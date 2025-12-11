@@ -3,6 +3,7 @@ let citiesList = [];
 let selectedCountry = null;
 let filteredCountries = [];
 let filteredCities = [];
+let selectedCityCoords = null;
 
 async function initializeCountries() {
     countriesList = [
@@ -64,7 +65,7 @@ function renderCityDropdown() {
         const item = document.createElement('div');
         item.className = 'dropdown-item';
         item.textContent = city.name;
-        item.onclick = () => selectCity(city.name);
+        item.onclick = () => selectCity(city.name, city.lat, city.lon);
         cityList.appendChild(item);
     });
 }
@@ -82,9 +83,19 @@ function selectCountry(country) {
     fetchCitiesForCountry(country);
 }
 
-function selectCity(city) {
+function selectCity(city, lat, lon) {
     document.getElementById('city').value = city;
     document.getElementById('cityList').classList.remove('show');
+    // Attach coordinates to a temporary object so saveLocation can persist them
+    selectedCityCoords = null;
+    if (lat && lon) {
+        selectedCityCoords = { lat: parseFloat(lat), lon: parseFloat(lon) };
+        // If locationData already exists, update it immediately
+        if (locationData) {
+            locationData.lat = selectedCityCoords.lat;
+            locationData.lon = selectedCityCoords.lon;
+        }
+    }
 }
 
 async function fetchCitiesForCountry(country) {
@@ -103,7 +114,7 @@ async function fetchCitiesForCountry(country) {
         if (data.geonames && data.geonames.length > 0) {
             citiesList = data.geonames
                 .filter(place => place.countryName === country || place.adminName1)
-                .map(place => ({ name: place.name, country: place.countryName }))
+                .map(place => ({ name: place.name, country: place.countryName, lat: place.lat, lon: place.lng || place.lon }))
                 .filter((city, index, self) => 
                     index === self.findIndex(c => c.name === city.name)
                 )
@@ -124,6 +135,22 @@ async function fetchCitiesForCountry(country) {
     }
 }
 
+// Try to geocode a city+country to lat/lon using Nominatim
+async function geocodeLocation(country, city) {
+    try {
+        const url = `https://nominatim.openstreetmap.org/search?city=${encodeURIComponent(city)}&country=${encodeURIComponent(country)}&format=json&limit=1`;
+        const resp = await fetch(url, { headers: { 'Accept-Language': 'en' } });
+        if (!resp.ok) return null;
+        const arr = await resp.json();
+        if (!arr || arr.length === 0) return null;
+        const r = arr[0];
+        return { lat: parseFloat(r.lat), lon: parseFloat(r.lon) };
+    } catch (e) {
+        console.error('Geocode error:', e);
+        return null;
+    }
+}
+
 async function loadSavedLocation() {
     const saved = localStorage.getItem('sunsetClockLocation');
     if (saved) {
@@ -137,10 +164,22 @@ async function loadSavedLocation() {
                 const t = window.translations[currentLang];
                 document.getElementById('city').placeholder = t.searchCity;
                 await fetchCitiesForCountry(locationData.country);
+                // If saved location lacks coordinates, try to geocode it
+                if ((!locationData.lat || !locationData.lon) && locationData.city) {
+                    const coords = await geocodeLocation(locationData.country, locationData.city);
+                    if (coords) {
+                        locationData.lat = coords.lat;
+                        locationData.lon = coords.lon;
+                        localStorage.setItem('sunsetClockLocation', JSON.stringify(locationData));
+                    }
+                }
             }
             updateLocationInfo();
             if (typeof window.fetchSunsetTime === 'function') {
                 window.fetchSunsetTime();
+            }
+            if (typeof window.fetchPrayerTimes === 'function') {
+                window.fetchPrayerTimes();
             }
         } catch (e) {
             console.error('Error loading saved location:', e);
@@ -165,6 +204,9 @@ async function setDefaults() {
         updateLocationInfo();
         if (typeof window.fetchSunsetTime === 'function') {
             window.fetchSunsetTime();
+        }
+        if (typeof window.fetchPrayerTimes === 'function') {
+            window.fetchPrayerTimes();
         }
     } catch (error) {
         console.error('Error setting defaults:', error);
@@ -195,11 +237,31 @@ function saveLocation() {
 
     errorDiv.textContent = '';
     locationData = { country, city };
-    localStorage.setItem('sunsetClockLocation', JSON.stringify(locationData));
-    updateLocationInfo();
-    if (typeof window.fetchSunsetTime === 'function') {
-        window.fetchSunsetTime();
+    // If user selected a city from the list and coordinates are known, attach them
+    if (typeof selectedCityCoords !== 'undefined' && selectedCityCoords && selectedCityCoords.lat && selectedCityCoords.lon) {
+        locationData.lat = selectedCityCoords.lat;
+        locationData.lon = selectedCityCoords.lon;
     }
+
+    // If coordinates are still missing, try to geocode once
+    (async () => {
+        if (!locationData.lat || !locationData.lon) {
+            const coords = await geocodeLocation(country, city);
+            if (coords) {
+                locationData.lat = coords.lat;
+                locationData.lon = coords.lon;
+            }
+        }
+        localStorage.setItem('sunsetClockLocation', JSON.stringify(locationData));
+        updateLocationInfo();
+        if (typeof window.fetchSunsetTime === 'function') {
+            window.fetchSunsetTime();
+        }
+        if (typeof window.fetchPrayerTimes === 'function') {
+            window.fetchPrayerTimes();
+        }
+    })();
+
     document.getElementById('locationPanel').classList.remove('show');
 }
 

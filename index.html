@@ -59,6 +59,15 @@
         <h1 id="title">🌅 Sunset Clock</h1>
         <div class="clock-label" id="clockLabel">Time since sunset</div>
         <div class="clock-display" id="clock">00:00:00</div>
+
+        <div class="prayer-panel" id="prayerPanel">
+            <h3 class="prayer-title" id="prayerTitle">اوقات شرعی</h3>
+            <div class="prayer-grid" id="prayerGrid">
+                <!-- Prayer items injected here -->
+            </div>
+            <div class="prayer-status" id="prayerStatus"></div>
+        </div>
+
         <button class="about-corner-btn" id="aboutToggleBtnCorner" title="About">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10"></circle>
@@ -143,6 +152,7 @@
     <script src="js/clock.js"></script>
     <script src="js/location.js"></script>
     <script src="js/ui.js"></script>
+    <script src="js/prayertimes.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>
