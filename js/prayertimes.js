@@ -112,8 +112,8 @@
     }
 
     function render(timings, dateReadable) {
-        // Map to our required five prayers
-        const keys = ['Fajr','Dhuhr','Asr','Maghrib','Isha'];
+        // Custom prayer times: Fajr, Sunrise, Dhuhr, Maghrib (sunset+20min), Legal Midnight (dhuhr+11:15)
+        const keys = ['Maghrib', 'LegalMidnight', 'Fajr', 'Sunrise', 'Dhuhr'];
         const container = document.getElementById('prayerGrid');
         const statusEl = document.getElementById('prayerStatus');
         const t = window.translations && window.translations[window.currentLang] ? window.translations[window.currentLang] : null;
@@ -134,54 +134,66 @@
 
         const todaySunsetTime = window.sunsetTime;
         let referenceSunset = new Date(todaySunsetTime);
-        referenceSunset.setSeconds(0, 0); // Remove seconds/ms
+        referenceSunset.setSeconds(0, 0);
 
-        // If current time is AFTER today's sunset, use today's sunset as reference
-        // If current time is BEFORE today's sunset, use YESTERDAY's sunset as reference
         if (now < referenceSunset) {
             const yesterdaySunset = new Date(referenceSunset);
             yesterdaySunset.setDate(yesterdaySunset.getDate() - 1);
             referenceSunset = yesterdaySunset;
         }
 
-        console.log('[Prayer Times Debug]');
-        console.log('Now:', now);
-        console.log('Reference Sunset:', referenceSunset);
-        console.log('Sunset Time String:', referenceSunset.toString());
+        // Build custom times
+        const customTimes = {};
+        
+        // 1. Fajr: From API
+        customTimes.Fajr = timings.Fajr ? timings.Fajr.split(' ')[0] : null;
+        
+        // 2. Sunrise: From API
+        customTimes.Sunrise = timings.Sunrise ? timings.Sunrise.split(' ')[0] : null;
+        
+        // 3. Dhuhr: From API
+        customTimes.Dhuhr = timings.Dhuhr ? timings.Dhuhr.split(' ')[0] : null;
+        
+        // 4. Maghrib: Sunset + 20 minutes
+        const maghribDate = new Date(todaySunsetTime);
+        maghribDate.setMinutes(maghribDate.getMinutes() + 20);
+        const maghribHours = String(maghribDate.getHours()).padStart(2, '0');
+        const maghribMins = String(maghribDate.getMinutes()).padStart(2, '0');
+        customTimes.Maghrib = `${maghribHours}:${maghribMins}`;
+        
+        // 5. Legal Midnight: Dhuhr + 11:15 (11 hours 15 minutes)
+        if (customTimes.Dhuhr) {
+            const [dhHh, dhMm] = customTimes.Dhuhr.split(':').map(n => parseInt(n, 10));
+            const dhuhrDate = new Date(now);
+            dhuhrDate.setHours(dhHh, dhMm, 0, 0);
+            const midnightDate = new Date(dhuhrDate.getTime() + (11 * 60 + 15) * 60 * 1000);
+            const midHours = String(midnightDate.getHours()).padStart(2, '0');
+            const midMins = String(midnightDate.getMinutes()).padStart(2, '0');
+            customTimes.LegalMidnight = `${midHours}:${midMins}`;
+        }
 
         // Build items with times relative to sunset
         keys.forEach((k, idx) => {
-            const timeStr = timings[k];
-            // Aladhan times may include (DST) or extra text; take first 5 chars
-            const normalized = timeStr ? timeStr.split(' ')[0] : '--:--';
+            const timeStr = customTimes[k];
+            const normalized = timeStr || '--:--';
             
-            // Parse prayer time in 24h format
-            const [hh, mm] = normalized.split(':').map(n => parseInt(n,10));
+            const [hh, mm] = normalized.split(':').map(n => parseInt(n, 10));
             
-            // Create prayer time for TODAY at the given hour:minute
             let prayerDate = new Date(now);
             prayerDate.setHours(hh, mm || 0, 0, 0);
 
-            // Calculate milliseconds since the reference sunset
             let timeSinceSunset = prayerDate - referenceSunset;
             
-            // If prayer is before reference sunset, add 1 day
             if (timeSinceSunset < 0) {
                 prayerDate.setDate(prayerDate.getDate() + 1);
                 timeSinceSunset = prayerDate - referenceSunset;
             }
 
-            // Convert to HH:MM format (relative to sunset clock, no seconds)
             const totalSeconds = Math.floor(Math.max(0, timeSinceSunset) / 1000);
             const hours = Math.floor(totalSeconds / 3600);
             const minutes = Math.floor((totalSeconds % 3600) / 60);
             const display = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
 
-            if (k === 'Maghrib') {
-                console.log(`[${k}] API time: ${timeStr}, normalized: ${normalized}, prayerDate: ${prayerDate}, timeSinceSunset: ${timeSinceSunset}ms, display: ${display}`);
-            }
-
-            // Create item with name and time stacked vertically
             const item = document.createElement('div');
             item.className = 'prayer-item';
             
@@ -198,7 +210,6 @@
             item.appendChild(timeEl);
             container.appendChild(item);
 
-            // Determine next/current prayer based on actual clock time
             if (now >= prayerDate) {
                 currentPrayerIndex = idx;
             }
@@ -217,22 +228,22 @@
             if (i === nextPrayerIndex) el.classList.add('next');
         });
 
-        // If no nextPrayer found (we are after Isha), set next to Fajr tomorrow
-        if (nextPrayerIndex === -1) {
-            const f = timings.Fajr.split(' ')[0];
-            const [hh, mm] = f.split(':').map(n=>parseInt(n,10));
+        // If no nextPrayer found, set next to Fajr tomorrow
+        if (nextPrayerIndex === -1 && customTimes.Fajr) {
+            const f = customTimes.Fajr;
+            const [hh, mm] = f.split(':').map(n => parseInt(n, 10));
             const tomorrow = new Date(now);
             tomorrow.setDate(tomorrow.getDate() + 1);
             tomorrow.setHours(hh, mm || 0, 0, 0);
             nextPrayerTime = tomorrow;
-            nextPrayerIndex = 0; // Fajr
+            nextPrayerIndex = 0;
         }
 
         // Update status
         if (statusEl) {
             if (nextPrayerTime) {
                 const mins = minutesUntil(now, nextPrayerTime);
-                const nextName = (t && nextPrayerIndex !== -1 && t['prayer'+['Fajr','Dhuhr','Asr','Maghrib','Isha'][nextPrayerIndex]]) ? t['prayer'+['Fajr','Dhuhr','Asr','Maghrib','Isha'][nextPrayerIndex]] : 'Next';
+                const nextName = (t && nextPrayerIndex !== -1 && t['prayer'+keys[nextPrayerIndex]]) ? t['prayer'+keys[nextPrayerIndex]] : 'Next';
                 const nextText = (t && t.nextPrayer) ? t.nextPrayer.replace('{name}', nextName).replace('{mins}', mins) : `Next: ${nextName} in ${mins} minutes`;
                 statusEl.textContent = nextText;
             } else {
