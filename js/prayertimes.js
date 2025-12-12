@@ -105,8 +105,14 @@
         let nextPrayerIndex = -1;
         let nextPrayerTime = null;
 
-        // Get today's sunset time (from clock.js - this is TODAY's sunset)
-        const todaySunsetTime = window.sunsetTime; // This is a Date object for today's sunset
+        // Get the reference sunset - use window.sunsetTime if available
+        if (!window.sunsetTime) {
+            console.warn('[Prayer Times] No sunsetTime available, cannot render prayer times');
+            if (statusEl) statusEl.textContent = 'Sunset time not loaded yet';
+            return;
+        }
+
+        const todaySunsetTime = window.sunsetTime;
         let referenceSunset = new Date(todaySunsetTime);
         referenceSunset.setSeconds(0, 0); // Remove seconds/ms
 
@@ -117,6 +123,11 @@
             yesterdaySunset.setDate(yesterdaySunset.getDate() - 1);
             referenceSunset = yesterdaySunset;
         }
+
+        console.log('[Prayer Times Debug]');
+        console.log('Now:', now);
+        console.log('Reference Sunset:', referenceSunset);
+        console.log('Sunset Time String:', referenceSunset.toString());
 
         // Build items with times relative to sunset
         keys.forEach((k, idx) => {
@@ -131,10 +142,6 @@
             let prayerDate = new Date(now);
             prayerDate.setHours(hh, mm || 0, 0, 0);
 
-            // If this prayer time has already passed today, it must be for tomorrow's timings
-            // But since we're using today's timings from Aladhan, we assume they're all for today
-            // EXCEPT if the current reference sunset is yesterday's, then all prayers are "today" (after yesterday's sunset)
-            
             // Calculate milliseconds since the reference sunset
             let timeSinceSunset = prayerDate - referenceSunset;
             
@@ -149,6 +156,10 @@
             const hours = Math.floor(totalSeconds / 3600);
             const minutes = Math.floor((totalSeconds % 3600) / 60);
             const display = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+
+            if (k === 'Maghrib') {
+                console.log(`[${k}] API time: ${timeStr}, normalized: ${normalized}, prayerDate: ${prayerDate}, timeSinceSunset: ${timeSinceSunset}ms, display: ${display}`);
+            }
 
             // Create item with name and time stacked vertically
             const item = document.createElement('div');

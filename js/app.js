@@ -161,9 +161,21 @@ function initializeApp() {
         window.setupEventListeners();
     }
     
-    // Load saved location
+    // Load saved location (async - waits for sunset time fetch)
     if (typeof window.loadSavedLocation === 'function') {
-        window.loadSavedLocation();
+        window.loadSavedLocation().then(() => {
+            // After location and sunset time are loaded, fetch prayer times
+            if (typeof window.fetchPrayerTimes === 'function') {
+                window.fetchPrayerTimes();
+                if (typeof window.startPrayerUpdater === 'function') window.startPrayerUpdater();
+            }
+        }).catch((err) => {
+            console.error('Error loading location:', err);
+            // If location fails, still ensure clock runs
+            if (window.clockState) {
+                window.clockState.ensureClockIsRunning();
+            }
+        });
     } else {
         // If location fails, still ensure clock runs
         setTimeout(() => {
@@ -173,11 +185,7 @@ function initializeApp() {
         }, 1000);
     }
 
-    // Fetch prayer times (if available)
-    if (typeof window.fetchPrayerTimes === 'function') {
-        window.fetchPrayerTimes();
-        if (typeof window.startPrayerUpdater === 'function') window.startPrayerUpdater();
-    }
+    // Remove the old separate setTimeout for prayer times since it's now in the promise chain above
     
     // Initial gradient update
     if (typeof window.updateGradient === 'function') {

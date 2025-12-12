@@ -176,7 +176,7 @@ async function loadSavedLocation() {
             }
             updateLocationInfo();
             if (typeof window.fetchSunsetTime === 'function') {
-                window.fetchSunsetTime();
+                await window.fetchSunsetTime();
             }
             if (typeof window.fetchPrayerTimes === 'function') {
                 window.fetchPrayerTimes();
@@ -203,7 +203,7 @@ async function setDefaults() {
         locationData = { country: DEFAULT_COUNTRY, city: DEFAULT_CITY };
         updateLocationInfo();
         if (typeof window.fetchSunsetTime === 'function') {
-            window.fetchSunsetTime();
+            await window.fetchSunsetTime();
         }
         if (typeof window.fetchPrayerTimes === 'function') {
             window.fetchPrayerTimes();
@@ -214,7 +214,7 @@ async function setDefaults() {
         locationData = { country: DEFAULT_COUNTRY, city: DEFAULT_CITY };
         updateLocationInfo();
         if (typeof window.fetchSunsetTime === 'function') {
-            window.fetchSunsetTime();
+            await window.fetchSunsetTime();
         }
     }
 }
