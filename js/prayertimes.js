@@ -64,9 +64,10 @@
 
         if (statusEl) statusEl.textContent = t ? t.fetchingPrayers : 'Fetching prayer times...';
 
-        const url = `https://api.aladhan.com/v1/timings/${dateStr}?latitude=${latitude}&longitude=${longitude}&method=2`;
-
+        // Try Aladhan API with Shia method first (method 7 = Shia, Sunset+90 minutes for Isha)
+        // If that fails, fallback to standard Aladhan
         try {
+            const url = `https://api.aladhan.com/v1/timings/${dateStr}?latitude=${latitude}&longitude=${longitude}&method=7`;
             const resp = await fetch(url);
             if (!resp.ok) throw new Error('Network response not ok');
             const data = await resp.json();
@@ -80,13 +81,32 @@
                 throw new Error('Invalid data');
             }
         } catch (err) {
-            // On error, use cache if available
-            const cache2 = getCache();
-            if (cache2) {
-                render(cache2.timings, cache2.dateReadable);
-                if (statusEl) statusEl.textContent = t ? t.usingCachedOutdated : 'Using cached prayer times (may be outdated)';
-            } else {
-                if (statusEl) statusEl.textContent = t ? t.errorFetchingPrayers : 'Error fetching prayer times';
+            console.warn('Shia method fetch failed, trying alternative:', err);
+            // Fallback to standard method
+            try {
+                const url = `https://api.aladhan.com/v1/timings/${dateStr}?latitude=${latitude}&longitude=${longitude}&method=2`;
+                const resp = await fetch(url);
+                if (!resp.ok) throw new Error('Network response not ok');
+                const data = await resp.json();
+                if (data && data.data && data.data.timings) {
+                    const timings = data.data.timings;
+                    const dateReadable = data.data.date.readable || dateStr;
+                    setCache({ date: dateStr, dateReadable, lat: latitude, lon: longitude, timings });
+                    render(timings, dateReadable);
+                    if (statusEl) statusEl.textContent = t ? t.prayerTimesUpdated : 'Prayer times updated';
+                } else {
+                    throw new Error('Invalid data');
+                }
+            } catch (err2) {
+                console.error('All prayer time fetch methods failed:', err2);
+                // On error, use cache if available
+                const cache2 = getCache();
+                if (cache2) {
+                    render(cache2.timings, cache2.dateReadable);
+                    if (statusEl) statusEl.textContent = t ? t.usingCachedOutdated : 'Using cached prayer times (may be outdated)';
+                } else {
+                    if (statusEl) statusEl.textContent = t ? t.errorFetchingPrayers : 'Error fetching prayer times';
+                }
             }
         }
     }

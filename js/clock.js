@@ -107,9 +107,62 @@ async function fetchSunsetTime() {
 
     // Online logic continues...
     try {
-        // ... existing API calls ...
+        const latitude = locationData.lat;
+        const longitude = locationData.lon;
+        const today = new Date();
+        const dateStr = today.toISOString().split('T')[0]; // YYYY-MM-DD
+
+        const url = `https://api.sunrise-sunset.org/json?lat=${latitude}&lng=${longitude}&date=${dateStr}&formatted=0`;
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('API response not ok');
+        
+        const data = await response.json();
+        if (data.results && data.results.sunset) {
+            const sunsetISO = data.results.sunset; // ISO 8601 string in UTC
+            const sunsetDate = new Date(sunsetISO);
+            
+            window.sunsetTime = sunsetDate;
+            localStorage.setItem('sunsetTimeCache', JSON.stringify({
+                sunsetTime: sunsetDate.toISOString(),
+                date: dateStr,
+                lat: latitude,
+                lon: longitude
+            }));
+            
+            if (statusDiv) {
+                statusDiv.textContent = t.sunsetUpdated;
+                statusDiv.classList.remove('loading');
+            }
+            
+            window.clockState.isRunning = false; // Reset to allow restart
+            if (typeof window.startClock === 'function') {
+                window.startClock();
+            }
+        } else {
+            throw new Error('No sunset data in response');
+        }
     } catch (error) {
-        // ... error handling ...
+        console.error('Error fetching sunset time:', error);
+        // Use cache or fallback
+        let sunsetFromCache = null;
+        if (cached) {
+            try {
+                const cachedData = JSON.parse(cached);
+                sunsetFromCache = new Date(cachedData.sunsetTime);
+                if (statusDiv) statusDiv.textContent = t.usingCachedOutdated;
+            } catch (e) {
+                console.error('Cache parse error:', e);
+            }
+        }
+        
+        if (sunsetFromCache) {
+            window.sunsetTime = sunsetFromCache;
+        }
+        
+        if (statusDiv && !sunsetFromCache) {
+            statusDiv.textContent = t.errorFetching;
+            statusDiv.classList.remove('loading');
+        }
     } finally {
         // GUARANTEED: Always ensure clock runs
         clearTimeout(clockTimeout);
