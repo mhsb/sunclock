@@ -35,7 +35,10 @@ window.translations = {
         prayerSunrise: 'Sunrise',
         prayerDhuhr: 'Dhuhr',
         prayerMaghrib: 'Maghrib',
+        // Backwards-compatible key (some code used `prayerMidnight`)
         prayerMidnight: 'Legal Midnight',
+        // New key used by the custom renderer
+        prayerLegalMidnight: 'Midnight',
         fetchingPrayers: 'Fetching prayer times...',
         prayerTimesUpdated: 'Prayer times updated',
         errorFetchingPrayers: 'Error fetching prayer times',
@@ -76,7 +79,11 @@ window.translations = {
         prayerSunrise: 'طلوع',
         prayerDhuhr: 'ظهر',
         prayerMaghrib: 'مغرب',
-        prayerMidnight: 'نیمه شب شرعی',
+        // Backwards-compatible key (some code used `prayerMidnight`)
+        // Update to the requested shorter label
+        prayerMidnight: 'نیمه شب',
+        // New key used by the custom renderer
+        prayerLegalMidnight: 'نیمه شب',
         fetchingPrayers: 'در حال دریافت اوقات شرعی...',
         prayerTimesUpdated: 'اوقات شرعی به\u200cروز شد',
         errorFetchingPrayers: 'خطا در دریافت اوقات شرعی',
@@ -89,6 +96,8 @@ function setLanguage(lang) {
     localStorage.setItem('sunsetClockLanguage', lang);
     document.documentElement.lang = lang;
     document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
+    // Keep the window-scoped copy in sync for modules that read window.currentLang
+    window.currentLang = currentLang;
     
     const t = window.translations[lang];
     
