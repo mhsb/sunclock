@@ -21,8 +21,8 @@
 
 .about-corner-btn {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 2px;
+    left: 20px;
     background: rgba(255, 255, 255, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 50%;

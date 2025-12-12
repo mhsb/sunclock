@@ -215,7 +215,8 @@ label {
     position: relative;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    overflow-y: auto;
+    /* Make the content wrapper itself non-scrolling; individual tab contents will scroll */
+    overflow: hidden;
     display: flex;
     flex-direction: column;
 }
@@ -288,7 +289,28 @@ body[dir="rtl"] .about-close-btn {
     gap: 10px;
     margin-bottom: 30px;
     border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-    flex-wrap: wrap;
+    flex-wrap: nowrap; /* force single row */
+    overflow-x: auto; /* allow horizontal scroll on very small screens */
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+}
+
+/* Hide scrollbar but keep scrolling functionality */
+.about-tabs {
+    -ms-overflow-style: none; /* IE/Edge */
+    scrollbar-width: none; /* Firefox */
+}
+.about-tabs::-webkit-scrollbar {
+    height: 0; /* hide horizontal scrollbar on WebKit */
+}
+
+/* Keep tabs visible when the about content scrolls */
+.about-tabs {
+    position: sticky;
+    top: 0;
+    background: transparent;
+    z-index: 6;
+    padding-top: 6px;
 }
 
 .about-tab-btn {
@@ -303,7 +325,12 @@ body[dir="rtl"] .about-close-btn {
     transition: all 0.3s ease;
     position: relative;
     bottom: -2px;
-}
+    flex: 0 0 auto; /* prevent shrinking/wrapping */
+    width: auto; /* override global button width */
+    display: inline-flex;
+    align-items: center;
+    margin-top: 0;
+} 
 
 .about-tab-btn:hover {
     color: rgba(255, 255, 255, 0.9);
@@ -317,6 +344,9 @@ body[dir="rtl"] .about-close-btn {
 .about-tab-content {
     display: none;
     animation: fadeIn 0.3s ease;
+    flex: 1 1 auto; /* allow tab content to grow and scroll */
+    overflow-y: auto;
+    padding-right: 8px; /* avoid 1px overflow when scrollbar appears */
 }
 
 .about-tab-content.active {
