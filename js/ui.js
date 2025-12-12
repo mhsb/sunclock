@@ -43,7 +43,6 @@ function setupEventListeners() {
     const countryInput = document.getElementById('country');
     const cityInput = document.getElementById('city');
     const languageToggle = document.getElementById('languageToggle');
-    const locationToggleBtn = document.getElementById('locationToggleBtn');
     const aboutToggleBtnCorner = document.getElementById('aboutToggleBtnCorner');
     const aboutCloseBtn = document.getElementById('aboutCloseBtn');
     const saveBtn = document.getElementById('saveBtn');
@@ -54,17 +53,9 @@ function setupEventListeners() {
         languageToggle.addEventListener('click', window.toggleLanguage);
     }
 
-    // Location bar drawer toggle
+    // Location bar drawer toggle (the bar itself is the toggle)
     if (locationBar) {
         locationBar.addEventListener('click', toggleLocationPanel);
-    }
-
-    // Location settings button toggle
-    if (locationToggleBtn) {
-        locationToggleBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevent triggering location bar click
-            toggleLocationPanel();
-        });
     }
 
     // About panel toggle (new corner button)
@@ -143,13 +134,13 @@ function setupEventListeners() {
         }
     });
 
-    // Close location panel when clicking outside
+    // Close location panel when clicking outside (outside both panel and location bar)
     document.addEventListener('click', (e) => {
         const panel = document.getElementById('locationPanel');
-        const toggleBtn = document.getElementById('locationToggleBtn');
+        const locationBarEl = document.getElementById('locationBar');
         if (panel && panel.classList.contains('show') && 
             !panel.contains(e.target) && 
-            toggleBtn && !toggleBtn.contains(e.target)) {
+            !(locationBarEl && locationBarEl.contains(e.target))) {
             panel.classList.remove('show');
         }
     });
