@@ -93,7 +93,6 @@
 
     function render(timings, dateReadable) {
         // Map to our required five prayers
-        // Aladhan returns many keys; we pick: Fajr, Dhuhr, Asr, Maghrib, Isha
         const keys = ['Fajr','Dhuhr','Asr','Maghrib','Isha'];
         const container = document.getElementById('prayerGrid');
         const statusEl = document.getElementById('prayerStatus');
@@ -106,14 +105,16 @@
         let nextPrayerIndex = -1;
         let nextPrayerTime = null;
 
-        // Get the reference sunset (same logic as clock.js)
-        const todaySunset = new Date(window.sunsetTime || now);
-        todaySunset.setHours(todaySunset.getHours(), todaySunset.getMinutes(), todaySunset.getSeconds(), 0);
-        const yesterdaySunset = new Date(todaySunset);
-        yesterdaySunset.setDate(yesterdaySunset.getDate() - 1);
+        // Get today's sunset time (from clock.js - this is TODAY's sunset)
+        const todaySunsetTime = window.sunsetTime; // This is a Date object for today's sunset
+        let referenceSunset = new Date(todaySunsetTime);
+        referenceSunset.setSeconds(0, 0); // Remove seconds/ms
 
-        let referenceSunset = todaySunset;
-        if (now < todaySunset) {
+        // If current time is AFTER today's sunset, use today's sunset as reference
+        // If current time is BEFORE today's sunset, use YESTERDAY's sunset as reference
+        if (now < referenceSunset) {
+            const yesterdaySunset = new Date(referenceSunset);
+            yesterdaySunset.setDate(yesterdaySunset.getDate() - 1);
             referenceSunset = yesterdaySunset;
         }
 
@@ -125,13 +126,19 @@
             
             // Parse prayer time in 24h format
             const [hh, mm] = normalized.split(':').map(n => parseInt(n,10));
+            
+            // Create prayer time for TODAY at the given hour:minute
             let prayerDate = new Date(now);
             prayerDate.setHours(hh, mm || 0, 0, 0);
 
-            // Calculate time since sunset for this prayer
+            // If this prayer time has already passed today, it must be for tomorrow's timings
+            // But since we're using today's timings from Aladhan, we assume they're all for today
+            // EXCEPT if the current reference sunset is yesterday's, then all prayers are "today" (after yesterday's sunset)
+            
+            // Calculate milliseconds since the reference sunset
             let timeSinceSunset = prayerDate - referenceSunset;
             
-            // If negative (prayer is before sunset), it's next day's prayer
+            // If prayer is before reference sunset, add 1 day
             if (timeSinceSunset < 0) {
                 prayerDate.setDate(prayerDate.getDate() + 1);
                 timeSinceSunset = prayerDate - referenceSunset;

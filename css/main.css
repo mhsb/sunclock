@@ -40,9 +40,16 @@ html[dir="rtl"] .location-text,
 html[dir="rtl"] .status,
 html[dir="rtl"] .language-toggle,
 html[dir="rtl"] .location-toggle-btn,
+html[dir="rtl"] .countryLabel,
+html[dir="rtl"] .cityLabel,
 html[dir="rtl"] .about-text,
 html[dir="rtl"] .about-title {
     font-family: 'Vazir', Vazir, 'Vazirmatn', 'Tahoma', 'Arial', sans-serif !important;
+}
+
+html[dir="rtl"] .countryLabel,
+html[dir="rtl"] .cityLabel {
+    text-align: right !important;
 }
 
 .main-hidden {
