@@ -27,8 +27,8 @@ window.translations = {
         settings: '⚙️',
         aboutTitle: 'About Sunset Clock',
         aboutText: '<p>Sunset Clock is a unique time display that shows time elapsed since the last sunset. The clock resets every day at sunset, creating a natural 24-hour cycle.</p><p>The background gradient changes throughout the day to reflect the time of day, transitioning from deep night blues to morning purples and afternoon oranges.</p><p>You can set your location to get accurate sunset times for your area. The app works offline using cached sunset times when internet is unavailable.</p>',
-        aboutTextSummary: '<p>100-word summary coming soon</p>',
-        aboutTextDetails: '<p>500-word details coming soon</p>',
+        aboutTextSummary: '<p>A translation of the Persian About page will soon be provided.</p>',
+        aboutTextDetails: '<p>A translation of the Persian About page will soon be provided.</p>',
         // Prayer translations (EN)
         prayerTitle: 'Prayer Times',
         prayerFajr: 'Fajr',
@@ -72,9 +72,9 @@ window.translations = {
         settings: '⚙️',
         aboutTitle: 'درباره ساعت غروب',
         aboutText: '<p>ساعت غروب یک نمایش زمان منحصر به فرد است که زمان سپری شده از آخرین غروب را نشان می‌دهد. ساعت هر روز در زمان غروب بازنشانی می‌شود و یک چرخه طبیعی 24 ساعته ایجاد می‌کند.</p><p>گرادیان پس‌زمینه در طول روز تغییر می‌کند تا زمان روز را منعکس کند و از آبی‌های عمیق شب به بنفش‌های صبحگاهی و نارنجی‌های بعدازظهر تبدیل می‌شود.</p><p>می‌توانید موقعیت خود را تنظیم کنید تا زمان‌های دقیق غروب برای منطقه خود را دریافت کنید. این برنامه به صورت آفلاین کار می‌کند و از زمان‌های غروب ذخیره شده استفاده می‌کند.</p>',
-        aboutTextSummary: '<p><strong>خلاصه ۱۰۰ کلمه‌ای:</strong></p><p>ساعت غروب‌کوک به معنای تنظیم آغاز روزشمار از زمان غروب آفتاب (ساعت ۱۲ شب) است. این سیستم بر اساس آموزه‌های اسلامی و هماهنگ با فطرت انسان طراحی شده است. مهم‌ترین فایده آن، ایجاد تقسیم‌بندی طبیعی و مفید زمان است: شب (از غروب) به‌عنوان زمان مشخص استراحت، عبادت و خواب شمرده می‌شود و روز (از طلوع آفتاب) به‌عنوان زمان فعالیت و کار. این روش به فرد کمک می‌کند تا به‌راحتی مقدار باقی‌مانده از روز برای انجام کارها و مقدار گذشته از شب برای استراحت کافی را محاسبه کند و برنامه‌ریزی بهینه‌ای داشته باشد.</p>',
+        aboutTextSummary: '<p><strong>ساعت غروب‌کوک چیست؟</strong></p><p>ساعت غروب‌کوک به معنای تنظیم آغاز روزشمار از زمان غروب آفتاب (ساعت ۱۲ شب) است. این سیستم بر اساس آموزه‌های اسلامی و هماهنگ با فطرت انسان طراحی شده است. مهم‌ترین فایده آن، ایجاد تقسیم‌بندی طبیعی و مفید زمان است: شب (از غروب) به‌عنوان زمان مشخص استراحت، عبادت و خواب شمرده می‌شود و روز (از طلوع آفتاب) به‌عنوان زمان فعالیت و کار. این روش به فرد کمک می‌کند تا به‌راحتی مقدار باقی‌مانده از روز برای انجام کارها و مقدار گذشته از شب برای استراحت کافی را محاسبه کند و برنامه‌ریزی بهینه‌ای داشته باشد.</p>',
         aboutTextDetails: `
-<p><strong>خلاصه ۵۰۰ کلمه‌ای:</strong></p>
+<p><strong>غروب‌کوک، ساعت زندگی</strong></p>
 <p>ساعت غروب‌کوک سیستمی برای اندازه‌گیری زمان است که در آن، آغاز روز جدید با زمان غروب خورشید (که ساعت ۱۲ در نظر گرفته می‌شود) هماهنگ می‌گردد. معنای این سیستم، همسو کردن برنامه‌ریزی زمانی زندگی انسان با چرخه طبیعی شبانه‌روز و احکام اسلامی مبتنی بر فطرت است. در این نگاه، شب و روز هر کدام دارای هویت و کارکرد جداگانه‌ای هستند: شب، زمان تاریکی، مخلوق برای سکون، آرامش، استراحت، خواب و عبادت است و روز، زمان روشنایی، مخلوق برای بیداری، فعالیت، حرکت و تلاش برای معاش.</p>
 <p>فواید این سیستم عبارتند از:</p>
 <ol>
