@@ -270,6 +270,6 @@
         if (cache) {
             render(cache.timings, cache.dateReadable);
         }
-        startUpdater();
+        // Don't start updater here - let initializeApp control when to start it
     });
 })();

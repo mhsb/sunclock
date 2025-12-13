@@ -170,6 +170,8 @@ function setupEventListeners() {
 
     // Network status listeners
     window.addEventListener('online', () => {
+        updateOfflineStatus(false);
+        // Refresh data when coming back online
         if (locationData && typeof window.fetchSunsetTime === 'function') {
             window.fetchSunsetTime();
             if (typeof window.fetchPrayerTimes === 'function') window.fetchPrayerTimes();
@@ -179,36 +181,8 @@ function setupEventListeners() {
     window.addEventListener('offline', () => {
         updateOfflineStatus(true);
         // Ensure clock keeps running with cached data when offline
-        if (sunsetTime && !clockInterval && typeof window.startClock === 'function') {
-            window.startClock();
-        }
-    });
-
-    window.addEventListener('online', () => {
-        updateOfflineStatus(false);
-        // Refresh sunset time when coming back online
-        if (locationData && typeof window.fetchSunsetTime === 'function') {
-            window.fetchSunsetTime();
-            if (typeof window.fetchPrayerTimes === 'function') window.fetchPrayerTimes();
-        }
-    });
-    // Add to setupEventListeners()
-    window.addEventListener('offline', () => {
-        updateOfflineStatus(true);
-        // GUARANTEED: Always restart clock when going offline
-        setTimeout(() => {
-            if (window.clockState) {
-                window.clockState.ensureClockIsRunning();
-            }
-        }, 500);
-    });
-
-    window.addEventListener('online', () => {
-        updateOfflineStatus(false);
-        // Refresh but don't stop existing clock
-        if (locationData && typeof window.fetchSunsetTime === 'function') {
-            window.fetchSunsetTime();
-            if (typeof window.fetchPrayerTimes === 'function') window.fetchPrayerTimes();
+        if (window.clockState && !window.clockState.isClockRunning()) {
+            window.clockState.start();
         }
     });
 }

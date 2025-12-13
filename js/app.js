@@ -145,85 +145,71 @@ window.addEventListener('DOMContentLoaded', () => {
 function initializeApp() {
     // Set initial language
     window.setLanguage(currentLang);
-    
-    // Initialize clock state FIRST
-    if (window.clockState) {
-        window.clockState.startWatchdog();
-    }
-    
+
     // Initialize countries
     if (typeof window.initializeCountries === 'function') {
         window.initializeCountries();
     }
-    
+
     // Setup event listeners
     if (typeof window.setupEventListeners === 'function') {
         window.setupEventListeners();
     }
-    
-    // Load saved location (async - waits for sunset time fetch)
+
+    // Ensure we have a fallback sunset time before starting anything
+    if (!sunsetTime) {
+        const now = new Date();
+        const fallbackSunset = new Date(now);
+        fallbackSunset.setHours(18, 0, 0, 0); // 6:00 PM
+        if (now.getHours() < 18) {
+            fallbackSunset.setDate(fallbackSunset.getDate() - 1);
+        }
+        sunsetTime = fallbackSunset;
+        console.log('App: Set fallback sunset time:', sunsetTime);
+    }
+
+    // Start clock immediately with fallback time
+    if (window.clockState) {
+        window.clockState.start();
+    }
+
+    // Load saved location and update with real data if available
     if (typeof window.loadSavedLocation === 'function') {
         window.loadSavedLocation().then(() => {
-            // After location and sunset time are loaded, fetch prayer times
+            // Fetch prayer times after location is loaded
             if (typeof window.fetchPrayerTimes === 'function') {
                 window.fetchPrayerTimes();
                 if (typeof window.startPrayerUpdater === 'function') window.startPrayerUpdater();
             }
         }).catch((err) => {
             console.error('Error loading location:', err);
-            // If location fails, still ensure clock runs
-            if (window.clockState) {
-                window.clockState.ensureClockIsRunning();
-            }
+            // Location failed, but clock is already running with fallback time
         });
-    } else {
-        // If location fails, still ensure clock runs
-        setTimeout(() => {
-            if (window.clockState) {
-                window.clockState.ensureClockIsRunning();
-            }
-        }, 1000);
     }
 
-    // Remove the old separate setTimeout for prayer times since it's now in the promise chain above
-    
     // Initial gradient update
     if (typeof window.updateGradient === 'function') {
         window.updateGradient();
     }
-    
+
     // Initial offline status
     if (typeof window.updateOfflineStatus === 'function') {
         window.updateOfflineStatus(!navigator.onLine);
     }
-    
+
     // Update gradient every minute
     setInterval(() => {
         if (typeof window.updateGradient === 'function') {
             window.updateGradient();
         }
     }, 60000);
-    
-    // Final safety net: ensure clock starts within 3 seconds
-    setTimeout(() => {
+
+    // Cleanup on page unload
+    window.addEventListener('beforeunload', () => {
         if (window.clockState) {
-            window.clockState.ensureClockIsRunning();
+            window.clockState.cleanup();
         }
-    }, 3000);
-    // In js/app.js, inside initializeApp() function, add this at the END:
-    setTimeout(() => {
-        // Final guarantee: Ensure clock is running
-        if (window.clockState) {
-            console.log('App: Final clock startup check');
-            window.clockState.ensureClockIsRunning();
-        } else {
-            console.error('App: clockState not available!');
-            // Emergency fallback: Direct clock start
-            if (typeof window.startClock === 'function') {
-                window.startClock();
-            }
-        }
-    }, 2000);
+    });
     // PWA Install Prompt
     let deferredPrompt;
     const installButton = document.createElement('button');
