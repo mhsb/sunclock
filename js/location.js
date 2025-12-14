@@ -5,6 +5,32 @@ let filteredCountries = [];
 let filteredCities = [];
 let selectedCityCoords = null;
 
+// Helper function to get translated location name
+function getTranslatedLocationName(name, type = 'countries') {
+    const lang = window.currentLang || 'en';
+    const translations = window.translations && window.translations[lang];
+    if (translations && translations[type] && translations[type][name]) {
+        return translations[type][name];
+    }
+    return name; // Fallback to original name if no translation
+}
+
+// Helper function to get English name from translated name
+function getEnglishLocationName(translatedName, type = 'countries') {
+    const lang = window.currentLang || 'en';
+    const translations = window.translations && window.translations[lang];
+
+    if (translations && translations[type]) {
+        // Find the English key for the translated value
+        for (const [englishName, translatedValue] of Object.entries(translations[type])) {
+            if (translatedValue === translatedName) {
+                return englishName;
+            }
+        }
+    }
+    return translatedName; // Fallback to the input if no mapping found
+}
+
 async function initializeCountries() {
     countriesList = [
         'Afghanistan', 'Albania', 'Algeria', 'Argentina', 'Australia', 'Austria',
@@ -18,7 +44,19 @@ async function initializeCountries() {
         'Singapore', 'South Africa', 'South Korea', 'Spain', 'Sweden', 'Switzerland',
         'Syria', 'Thailand', 'Turkey', 'Ukraine', 'United Arab Emirates',
         'United Kingdom', 'United States', 'Venezuela', 'Vietnam', 'Yemen'
-    ].sort();
+    ];
+
+    // Sort based on translated names if in Persian mode
+    const lang = window.currentLang || 'en';
+    if (lang === 'fa') {
+        countriesList.sort((a, b) => {
+            const translatedA = getTranslatedLocationName(a, 'countries');
+            const translatedB = getTranslatedLocationName(b, 'countries');
+            return translatedA.localeCompare(translatedB, 'fa');
+        });
+    } else {
+        countriesList.sort();
+    }
 
     filteredCountries = [...countriesList];
     renderCountryDropdown();
@@ -41,7 +79,7 @@ function renderCountryDropdown() {
     filteredCountries.forEach(country => {
         const item = document.createElement('div');
         item.className = 'dropdown-item';
-        item.textContent = country;
+        item.textContent = getTranslatedLocationName(country, 'countries');
         item.onclick = () => selectCountry(country);
         countryList.appendChild(item);
     });
@@ -64,7 +102,7 @@ function renderCityDropdown() {
     filteredCities.forEach(city => {
         const item = document.createElement('div');
         item.className = 'dropdown-item';
-        item.textContent = city.name;
+        item.textContent = getTranslatedLocationName(city.name, 'cities');
         item.onclick = () => selectCity(city.name, city.lat, city.lon);
         cityList.appendChild(item);
     });
@@ -72,7 +110,7 @@ function renderCityDropdown() {
 
 function selectCountry(country) {
     selectedCountry = country;
-    document.getElementById('country').value = country;
+    document.getElementById('country').value = getTranslatedLocationName(country, 'countries');
     document.getElementById('countryList').classList.remove('show');
     document.getElementById('city').disabled = false;
     const t = window.translations[currentLang];
@@ -84,7 +122,7 @@ function selectCountry(country) {
 }
 
 function selectCity(city, lat, lon) {
-    document.getElementById('city').value = city;
+    document.getElementById('city').value = getTranslatedLocationName(city, 'cities');
     document.getElementById('cityList').classList.remove('show');
     // Attach coordinates to a temporary object so saveLocation can persist them
     selectedCityCoords = null;
@@ -94,6 +132,21 @@ function selectCity(city, lat, lon) {
         if (locationData) {
             locationData.lat = selectedCityCoords.lat;
             locationData.lon = selectedCityCoords.lon;
+        }
+    }
+}
+
+// Function to refresh location display when language changes
+function refreshLocationDisplay() {
+    if (locationData) {
+        const countryInput = document.getElementById('country');
+        const cityInput = document.getElementById('city');
+
+        if (countryInput && locationData.country) {
+            countryInput.value = getTranslatedLocationName(locationData.country, 'countries');
+        }
+        if (cityInput && locationData.city) {
+            cityInput.value = getTranslatedLocationName(locationData.city, 'cities');
         }
     }
 }
@@ -118,18 +171,49 @@ async function fetchCitiesForCountry(country) {
                 .filter((city, index, self) => 
                     index === self.findIndex(c => c.name === city.name)
                 )
-                .sort((a, b) => a.name.localeCompare(b.name));
+                .sort((a, b) => {
+                    const lang = window.currentLang || 'en';
+                    if (lang === 'fa') {
+                        const translatedA = getTranslatedLocationName(a.name, 'cities');
+                        const translatedB = getTranslatedLocationName(b.name, 'cities');
+                        return translatedA.localeCompare(translatedB, 'fa');
+                    } else {
+                        return a.name.localeCompare(b.name);
+                    }
+                });
             
             filteredCities = [...citiesList];
             renderCityDropdown();
         } else {
             citiesList = getMajorCitiesForCountry(country);
+            // Sort by translated names when in Persian mode
+            const lang = window.currentLang || 'en';
+            if (lang === 'fa') {
+                citiesList.sort((a, b) => {
+                    const translatedA = getTranslatedLocationName(a.name, 'cities');
+                    const translatedB = getTranslatedLocationName(b.name, 'cities');
+                    return translatedA.localeCompare(translatedB, 'fa');
+                });
+            } else {
+                citiesList.sort((a, b) => a.name.localeCompare(b.name));
+            }
             filteredCities = [...citiesList];
             renderCityDropdown();
         }
     } catch (error) {
         console.error('Error fetching cities:', error);
         citiesList = getMajorCitiesForCountry(country);
+        // Sort by translated names when in Persian mode
+        const lang = window.currentLang || 'en';
+        if (lang === 'fa') {
+            citiesList.sort((a, b) => {
+                const translatedA = getTranslatedLocationName(a.name, 'cities');
+                const translatedB = getTranslatedLocationName(b.name, 'cities');
+                return translatedA.localeCompare(translatedB, 'fa');
+            });
+        } else {
+            citiesList.sort((a, b) => a.name.localeCompare(b.name));
+        }
         filteredCities = [...citiesList];
         renderCityDropdown();
     }
@@ -191,7 +275,7 @@ async function loadSavedLocation() {
 }
 
 async function setDefaults() {
-    document.getElementById('country').value = DEFAULT_COUNTRY;
+    document.getElementById('country').value = getTranslatedLocationName(DEFAULT_COUNTRY, 'countries');
     selectedCountry = DEFAULT_COUNTRY;
     document.getElementById('city').disabled = false;
     const t = window.translations[currentLang];
@@ -199,7 +283,7 @@ async function setDefaults() {
     
     try {
         await fetchCitiesForCountry(DEFAULT_COUNTRY);
-        document.getElementById('city').value = DEFAULT_CITY;
+        document.getElementById('city').value = getTranslatedLocationName(DEFAULT_CITY, 'cities');
         locationData = { country: DEFAULT_COUNTRY, city: DEFAULT_CITY };
         updateLocationInfo();
         if (typeof window.fetchSunsetTime === 'function') {
@@ -210,7 +294,7 @@ async function setDefaults() {
         }
     } catch (error) {
         console.error('Error setting defaults:', error);
-        document.getElementById('city').value = DEFAULT_CITY;
+        document.getElementById('city').value = getTranslatedLocationName(DEFAULT_CITY, 'cities');
         locationData = { country: DEFAULT_COUNTRY, city: DEFAULT_CITY };
         updateLocationInfo();
         if (typeof window.fetchSunsetTime === 'function') {
@@ -220,15 +304,19 @@ async function setDefaults() {
 }
 
 function saveLocation() {
-    const country = document.getElementById('country').value.trim();
-    const city = document.getElementById('city').value.trim();
+    const countryInput = document.getElementById('country').value.trim();
+    const cityInput = document.getElementById('city').value.trim();
     const errorDiv = document.getElementById('error');
     const t = window.translations[currentLang];
 
-    if (!country || !city) {
+    if (!countryInput || !cityInput) {
         errorDiv.textContent = t.pleaseSelectBoth;
         return;
     }
+
+    // Convert translated names back to English for validation and storage
+    const country = getEnglishLocationName(countryInput, 'countries');
+    const city = getEnglishLocationName(cityInput, 'cities');
 
     if (!countriesList.includes(country)) {
         errorDiv.textContent = t.pleaseSelectValidCountry;
@@ -269,7 +357,9 @@ function updateLocationInfo() {
     const locationText = document.getElementById('locationText');
     const t = window.translations[currentLang];
     if (locationData) {
-        locationText.textContent = `${locationData.city}, ${locationData.country}`;
+        const translatedCity = getTranslatedLocationName(locationData.city, 'cities');
+        const translatedCountry = getTranslatedLocationName(locationData.country, 'countries');
+        locationText.textContent = `${translatedCity}, ${translatedCountry}`;
     } else {
         locationText.textContent = t.pleaseEnterLocation;
     }
@@ -283,4 +373,6 @@ window.fetchCitiesForCountry = fetchCitiesForCountry;
 window.loadSavedLocation = loadSavedLocation;
 window.saveLocation = saveLocation;
 window.updateLocationInfo = updateLocationInfo;
+window.refreshLocationDisplay = refreshLocationDisplay;
+window.getEnglishLocationName = getEnglishLocationName;
 window.selectedCountry = selectedCountry;
