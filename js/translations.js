@@ -379,6 +379,35 @@ function setLanguage(lang) {
     if (typeof window.fetchPrayerTimes === 'function') {
         try { window.fetchPrayerTimes(); } catch (e) { /* ignore */ }
     }
+
+    // Refresh clock display with new language format
+    if (typeof window.formatTimeDisplay === 'function' && window.sunsetTime) {
+        setTimeout(() => {
+            // Force immediate clock display update with new format
+            const clockElement = document.getElementById('clock');
+            if (clockElement) {
+                const now = new Date();
+                const todaySunset = new Date(window.sunsetTime);
+                todaySunset.setHours(todaySunset.getHours(), todaySunset.getMinutes(), todaySunset.getSeconds(), 0);
+                const yesterdaySunset = new Date(todaySunset);
+                yesterdaySunset.setDate(yesterdaySunset.getDate() - 1);
+
+                let referenceSunset = todaySunset;
+                if (now < todaySunset) {
+                    referenceSunset = yesterdaySunset;
+                }
+
+                const timeSinceSunset = now - referenceSunset;
+                const totalSeconds = Math.floor(Math.max(0, timeSinceSunset) / 1000);
+                const hours = Math.floor(totalSeconds / 3600) % 24;
+                const minutes = Math.floor((totalSeconds % 3600) / 60);
+                const seconds = totalSeconds % 60;
+
+                const display = window.formatTimeDisplay(hours, minutes, seconds);
+                clockElement.innerHTML = display;
+            }
+        }, 100);
+    }
 }
 
 function toggleLanguage() {

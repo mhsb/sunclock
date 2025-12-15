@@ -1,3 +1,35 @@
+// Persian numeral conversion
+function toPersianNumerals(num) {
+    const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+    return String(num).replace(/\d/g, digit => persianDigits[parseInt(digit)]);
+}
+
+// Format time with Persian numbers and 12-hour format
+function formatTimeDisplay(hours24, minutes, seconds) {
+    const lang = window.currentLang || 'en';
+
+    // Convert to 12-hour format
+    const period = hours24 >= 12 ? (lang === 'fa' ? 'روز' : 'PM') : (lang === 'fa' ? 'شب' : 'AM');
+    const hours12 = hours24 % 12 || 12; // Convert 0 to 12 for 12 AM/PM
+
+    // Format with leading zeros
+    const hoursStr = String(hours12).padStart(2, '0');
+    const minutesStr = String(minutes).padStart(2, '0');
+    const secondsStr = String(seconds).padStart(2, '0');
+
+    if (lang === 'fa') {
+        // Persian mode: convert to Persian numerals
+        const persianHours = toPersianNumerals(hoursStr);
+        const persianMinutes = toPersianNumerals(minutesStr);
+        const persianSeconds = toPersianNumerals(secondsStr);
+
+        return `${persianHours}:${persianMinutes}<span class="seconds">:${persianSeconds}</span><span class="period">${period}</span>`;
+    } else {
+        // English mode: keep regular format
+        return `${hoursStr}:${minutesStr}:<span class="seconds">${secondsStr}</span> <span class="period">${period}</span>`;
+    }
+}
+
 function startClock() {
     try {
         if (clockInterval) {
@@ -42,11 +74,11 @@ function startClock() {
                 const minutes = Math.floor((totalSeconds % 3600) / 60);
                 const seconds = totalSeconds % 60;
 
-                const display = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                const display = formatTimeDisplay(hours, minutes, seconds);
 
                 const clockElement = document.getElementById('clock');
                 if (clockElement) {
-                    clockElement.textContent = display;
+                    clockElement.innerHTML = display;
                 }
 
                 // Update gradient
@@ -184,3 +216,4 @@ async function fetchSunsetTime() {
 // Make functions available globally
 window.startClock = startClock;
 window.fetchSunsetTime = fetchSunsetTime;
+window.formatTimeDisplay = formatTimeDisplay;

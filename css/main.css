@@ -238,6 +238,30 @@ html[dir="rtl"] .cityLabel {
     }
 }
 
+/* Clock display with smaller seconds */
+.clock-display {
+    font-size: 4em;
+    font-weight: 300;
+    text-align: center;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    line-height: 1.2;
+}
+
+/* Make seconds smaller than minutes and hours */
+.clock-display span.seconds {
+    font-size: 0.4em;
+    opacity: 0.8;
+    
+}
+
+/* Persian time period styling */
+.clock-display span.period {
+    font-size: 0.4em;
+    margin-left: 0.3em;
+    opacity: 0.9;
+    vertical-align: super;
+}
+
 /* Extra small phones */
 @media (max-width: 480px) {
     .clock-display {

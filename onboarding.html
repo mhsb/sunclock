@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تور معرفی ساعت غروب‌کوک</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        #onboardingContainer {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .onboarding-step {
+            display: none;
+            padding: 40px 30px;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+            height: 100%; /* تغییر اصلی: پر کردن ارتفاع */
+            overflow-y: auto; /* تغییر اصلی: اسکرول اگر نیاز بود */
+        }
+        .onboarding-step.active { 
+            display: block; 
+        }
+
+        @keyframes fadeIn { 
+            from { opacity: 0; } 
+            to { opacity: 1; } 
+        }
+
+        .progress-container {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            padding: 20px 0 0;
+        }
+        .progress-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: background 0.3s;
+        }
+        .progress-dot.active { background: #3b82f6; }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #e2e8f0;
+            line-height: 1.4;
+        }
+        p {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        /* Interactive Slider */
+        .slider-container {
+            position: relative;
+            background: rgba(15, 23, 42, 0.7);
+            padding: 30px;
+            border-radius: 16px;
+            margin: 30px 0;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            overflow: hidden;
+        }
+
+        /* Color overlay that will animate */
+        .slider-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                rgba(239, 68, 68, 0.1) 0%,
+                rgba(245, 158, 11, 0.1) 25%,
+                rgba(59, 130, 246, 0.1) 50%,
+                rgba(30, 64, 175, 0.1) 75%
+            );
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Color states with different overlay positions */
+        .slider-container.sunset::before {
+            background: linear-gradient(90deg, 
+                rgba(239, 68, 68, 0.2) 0%,
+                rgba(245, 158, 11, 0.1) 50%,
+                transparent 100%
+            );
+            opacity: 1;
+        }
+
+        .slider-container.sunrise::before {
+            background: linear-gradient(90deg, 
+                transparent 0%,
+                rgba(245, 158, 11, 0.1) 50%,
+                rgba(59, 130, 246, 0.1) 100%
+            );
+            opacity: 1;
+        }
+
+        .slider-container.day::before {
+            background: linear-gradient(90deg, 
+                transparent 0%,
+                rgba(59, 130, 246, 0.2) 50%,
+                rgba(30, 64, 175, 0.1) 100%
+            );
+            opacity: 1;
+        }
+
+        .slider-container.night::before {
+            background: linear-gradient(90deg, 
+                transparent 0%,
+                rgba(30, 64, 175, 0.2) 50%,
+                rgba(15, 23, 42, 0.3) 100%
+            );
+            opacity: 1;
+        }
+
+        /* Ensure content stays above the overlay */
+        .slider-container > * {
+            position: relative;
+            z-index: 2;
+        }
+        #sunSlider {
+            width: 100%;
+            height: 60px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+        }
+        #sunSlider::-webkit-slider-runnable-track {
+            height: 8px;
+            background: linear-gradient(to right, #ef4444, #f59e0b, #3b82f6, #1e40af);
+            border-radius: 10px;
+        }
+        #sunSlider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #fbbf24;
+            border: 3px solid #ffffff;
+            box-shadow: 0 0 15px #fbbf24;
+            margin-top: -14px;
+            cursor: grab;
+        }
+
+        .time-display {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #fbbf24;
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+        }
+
+        .phase-text {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            min-height: 1.8em;
+        }
+
+        /* Cards */
+        .cards-container {
+            display: flex;
+            gap: 15px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .card {
+            flex: 1;
+            min-width: 140px;
+            background: rgba(30, 41, 59, 0.9);
+            padding: 20px 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        .card h3 { font-size: 2.5rem; color: #60a5fa; margin-bottom: 5px; }
+        .card p { font-size: 0.95rem; margin-bottom: 0; color: #cbd5e1; }
+
+        /* Location Selector */
+        #locationSelectContainer {
+            margin: 25px 0;
+        }
+        select {
+            width: 100%;
+            padding: 15px;
+            font-size: 1rem;
+            border-radius: 10px;
+            border: 1px solid #475569;
+            background: rgba(15, 23, 42, 0.8);
+            color: white;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        select:focus { outline: none; border-color: #3b82f6; }
+
+        /* Buttons */
+        .buttons-container {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .btn {
+            flex: 1;
+            padding: 16px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+            color: white;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(90deg, #1d4ed8, #1e40af);
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #cbd5e1;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        .btn-skip {
+            background: transparent;
+            color: #94a3b8;
+            border: 1px dashed #64748b;
+        }
+
+        /* Hide Class */
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <div id="onboardingContainer">
+        <!-- Progress Dots -->
+        <div class="progress-container">
+            <div class="progress-dot active" data-step="1"></div>
+            <div class="progress-dot" data-step="2"></div>
+            <div class="progress-dot" data-step="3"></div>
+            <div class="progress-dot" data-step="4"></div>
+            <div class="progress-dot" data-step="5"></div>
+        </div>
+
+        <!-- Step 1: Hook -->
+        <div class="onboarding-step active" data-step="1">
+            <h2>🌅 اگر روز جدید، نه از نیمه‌شب، که از غروب آغاز شود چه؟</h2>
+            <p>یک روش نوآورانه برای هماهنگی با ریتم طبیعی بدن و طبیعت</p>
+            <div class="buttons-container">
+                <button class="btn btn-skip" onclick="finishOnboarding()">رد کردن</button>
+                <button class="btn btn-primary" onclick="nextStep()">کشف این ایده</button>
+            </div>
+        </div>
+
+        <!-- Step 2: Problem -->
+        <div class="onboarding-step" data-step="2">
+            <h2>⏰ مشکل ساعت فعلی</h2>
+            <p>در سیستم نیمه‌شب‌محور، "ساعت ۲ بامداد" می‌تواند هم ابتدای روز باشد و هم انتهای شب. این باعث سردرگمی در برنامه‌ریزی خواب و کار می‌شود.</p>
+            <div class="cards-container">
+                <div class="card">
+                    <h3>2:00</h3>
+                    <p>این زمان خواب است یا بیداری؟</p>
+                </div>
+            </div>
+            <div class="buttons-container">
+                <button class="btn btn-secondary" onclick="prevStep()">قبلی</button>
+                <button class="btn btn-primary" onclick="nextStep()">حل چیست؟</button>
+            </div>
+        </div>
+
+        <!-- Step 3: Interactive Solution -->
+        <div class="onboarding-step" data-step="3">
+            <h2>✨ راه‌حل: غروب‌کوک</h2>
+            <p>خورشید را به سمت غروب بکشید. ببینید چگونه روز جدید آغاز می‌شود!</p>
+            
+            <div class="slider-container">
+                <div class="phase-text" id="phaseText">غروب → آغاز شب</div>
+                <input type="range" id="sunSlider" min="0" max="100" value="0">
+                <div class="time-display" id="timeDisplay">12:00</div>
+                <div>شب = قلمرو استراحت و آرامش</div>
+            </div>
+
+            <div class="buttons-container">
+                <button class="btn btn-secondary" onclick="prevStep()">قبلی</button>
+                <button class="btn btn-primary" onclick="nextStep()">ادامه</button>
+            </div>
+        </div>
+
+        <!-- Step 4: Benefit -->
+        <div class="onboarding-step" data-step="4">
+            <h2>✅ فایده عملی</h2>
+            <p>با ساعت غروب‌کوک، زمان کاملاً شفاف می‌شود:</p>
+            
+            <div class="cards-container">
+                <div class="card">
+                    <h3>3:00</h3>
+                    <p>شب<br>یعنی ۳ ساعت از شب گذشته<br>فرصت استراحت باقی است</p>
+                </div>
+                <div class="card">
+                    <h3>9:00</h3>
+                    <p>روز<br>یعنی ۳ ساعت تا غروب باقی است<br>برنامه کارت را اولویت‌بندی کن!</p>
+                </div>
+            </div>
+
+            <p style="font-size: 1rem; margin-top: 20px;">این سیستم به تنظیم خواب و افزایش بهره‌وری کمک می‌کند.</p>
+            
+            <div class="buttons-container">
+                <button class="btn btn-secondary" onclick="prevStep()">قبلی</button>
+                <button class="btn btn-primary" onclick="nextStep()">شروع تجربه</button>
+            </div>
+        </div>
+
+        <!-- Step 5: Call to Action -->
+        <div class="onboarding-step" data-step="5">
+            <h2>🚀 ساعت شخصی شما آماده است!</h2>
+            <p>موقعیت خود را انتخاب کنید تا ساعت بر اساس غروب دقیق شهرتان تنظیم شود.</p>
+            
+            <div id="locationSelectContainer">
+                <select id="countrySelect">
+                    <option value="">انتخاب کشور...</option>
+                    <option value="IR">ایران</option>
+                    <option value="US">ایالات متحده</option>
+                    <option value="DE">آلمان</option>
+                    <!-- سایر کشورها -->
+                </select>
+                <select id="citySelect" disabled>
+                    <option value="">ابتدا کشور را انتخاب کنید</option>
+                </select>
+            </div>
+
+            <p style="font-size: 0.95rem; color: #94a3b8;">پس از شروع، می‌توانید این راهنما را از منو دوباره ببینید.</p>
+            
+            <div class="buttons-container">
+                <button class="btn btn-secondary" onclick="prevStep()">قبلی</button>
+                <button class="btn btn-primary" onclick="startSunClock()">شروع ساعت غروب‌کوک</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State Management
+        let currentStep = 1;
+        const totalSteps = 5;
+    
+        // Step Navigation
+        function updateProgressDots() {
+            console.log('Updating dots for step:', currentStep); // Debug
+            document.querySelectorAll('.progress-dot').forEach((dot, index) => {
+                if (index + 1 <= currentStep) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+    
+        function showStep(step) {
+            console.log('Showing step:', step); // Debug
+            // Hide all steps
+            document.querySelectorAll('.onboarding-step').forEach(el => {
+                el.classList.remove('active');
+                el.style.display = 'none';
+            });
+            
+            // Show current step
+            const stepEl = document.querySelector(`.onboarding-step[data-step="${step}"]`);
+            if (stepEl) {
+                stepEl.classList.add('active');
+                stepEl.style.display = 'block';
+            }
+            
+            currentStep = step;
+            updateProgressDots();
+            
+            // Debug: Log what we found
+            console.log('Step element found:', stepEl);
+            console.log('Step content:', stepEl ? stepEl.innerHTML : 'NOT FOUND');
+        }
+    
+        function nextStep() {
+            console.log('Next clicked, current:', currentStep); // Debug
+            if (currentStep < totalSteps) {
+                showStep(currentStep + 1);
+            }
+        }
+    
+        function prevStep() {
+            console.log('Prev clicked, current:', currentStep);
+            if (currentStep > 1) {
+                showStep(currentStep - 1);
+            }
+        }
+    
+        // Interactive Slider - FIXED EVENT LISTENER
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, initializing...');
+            
+            const sunSlider = document.getElementById('sunSlider');
+            const timeDisplay = document.getElementById('timeDisplay');
+            const phaseText = document.getElementById('phaseText');
+            
+            if (sunSlider && timeDisplay && phaseText) {
+                sunSlider.addEventListener('input', function() {
+                    const value = parseInt(this.value);
+                    const container = this.closest('.slider-container');
+                    
+                    // Remove all classes
+                    container.classList.remove('sunset', 'sunrise', 'day', 'night');
+                    
+                    // Add class based on position with smooth transitions
+                    if (value > 87.5) {
+                        container.classList.add('sunset');     // Red dominant
+                    } else if (value > 62.5) {
+                        container.classList.add('sunrise');    // Orange transition
+                    } else if (value > 37.5) {
+                        container.classList.add('day');        // Blue dominant
+                    } else {
+                        container.classList.add('night');      // Deep blue
+                    }
+                    
+                    // Optional: Dynamic border color
+                    const borderColors = [
+                        'rgba(30, 64, 175, 0.5)',   // Night
+                        'rgba(59, 130, 246, 0.5)',  // Day
+                        'rgba(245, 158, 11, 0.5)',  // Sunrise
+                        'rgba(239, 68, 68, 0.5)'    // Sunset
+                    ];
+                    const borderIndex = Math.min(3, Math.floor(value / 25));
+                    container.style.borderColor = borderColors[borderIndex];
+                    
+                    
+                    // Update time
+                    let hour = Math.floor((value / 100) * 24);
+                    let minute = Math.floor((value % 25) * 2.4);
+                    
+                    // Format display
+                    let displayHour = hour % 12 || 12;
+                    timeDisplay.textContent = 
+                        `${displayHour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+                    
+                    // Update phase text
+                    if (value < 20) phaseText.textContent = 'غروب → آغاز شب';
+                    else if (value < 40) phaseText.textContent = 'نیمه‌شب → عمق شب';
+                    else if (value < 60) phaseText.textContent = 'پیش از طلوع';
+                    else if (value < 80) phaseText.textContent = 'طلوع → آغاز روز';
+                    else phaseText.textContent = 'میانه روز → فعالیت';
+                });
+            } else {
+                console.log('Slider elements not found yet');
+            }
+    
+            // City Data
+            const cityData = {
+                IR: ['تهران', 'مشهد', 'اصفهان', 'شیراز'],
+                US: ['نیویورک', 'لس‌آنجلس', 'شیکاگو'],
+                DE: ['برلین', 'مونیخ', 'هامبورگ']
+            };
+    
+            // Location Selectors
+            const countrySelect = document.getElementById('countrySelect');
+            const citySelect = document.getElementById('citySelect');
+    
+            if (countrySelect && citySelect) {
+                countrySelect.addEventListener('change', function() {
+                    const country = this.value;
+                    citySelect.innerHTML = '<option value="">انتخاب شهر...</option>';
+                    citySelect.disabled = !country;
+                    
+                    if (country && cityData[country]) {
+                        cityData[country].forEach(city => {
+                            const option = document.createElement('option');
+                            option.value = city;
+                            option.textContent = city;
+                            citySelect.appendChild(option);
+                        });
+                    }
+                });
+            }
+    
+            // Initialize first step
+            showStep(1);
+            console.log('Initialization complete');
+        });
+    
+        // Finish Onboarding
+        function finishOnboarding() {
+            localStorage.setItem('sunclock_onboarding_seen', 'true');
+            alert('راهنما بسته شد. صفحه اصلی ساعت را خواهید دید.');
+            document.getElementById('onboardingContainer').style.display = 'none';
+        }
+    
+        function startSunClock() {
+            const countrySelect = document.getElementById('countrySelect');
+            const citySelect = document.getElementById('citySelect');
+            
+            if (!countrySelect || !citySelect) {
+                alert('عناصر انتخاب شهر یافت نشدند.');
+                return;
+            }
+            
+            const country = countrySelect.value;
+            const city = citySelect.value;
+            
+            if (!country || !city) {
+                alert('لطفاً کشور و شهر خود را انتخاب کنید.');
+                return;
+            }
+            
+            localStorage.setItem('sunclock_onboarding_seen', 'true');
+            localStorage.setItem('sunclock_location', JSON.stringify({ country, city }));
+            
+            alert(`ساعت غروب‌کوک برای ${city} تنظیم شد! در حال انتقال...`);
+            // For testing, just reload
+            window.location.href = 'index.html?city=' + encodeURIComponent(city);
+        }
+    
+        // Make functions globally available
+        window.nextStep = nextStep;
+        window.prevStep = prevStep;
+        window.finishOnboarding = finishOnboarding;
+        window.startSunClock = startSunClock;
+        window.showStep = showStep;
+    
+        console.log('Script loaded, functions available:', {
+            nextStep: typeof nextStep,
+            prevStep: typeof prevStep,
+            showStep: typeof showStep
+        });
+    </script>
+</body>
+</html>
