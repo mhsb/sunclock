@@ -238,10 +238,119 @@ html[dir="rtl"] .cityLabel {
     }
 }
 
+/* Tutorial button in main UI */
+.tutorial-corner-btn {
+    position: fixed;
+    top: 20px;
+    right: 80px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(34, 197, 94, 0.9);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+    z-index: 1000;
+}
+
+.tutorial-corner-btn:hover {
+    background: rgba(34, 197, 94, 1);
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(34, 197, 94, 0.5);
+}
+
+.tutorial-corner-btn:active {
+    transform: scale(0.95);
+}
+
+.tutorial-corner-btn svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* RTL adjustments for tutorial button */
+html[dir="rtl"] .tutorial-corner-btn {
+    right: auto;
+    left: 80px;
+}
+
+/* Mobile adjustments for tutorial button */
+@media (max-width: 768px) {
+    .tutorial-corner-btn {
+        top: 15px;
+        right: 75px;
+        width: 45px;
+        height: 45px;
+    }
+
+    html[dir="rtl"] .tutorial-corner-btn {
+        right: auto;
+        left: 75px;
+    }
+}
+
+/* Help icon for revisiting onboarding (fallback) */
+.help-icon {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(102, 126, 234, 0.9);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    z-index: 1000;
+}
+
+.help-icon:hover {
+    background: rgba(102, 126, 234, 1);
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+.help-icon:active {
+    transform: scale(0.95);
+}
+
+/* RTL adjustments for help icon */
+html[dir="rtl"] .help-icon {
+    right: auto;
+    left: 20px;
+}
+
+/* Mobile adjustments for help icon */
+@media (max-width: 768px) {
+    .help-icon {
+        top: 15px;
+        right: 15px;
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+    }
+
+    html[dir="rtl"] .help-icon {
+        right: auto;
+        left: 15px;
+    }
+}
+
 /* Clock display with smaller seconds */
 .clock-display {
     font-size: 4em;
-    font-weight: 300;
+    font-weight: 700;
     text-align: center;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     line-height: 1.2;
@@ -265,7 +374,7 @@ html[dir="rtl"] .cityLabel {
 /* Extra small phones */
 @media (max-width: 480px) {
     .clock-display {
-        font-size: 2.8em !important;
+        font-size: 3.2em !important;
     }
 
     h1 {
@@ -275,4 +384,13 @@ html[dir="rtl"] .cityLabel {
     .container {
         padding: 20px 15px !important;
     }
+}
+
+/* Hide the old tutorial/onboarding button if it exists */
+.tutorial-button,
+.tutorial-corner-btn,
+.onboarding-trigger,
+button[onclick*="onboarding"],
+button[onclick*="tutorial"] {
+    display: none !important;
 }

@@ -68,6 +68,14 @@
             <div class="prayer-status" id="prayerStatus"></div>
         </div>
 
+        <button class="tutorial-corner-btn" id="tutorialToggleBtn" title="Tutorial">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                <path d="M2 17l10 5 10-5"/>
+                <path d="M2 12l10 5 10-5"/>
+            </svg>
+        </button>
+
         <button class="about-corner-btn" id="aboutToggleBtnCorner" title="About">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10"></circle>
@@ -151,6 +159,9 @@
         </div>
     </div>
 
+    <!-- Onboarding Overlay -->
+    <iframe id="onboardingFrame" src="onboarding.html" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; border: none; z-index: 10000; background: transparent;"></iframe>
+
     <!-- JavaScript Files -->
     <!-- Update script order in index.html -->
     <script src="js/utils.js"></script>
@@ -160,6 +171,7 @@
     <script src="js/location.js"></script>
     <script src="js/ui.js"></script>
     <script src="js/prayertimes.js"></script>
+    <script src="js/onboarding-integration.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>

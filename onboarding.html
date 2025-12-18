@@ -1,571 +1,686 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تور معرفی ساعت غروب‌کوک</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome to Sunset Clock</title>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css');
 
-        body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
-            color: #f8fafc;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
 
-        #onboardingContainer {
-            width: 100%;
-            max-width: 500px;
-            background: rgba(30, 41, 59, 0.85);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
+body {
+font-family: 'Vazir', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+color: #ffffff;
+overflow: hidden;
+direction: ltr;
+}
 
-        .onboarding-step {
-            display: none;
-            padding: 40px 30px;
-            text-align: center;
-            animation: fadeIn 0.5s ease;
-            height: 100%; /* تغییر اصلی: پر کردن ارتفاع */
-            overflow-y: auto; /* تغییر اصلی: اسکرول اگر نیاز بود */
-        }
-        .onboarding-step.active { 
-            display: block; 
-        }
+body.rtl {
+direction: rtl;
+}
 
-        @keyframes fadeIn { 
-            from { opacity: 0; } 
-            to { opacity: 1; } 
-        }
+.overlay {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.95);
+display: flex;
+align-items: center;
+justify-content: center;
+z-index: 10000;
+}
 
-        .progress-container {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            padding: 20px 0 0;
-        }
-        .progress-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            transition: background 0.3s;
-        }
-        .progress-dot.active { background: #3b82f6; }
+.modal {
+background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 100%);
+border-radius: 20px;
+box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+width: 90%;
+max-width: 650px;
+height: 600px;
+padding: 40px;
+position: relative;
+overflow: hidden;
+border: 1px solid rgba(255, 255, 255, 0.1);
+display: flex;
+flex-direction: column;
+}
 
-        h2 {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            color: #e2e8f0;
-            line-height: 1.4;
-        }
-        p {
-            font-size: 1.1rem;
-            color: #cbd5e1;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
+.close-btn {
+position: absolute;
+top: 15px;
+right: 15px;
+width: 34px;
+height: 34px;
+min-width: 34px;
+min-height: 34px;
+max-width: 34px;
+max-height: 34px;
+background: rgba(255, 255, 255, 0.1);
+border: none;
+border-radius: 50%;
+color: #ffffff;
+font-size: 22px;
+line-height: 34px;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 0;
+transition: all 0.3s ease;
+z-index: 100;
+}
 
-        /* Interactive Slider */
-        .slider-container {
-            position: relative;
-            background: rgba(15, 23, 42, 0.7);
-            padding: 30px;
-            border-radius: 16px;
-            margin: 30px 0;
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            overflow: hidden;
-        }
+body.rtl .close-btn {
+right: auto;
+left: 15px;
+}
 
-        /* Color overlay that will animate */
-        .slider-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, 
-                rgba(239, 68, 68, 0.1) 0%,
-                rgba(245, 158, 11, 0.1) 25%,
-                rgba(59, 130, 246, 0.1) 50%,
-                rgba(30, 64, 175, 0.1) 75%
-            );
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-            z-index: 1;
-        }
+.close-btn:hover {
+background: rgba(255, 255, 255, 0.2);
+transform: scale(1.1);
+}
 
-        /* Color states with different overlay positions */
-        .slider-container.sunset::before {
-            background: linear-gradient(90deg, 
-                rgba(239, 68, 68, 0.2) 0%,
-                rgba(245, 158, 11, 0.1) 50%,
-                transparent 100%
-            );
-            opacity: 1;
-        }
+.step-indicators {
+display: flex;
+justify-content: center;
+gap: 10px;
+margin-bottom: 30px;
+flex-shrink: 0;
+}
 
-        .slider-container.sunrise::before {
-            background: linear-gradient(90deg, 
-                transparent 0%,
-                rgba(245, 158, 11, 0.1) 50%,
-                rgba(59, 130, 246, 0.1) 100%
-            );
-            opacity: 1;
-        }
+.indicator {
+width: 10px;
+height: 10px;
+border-radius: 50%;
+background: rgba(255, 255, 255, 0.3);
+transition: all 0.3s ease;
+}
 
-        .slider-container.day::before {
-            background: linear-gradient(90deg, 
-                transparent 0%,
-                rgba(59, 130, 246, 0.2) 50%,
-                rgba(30, 64, 175, 0.1) 100%
-            );
-            opacity: 1;
-        }
+.indicator.active {
+background: #ffa500;
+width: 30px;
+border-radius: 5px;
+}
 
-        .slider-container.night::before {
-            background: linear-gradient(90deg, 
-                transparent 0%,
-                rgba(30, 64, 175, 0.2) 50%,
-                rgba(15, 23, 42, 0.3) 100%
-            );
-            opacity: 1;
-        }
+.steps-container {
+flex: 1;
+position: relative;
+overflow: hidden;
+min-height: 0;
+}
 
-        /* Ensure content stays above the overlay */
-        .slider-container > * {
-            position: relative;
-            z-index: 2;
-        }
-        #sunSlider {
-            width: 100%;
-            height: 60px;
-            -webkit-appearance: none;
-            appearance: none;
-            background: transparent;
-            cursor: pointer;
-        }
-        #sunSlider::-webkit-slider-runnable-track {
-            height: 8px;
-            background: linear-gradient(to right, #ef4444, #f59e0b, #3b82f6, #1e40af);
-            border-radius: 10px;
-        }
-        #sunSlider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: #fbbf24;
-            border: 3px solid #ffffff;
-            box-shadow: 0 0 15px #fbbf24;
-            margin-top: -14px;
-            cursor: grab;
-        }
+.step {
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+display: flex;
+flex-direction: column;
+opacity: 0;
+visibility: hidden;
+transition: opacity 0.3s ease;
+}
 
-        .time-display {
-            font-size: 3.5rem;
-            font-weight: bold;
-            margin: 20px 0;
-            color: #fbbf24;
-            text-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
-        }
+.step.active {
+opacity: 1;
+visibility: visible;
+}
 
-        .phase-text {
-            font-size: 1.2rem;
-            color: #94a3b8;
-            min-height: 1.8em;
-        }
+.step-content {
+flex: 1;
+overflow-y: auto;
+padding-right: 10px;
+padding-bottom: 20px;
+min-height: 0;
+}
 
-        /* Cards */
-        .cards-container {
-            display: flex;
-            gap: 15px;
-            margin: 25px 0;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .card {
-            flex: 1;
-            min-width: 140px;
-            background: rgba(30, 41, 59, 0.9);
-            padding: 20px 15px;
-            border-radius: 12px;
-            border: 1px solid rgba(59, 130, 246, 0.3);
-        }
-        .card h3 { font-size: 2.5rem; color: #60a5fa; margin-bottom: 5px; }
-        .card p { font-size: 0.95rem; margin-bottom: 0; color: #cbd5e1; }
+body.rtl .step-content {
+padding-right: 0;
+padding-left: 10px;
+}
 
-        /* Location Selector */
-        #locationSelectContainer {
-            margin: 25px 0;
-        }
-        select {
-            width: 100%;
-            padding: 15px;
-            font-size: 1rem;
-            border-radius: 10px;
-            border: 1px solid #475569;
-            background: rgba(15, 23, 42, 0.8);
-            color: white;
-            margin-bottom: 10px;
-            cursor: pointer;
-        }
-        select:focus { outline: none; border-color: #3b82f6; }
+.step-content::-webkit-scrollbar {
+width: 6px;
+}
 
-        /* Buttons */
-        .buttons-container {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        .btn {
-            flex: 1;
-            padding: 16px 24px;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.05rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-align: center;
-        }
-        .btn-primary {
-            background: linear-gradient(90deg, #3b82f6, #1d4ed8);
-            color: white;
-        }
-        .btn-primary:hover {
-            background: linear-gradient(90deg, #1d4ed8, #1e40af);
-            transform: translateY(-2px);
-        }
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: #cbd5e1;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.15);
-        }
-        .btn-skip {
-            background: transparent;
-            color: #94a3b8;
-            border: 1px dashed #64748b;
-        }
+.step-content::-webkit-scrollbar-track {
+background: rgba(255, 255, 255, 0.1);
+border-radius: 3px;
+}
 
-        /* Hide Class */
-        .hidden { display: none !important; }
-    </style>
+.step-content::-webkit-scrollbar-thumb {
+background: rgba(255, 165, 0, 0.5);
+border-radius: 3px;
+}
+
+h2 {
+font-size: 28px;
+margin-bottom: 20px;
+color: #ffa500;
+text-align: center;
+}
+
+p {
+font-size: 16px;
+line-height: 1.8;
+margin-bottom: 15px;
+color: rgba(255, 255, 255, 0.9);
+}
+
+.emoji {
+font-size: 48px;
+text-align: center;
+margin: 20px 0;
+}
+
+.location-setup {
+margin-top: 20px;
+}
+
+.form-group {
+margin-bottom: 20px;
+}
+
+label {
+display: block;
+margin-bottom: 8px;
+font-size: 14px;
+color: rgba(255, 255, 255, 0.8);
+}
+
+select {
+width: 100%;
+padding: 12px;
+background: rgba(255, 255, 255, 0.1);
+border: 1px solid rgba(255, 255, 255, 0.2);
+border-radius: 8px;
+color: #ffffff;
+font-size: 16px;
+font-family: 'Vazir', sans-serif;
+cursor: pointer;
+transition: all 0.3s ease;
+}
+
+select:focus {
+outline: none;
+border-color: #ffa500;
+background: rgba(255, 255, 255, 0.15);
+}
+
+select option {
+background: #1a1a2e;
+color: #ffffff;
+}
+
+.buttons {
+display: flex;
+justify-content: space-between;
+gap: 15px;
+padding-top: 20px;
+border-top: 1px solid rgba(255, 255, 255, 0.1);
+flex-shrink: 0;
+}
+
+button {
+flex: 1;
+padding: 14px 24px;
+font-size: 16px;
+font-family: 'Vazir', sans-serif;
+border: none;
+border-radius: 10px;
+cursor: pointer;
+transition: all 0.3s ease;
+font-weight: 500;
+}
+
+.btn-back,
+.btn-skip {
+background: rgba(255, 255, 255, 0.1);
+color: #ffffff;
+}
+
+.btn-back:hover,
+.btn-skip:hover {
+background: rgba(255, 255, 255, 0.2);
+}
+
+.btn-next,
+.btn-finish {
+background: linear-gradient(135deg, #ffa500 0%, #ff8c00 100%);
+color: #ffffff;
+}
+
+.btn-next:hover,
+.btn-finish:hover {
+transform: translateY(-2px);
+box-shadow: 0 5px 20px rgba(255, 165, 0, 0.4);
+}
+
+.btn-next:disabled,
+.btn-finish:disabled {
+opacity: 0.5;
+cursor: not-allowed;
+transform: none;
+}
+
+@media (max-width: 600px) {
+.modal {
+width: 95%;
+height: 90vh;
+padding: 30px 20px;
+}
+
+h2 {
+font-size: 24px;
+}
+
+p {
+font-size: 14px;
+}
+}
+</style>
 </head>
 <body>
-    <div id="onboardingContainer">
-        <!-- Progress Dots -->
-        <div class="progress-container">
-            <div class="progress-dot active" data-step="1"></div>
-            <div class="progress-dot" data-step="2"></div>
-            <div class="progress-dot" data-step="3"></div>
-            <div class="progress-dot" data-step="4"></div>
-            <div class="progress-dot" data-step="5"></div>
-        </div>
+<div class="overlay">
+<div class="modal">
+<button class="close-btn" onclick="skipOnboarding()">×</button>
 
-        <!-- Step 1: Hook -->
-        <div class="onboarding-step active" data-step="1">
-            <h2>🌅 اگر روز جدید، نه از نیمه‌شب، که از غروب آغاز شود چه؟</h2>
-            <p>یک روش نوآورانه برای هماهنگی با ریتم طبیعی بدن و طبیعت</p>
-            <div class="buttons-container">
-                <button class="btn btn-skip" onclick="finishOnboarding()">رد کردن</button>
-                <button class="btn btn-primary" onclick="nextStep()">کشف این ایده</button>
-            </div>
-        </div>
+<div class="step-indicators">
+<div class="indicator active" data-step="1"></div>
+<div class="indicator" data-step="2"></div>
+<div class="indicator" data-step="3"></div>
+<div class="indicator" data-step="4"></div>
+</div>
 
-        <!-- Step 2: Problem -->
-        <div class="onboarding-step" data-step="2">
-            <h2>⏰ مشکل ساعت فعلی</h2>
-            <p>در سیستم نیمه‌شب‌محور، "ساعت ۲ بامداد" می‌تواند هم ابتدای روز باشد و هم انتهای شب. این باعث سردرگمی در برنامه‌ریزی خواب و کار می‌شود.</p>
-            <div class="cards-container">
-                <div class="card">
-                    <h3>2:00</h3>
-                    <p>این زمان خواب است یا بیداری؟</p>
-                </div>
-            </div>
-            <div class="buttons-container">
-                <button class="btn btn-secondary" onclick="prevStep()">قبلی</button>
-                <button class="btn btn-primary" onclick="nextStep()">حل چیست؟</button>
-            </div>
-        </div>
+<div class="steps-container">
+<!-- Step 1: Welcome -->
+<div class="step active" data-step="1">
+<div class="step-content">
+<div class="emoji">🌅</div>
+<h2 data-i18n="welcome">Welcome to Sunset Clock</h2>
+<p data-i18n="welcomeText">A revolutionary way to experience time, aligned with nature's rhythm.</p>
+<p data-i18n="welcomeText2">This clock resets at sunset every day, creating a natural 24-hour cycle that connects you to the sun's journey.</p>
+</div>
+</div>
 
-        <!-- Step 3: Interactive Solution -->
-        <div class="onboarding-step" data-step="3">
-            <h2>✨ راه‌حل: غروب‌کوک</h2>
-            <p>خورشید را به سمت غروب بکشید. ببینید چگونه روز جدید آغاز می‌شود!</p>
-            
-            <div class="slider-container">
-                <div class="phase-text" id="phaseText">غروب → آغاز شب</div>
-                <input type="range" id="sunSlider" min="0" max="100" value="0">
-                <div class="time-display" id="timeDisplay">12:00</div>
-                <div>شب = قلمرو استراحت و آرامش</div>
-            </div>
+<!-- Step 2: The Problem -->
+<div class="step" data-step="2">
+<div class="step-content">
+<div class="emoji">🌙</div>
+<h2 data-i18n="problemTitle">The Midnight Problem</h2>
+<p data-i18n="problemText1">The current system starts the day at midnight - an arbitrary point that splits the night in two.</p>
+<p data-i18n="problemText2">This creates confusion: Is 2 AM part of yesterday or today? When does rest time truly begin?</p>
+<p data-i18n="problemText3">Our bodies know better - the day ends when the sun sets.</p>
+</div>
+</div>
 
-            <div class="buttons-container">
-                <button class="btn btn-secondary" onclick="prevStep()">قبلی</button>
-                <button class="btn btn-primary" onclick="nextStep()">ادامه</button>
-            </div>
-        </div>
+<!-- Step 3: The Solution -->
+<div class="step" data-step="3">
+<div class="step-content">
+<div class="emoji">☀️</div>
+<h2 data-i18n="solutionTitle">The Natural Solution</h2>
+<p data-i18n="solutionText1"><strong>Sunset Clock (Ghorub-Cook)</strong> resets at sunset, creating clear boundaries:</p>
+<p data-i18n="solutionText2">• <strong>Night begins at sunset (12:00)</strong> - time for rest, reflection, and worship</p>
+<p data-i18n="solutionText3">• <strong>Day begins at sunrise</strong> - time for activity and work</p>
+<p data-i18n="solutionText4">This helps you easily calculate remaining work time and ensure adequate rest.</p>
+</div>
+</div>
 
-        <!-- Step 4: Benefit -->
-        <div class="onboarding-step" data-step="4">
-            <h2>✅ فایده عملی</h2>
-            <p>با ساعت غروب‌کوک، زمان کاملاً شفاف می‌شود:</p>
-            
-            <div class="cards-container">
-                <div class="card">
-                    <h3>3:00</h3>
-                    <p>شب<br>یعنی ۳ ساعت از شب گذشته<br>فرصت استراحت باقی است</p>
-                </div>
-                <div class="card">
-                    <h3>9:00</h3>
-                    <p>روز<br>یعنی ۳ ساعت تا غروب باقی است<br>برنامه کارت را اولویت‌بندی کن!</p>
-                </div>
-            </div>
+<!-- Step 4: Location Setup -->
+<div class="step" data-step="4">
+<div class="step-content">
+<div class="emoji">📍</div>
+<h2 data-i18n="locationTitle">Set Your Location</h2>
+<p data-i18n="locationText">Choose your location to get accurate sunset times:</p>
 
-            <p style="font-size: 1rem; margin-top: 20px;">این سیستم به تنظیم خواب و افزایش بهره‌وری کمک می‌کند.</p>
-            
-            <div class="buttons-container">
-                <button class="btn btn-secondary" onclick="prevStep()">قبلی</button>
-                <button class="btn btn-primary" onclick="nextStep()">شروع تجربه</button>
-            </div>
-        </div>
+<div class="location-setup">
+<div class="form-group">
+<label for="country" data-i18n="countryLabel">Country:</label>
+<select id="country">
+<option value="" data-i18n="selectCountry">Select a country...</option>
+</select>
+</div>
 
-        <!-- Step 5: Call to Action -->
-        <div class="onboarding-step" data-step="5">
-            <h2>🚀 ساعت شخصی شما آماده است!</h2>
-            <p>موقعیت خود را انتخاب کنید تا ساعت بر اساس غروب دقیق شهرتان تنظیم شود.</p>
-            
-            <div id="locationSelectContainer">
-                <select id="countrySelect">
-                    <option value="">انتخاب کشور...</option>
-                    <option value="IR">ایران</option>
-                    <option value="US">ایالات متحده</option>
-                    <option value="DE">آلمان</option>
-                    <!-- سایر کشورها -->
-                </select>
-                <select id="citySelect" disabled>
-                    <option value="">ابتدا کشور را انتخاب کنید</option>
-                </select>
-            </div>
+<div class="form-group">
+<label for="city" data-i18n="cityLabel">City:</label>
+<select id="city" disabled>
+<option value="" data-i18n="selectCity">Select a city...</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+</div>
 
-            <p style="font-size: 0.95rem; color: #94a3b8;">پس از شروع، می‌توانید این راهنما را از منو دوباره ببینید.</p>
-            
-            <div class="buttons-container">
-                <button class="btn btn-secondary" onclick="prevStep()">قبلی</button>
-                <button class="btn btn-primary" onclick="startSunClock()">شروع ساعت غروب‌کوک</button>
-            </div>
-        </div>
-    </div>
+<div class="buttons">
+<button class="btn-skip" id="leftBtn" onclick="skipOnboarding()" data-i18n="skip">Skip</button>
+<button class="btn-next" id="rightBtn" onclick="nextStep()" data-i18n="next">Next</button>
+</div>
+</div>
+</div>
 
-    <script>
-        // State Management
-        let currentStep = 1;
-        const totalSteps = 5;
-    
-        // Step Navigation
-        function updateProgressDots() {
-            console.log('Updating dots for step:', currentStep); // Debug
-            document.querySelectorAll('.progress-dot').forEach((dot, index) => {
-                if (index + 1 <= currentStep) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
-            });
-        }
-    
-        function showStep(step) {
-            console.log('Showing step:', step); // Debug
-            // Hide all steps
-            document.querySelectorAll('.onboarding-step').forEach(el => {
-                el.classList.remove('active');
-                el.style.display = 'none';
-            });
-            
-            // Show current step
-            const stepEl = document.querySelector(`.onboarding-step[data-step="${step}"]`);
-            if (stepEl) {
-                stepEl.classList.add('active');
-                stepEl.style.display = 'block';
-            }
-            
-            currentStep = step;
-            updateProgressDots();
-            
-            // Debug: Log what we found
-            console.log('Step element found:', stepEl);
-            console.log('Step content:', stepEl ? stepEl.innerHTML : 'NOT FOUND');
-        }
-    
-        function nextStep() {
-            console.log('Next clicked, current:', currentStep); // Debug
-            if (currentStep < totalSteps) {
-                showStep(currentStep + 1);
-            }
-        }
-    
-        function prevStep() {
-            console.log('Prev clicked, current:', currentStep);
-            if (currentStep > 1) {
-                showStep(currentStep - 1);
-            }
-        }
-    
-        // Interactive Slider - FIXED EVENT LISTENER
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM loaded, initializing...');
-            
-            const sunSlider = document.getElementById('sunSlider');
-            const timeDisplay = document.getElementById('timeDisplay');
-            const phaseText = document.getElementById('phaseText');
-            
-            if (sunSlider && timeDisplay && phaseText) {
-                sunSlider.addEventListener('input', function() {
-                    const value = parseInt(this.value);
-                    const container = this.closest('.slider-container');
-                    
-                    // Remove all classes
-                    container.classList.remove('sunset', 'sunrise', 'day', 'night');
-                    
-                    // Add class based on position with smooth transitions
-                    if (value > 87.5) {
-                        container.classList.add('sunset');     // Red dominant
-                    } else if (value > 62.5) {
-                        container.classList.add('sunrise');    // Orange transition
-                    } else if (value > 37.5) {
-                        container.classList.add('day');        // Blue dominant
-                    } else {
-                        container.classList.add('night');      // Deep blue
-                    }
-                    
-                    // Optional: Dynamic border color
-                    const borderColors = [
-                        'rgba(30, 64, 175, 0.5)',   // Night
-                        'rgba(59, 130, 246, 0.5)',  // Day
-                        'rgba(245, 158, 11, 0.5)',  // Sunrise
-                        'rgba(239, 68, 68, 0.5)'    // Sunset
-                    ];
-                    const borderIndex = Math.min(3, Math.floor(value / 25));
-                    container.style.borderColor = borderColors[borderIndex];
-                    
-                    
-                    // Update time
-                    let hour = Math.floor((value / 100) * 24);
-                    let minute = Math.floor((value % 25) * 2.4);
-                    
-                    // Format display
-                    let displayHour = hour % 12 || 12;
-                    timeDisplay.textContent = 
-                        `${displayHour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-                    
-                    // Update phase text
-                    if (value < 20) phaseText.textContent = 'غروب → آغاز شب';
-                    else if (value < 40) phaseText.textContent = 'نیمه‌شب → عمق شب';
-                    else if (value < 60) phaseText.textContent = 'پیش از طلوع';
-                    else if (value < 80) phaseText.textContent = 'طلوع → آغاز روز';
-                    else phaseText.textContent = 'میانه روز → فعالیت';
-                });
-            } else {
-                console.log('Slider elements not found yet');
-            }
-    
-            // City Data
-            const cityData = {
-                IR: ['تهران', 'مشهد', 'اصفهان', 'شیراز'],
-                US: ['نیویورک', 'لس‌آنجلس', 'شیکاگو'],
-                DE: ['برلین', 'مونیخ', 'هامبورگ']
-            };
-    
-            // Location Selectors
-            const countrySelect = document.getElementById('countrySelect');
-            const citySelect = document.getElementById('citySelect');
-    
-            if (countrySelect && citySelect) {
-                countrySelect.addEventListener('change', function() {
-                    const country = this.value;
-                    citySelect.innerHTML = '<option value="">انتخاب شهر...</option>';
-                    citySelect.disabled = !country;
-                    
-                    if (country && cityData[country]) {
-                        cityData[country].forEach(city => {
-                            const option = document.createElement('option');
-                            option.value = city;
-                            option.textContent = city;
-                            citySelect.appendChild(option);
-                        });
-                    }
-                });
-            }
-    
-            // Initialize first step
-            showStep(1);
-            console.log('Initialization complete');
-        });
-    
-        // Finish Onboarding
-        function finishOnboarding() {
-            localStorage.setItem('sunclock_onboarding_seen', 'true');
-            alert('راهنما بسته شد. صفحه اصلی ساعت را خواهید دید.');
-            document.getElementById('onboardingContainer').style.display = 'none';
-        }
-    
-        function startSunClock() {
-            const countrySelect = document.getElementById('countrySelect');
-            const citySelect = document.getElementById('citySelect');
-            
-            if (!countrySelect || !citySelect) {
-                alert('عناصر انتخاب شهر یافت نشدند.');
-                return;
-            }
-            
-            const country = countrySelect.value;
-            const city = citySelect.value;
-            
-            if (!country || !city) {
-                alert('لطفاً کشور و شهر خود را انتخاب کنید.');
-                return;
-            }
-            
-            localStorage.setItem('sunclock_onboarding_seen', 'true');
-            localStorage.setItem('sunclock_location', JSON.stringify({ country, city }));
-            
-            alert(`ساعت غروب‌کوک برای ${city} تنظیم شد! در حال انتقال...`);
-            // For testing, just reload
-            window.location.href = 'index.html?city=' + encodeURIComponent(city);
-        }
-    
-        // Make functions globally available
-        window.nextStep = nextStep;
-        window.prevStep = prevStep;
-        window.finishOnboarding = finishOnboarding;
-        window.startSunClock = startSunClock;
-        window.showStep = showStep;
-    
-        console.log('Script loaded, functions available:', {
-            nextStep: typeof nextStep,
-            prevStep: typeof prevStep,
-            showStep: typeof showStep
-        });
-    </script>
+<script>
+let currentStep = 1;
+let currentLang = 'en';
+let countriesData = [];
+let citiesData = {};
+let selectedCountry = '';
+let selectedCity = '';
+
+const translations = {
+en: {
+welcome: 'Welcome to Sunset Clock',
+welcomeText: 'A revolutionary way to experience time, aligned with nature\'s rhythm.',
+welcomeText2: 'This clock resets at sunset every day, creating a natural 24-hour cycle that connects you to the sun\'s journey.',
+problemTitle: 'The Midnight Problem',
+problemText1: 'The current system starts the day at midnight - an arbitrary point that splits the night in two.',
+problemText2: 'This creates confusion: Is 2 AM part of yesterday or today? When does rest time truly begin?',
+problemText3: 'Our bodies know better - the day ends when the sun sets.',
+solutionTitle: 'The Natural Solution',
+solutionText1: 'Sunset Clock (Ghorub-Cook) resets at sunset, creating clear boundaries:',
+solutionText2: '• Night begins at sunset (12:00) - time for rest, reflection, and worship',
+solutionText3: '• Day begins at sunrise - time for activity and work',
+solutionText4: 'This helps you easily calculate remaining work time and ensure adequate rest.',
+locationTitle: 'Set Your Location',
+locationText: 'Choose your location to get accurate sunset times:',
+countryLabel: 'Country:',
+cityLabel: 'City:',
+selectCountry: 'Select a country...',
+selectCity: 'Select a city...',
+loadingCities: 'Loading cities...',
+skip: 'Skip',
+back: 'Back',
+next: 'Next',
+finish: 'Start Using'
+},
+fa: {
+welcome: 'خوش آمدید به ساعت غروب',
+welcomeText: 'روشی انقلابی برای تجربه زمان، هماهنگ با ریتم طبیعت.',
+welcomeText2: 'این ساعت هر روز در غروب بازنشانی می‌شود و یک چرخه طبیعی ۲۴ ساعته ایجاد می‌کند که شما را به سفر خورشید متصل می‌کند.',
+problemTitle: 'مشکل نیمه‌شب',
+problemText1: 'سیستم فعلی روز را از نیمه‌شب شروع می‌کند - نقطه‌ای دلبخواهی که شب را به دو نیمه تقسیم می‌کند.',
+problemText2: 'این امر باعث سردرگمی می‌شود: آیا ساعت ۲ بامداد بخشی از دیروز است یا امروز؟ زمان استراحت واقعاً کی شروع می‌شود؟',
+problemText3: 'بدن ما بهتر می‌داند - روز با غروب خورشید پایان می‌یابد.',
+solutionTitle: 'راه‌حل طبیعی',
+solutionText1: 'ساعت غروب (غروب‌کوک) در غروب بازنشانی می‌شود و مرزهای روشنی ایجاد می‌کند:',
+solutionText2: '• شب از غروب (۱۲:۰۰) شروع می‌شود - زمان استراحت، تفکر و عبادت',
+solutionText3: '• روز از طلوع شروع می‌شود - زمان فعالیت و کار',
+solutionText4: 'این به شما کمک می‌کند به‌راحتی زمان باقی‌مانده کار را محاسبه کنید و از استراحت کافی اطمینان حاصل کنید.',
+locationTitle: 'موقعیت خود را تنظیم کنید',
+locationText: 'برای دریافت زمان دقیق غروب، موقعیت خود را انتخاب کنید:',
+countryLabel: 'کشور:',
+cityLabel: 'شهر:',
+selectCountry: 'انتخاب کشور...',
+selectCity: 'انتخاب شهر...',
+loadingCities: 'در حال بارگذاری شهرها...',
+skip: 'رد کردن',
+back: 'قبلی',
+next: 'بعدی',
+finish: 'شروع استفاده'
+}
+};
+
+function initOnboarding() {
+console.log('Onboarding initialized');
+
+window.addEventListener('message', handleParentMessage);
+window.parent.postMessage({ type: 'onboardingReady' }, '*');
+
+setupEventListeners();
+updateButtons();
+}
+
+function setupEventListeners() {
+const countrySelect = document.getElementById('country');
+const citySelect = document.getElementById('city');
+
+countrySelect.addEventListener('change', loadCities);
+
+citySelect.addEventListener('change', function() {
+selectedCity = this.value;
+updateButtons();
+});
+}
+
+function handleParentMessage(event) {
+const data = event.data;
+console.log('Onboarding received:', data.type);
+
+if (data.type === 'init') {
+currentLang = data.lang || 'en';
+updateLanguage();
+} else if (data.type === 'locationData') {
+countriesData = data.countries || [];
+console.log('Received', countriesData.length, 'countries');
+populateCountries();
+}
+}
+
+function updateLanguage() {
+document.body.className = currentLang === 'fa' ? 'rtl' : '';
+const elements = document.querySelectorAll('[data-i18n]');
+elements.forEach(el => {
+const key = el.getAttribute('data-i18n');
+if (translations[currentLang] && translations[currentLang][key]) {
+if (el.tagName === 'OPTION') {
+el.textContent = translations[currentLang][key];
+} else {
+el.textContent = translations[currentLang][key];
+}
+}
+});
+}
+
+function populateCountries() {
+const countrySelect = document.getElementById('country');
+const placeholder = countrySelect.querySelector('option[value=""]');
+countrySelect.innerHTML = '';
+
+if (placeholder) {
+countrySelect.appendChild(placeholder);
+}
+
+const sorted = [...countriesData].sort((a, b) => {
+return a.display.localeCompare(b.display, currentLang === 'fa' ? 'fa' : 'en');
+});
+
+sorted.forEach(country => {
+const option = document.createElement('option');
+option.value = country.value;
+option.textContent = country.display;
+countrySelect.appendChild(option);
+});
+
+console.log('Populated', sorted.length, 'countries');
+}
+
+async function loadCities() {
+const countrySelect = document.getElementById('country');
+const citySelect = document.getElementById('city');
+
+selectedCountry = countrySelect.value;
+selectedCity = '';
+
+if (!selectedCountry) {
+citySelect.disabled = true;
+citySelect.innerHTML = `<option value="">${translations[currentLang].selectCity}</option>`;
+updateButtons();
+return;
+}
+
+citySelect.disabled = true;
+citySelect.innerHTML = `<option value="">${translations[currentLang].loadingCities}</option>`;
+updateButtons();
+
+try {
+const response = await fetch(
+`https://secure.geonames.org/searchJSON?country=${getCountryCode(selectedCountry)}&featureClass=P&maxRows=100&username=sunclock&orderby=population`
+);
+const data = await response.json();
+
+if (data.geonames && data.geonames.length > 0) {
+citySelect.innerHTML = `<option value="">${translations[currentLang].selectCity}</option>`;
+
+const cities = data.geonames
+.sort((a, b) => b.population - a.population)
+.slice(0, 50);
+
+cities.forEach(city => {
+const option = document.createElement('option');
+option.value = city.name;
+option.textContent = city.name;
+citySelect.appendChild(option);
+});
+
+citySelect.disabled = false;
+console.log('Loaded', cities.length, 'cities');
+} else {
+citySelect.innerHTML = `<option value="">No cities found</option>`;
+}
+} catch (error) {
+console.error('Error loading cities:', error);
+citySelect.innerHTML = `<option value="">Error loading cities</option>`;
+}
+}
+
+function getCountryCode(countryName) {
+const codes = {
+'Iran': 'IR', 'United States': 'US', 'Germany': 'DE', 'France': 'FR',
+'United Kingdom': 'GB', 'Canada': 'CA', 'Australia': 'AU', 'Italy': 'IT',
+'Spain': 'ES', 'Netherlands': 'NL', 'Afghanistan': 'AF', 'Albania': 'AL',
+'Algeria': 'DZ', 'Argentina': 'AR', 'Austria': 'AT', 'Bangladesh': 'BD',
+'Belgium': 'BE', 'Brazil': 'BR', 'Bulgaria': 'BG', 'Chile': 'CL',
+'China': 'CN', 'Colombia': 'CO', 'Croatia': 'HR', 'Czech Republic': 'CZ',
+'Denmark': 'DK', 'Egypt': 'EG', 'Finland': 'FI', 'Greece': 'GR',
+'Hungary': 'HU', 'India': 'IN', 'Indonesia': 'ID', 'Iraq': 'IQ',
+'Ireland': 'IE', 'Japan': 'JP', 'Jordan': 'JO', 'Kenya': 'KE',
+'Kuwait': 'KW', 'Lebanon': 'LB', 'Malaysia': 'MY', 'Mexico': 'MX',
+'Morocco': 'MA', 'New Zealand': 'NZ', 'Nigeria': 'NG', 'Norway': 'NO',
+'Pakistan': 'PK', 'Peru': 'PE', 'Philippines': 'PH', 'Poland': 'PL',
+'Portugal': 'PT', 'Qatar': 'QA', 'Romania': 'RO', 'Russia': 'RU',
+'Saudi Arabia': 'SA', 'Singapore': 'SG', 'South Africa': 'ZA',
+'South Korea': 'KR', 'Sweden': 'SE', 'Switzerland': 'CH', 'Syria': 'SY',
+'Thailand': 'TH', 'Turkey': 'TR', 'Ukraine': 'UA',
+'United Arab Emirates': 'AE', 'Venezuela': 'VE', 'Vietnam': 'VN', 'Yemen': 'YE'
+};
+return codes[countryName] || '';
+}
+
+function previousStep() {
+if (currentStep <= 1) return;
+
+const currentStepEl = document.querySelector(`.step[data-step="${currentStep}"]`);
+const currentIndicator = document.querySelector(`.indicator[data-step="${currentStep}"]`);
+
+currentStepEl.classList.remove('active');
+currentIndicator.classList.remove('active');
+
+currentStep--;
+
+const prevStepEl = document.querySelector(`.step[data-step="${currentStep}"]`);
+const prevIndicator = document.querySelector(`.indicator[data-step="${currentStep}"]`);
+
+prevStepEl.classList.add('active');
+prevIndicator.classList.add('active');
+
+updateButtons();
+}
+
+function nextStep() {
+if (currentStep >= 4) return;
+
+const currentStepEl = document.querySelector(`.step[data-step="${currentStep}"]`);
+const currentIndicator = document.querySelector(`.indicator[data-step="${currentStep}"]`);
+
+currentStepEl.classList.remove('active');
+currentIndicator.classList.remove('active');
+
+currentStep++;
+
+const nextStepEl = document.querySelector(`.step[data-step="${currentStep}"]`);
+const nextIndicator = document.querySelector(`.indicator[data-step="${currentStep}"]`);
+
+nextStepEl.classList.add('active');
+nextIndicator.classList.add('active');
+
+updateButtons();
+}
+
+function updateButtons() {
+const leftBtn = document.getElementById('leftBtn');
+const rightBtn = document.getElementById('rightBtn');
+
+// Left button: Skip on step 1, Back on other steps
+if (currentStep === 1) {
+leftBtn.className = 'btn-skip';
+leftBtn.onclick = skipOnboarding;
+leftBtn.setAttribute('data-i18n', 'skip');
+leftBtn.textContent = translations[currentLang].skip;
+} else {
+leftBtn.className = 'btn-back';
+leftBtn.onclick = previousStep;
+leftBtn.setAttribute('data-i18n', 'back');
+leftBtn.textContent = translations[currentLang].back;
+}
+
+// Right button: Next on steps 1-3, Start Using on step 4
+if (currentStep === 4) {
+rightBtn.className = 'btn-finish';
+rightBtn.onclick = finishOnboarding;
+rightBtn.setAttribute('data-i18n', 'finish');
+rightBtn.textContent = translations[currentLang].finish;
+rightBtn.disabled = !selectedCity;
+} else {
+rightBtn.className = 'btn-next';
+rightBtn.onclick = nextStep;
+rightBtn.setAttribute('data-i18n', 'next');
+rightBtn.textContent = translations[currentLang].next;
+rightBtn.disabled = false;
+}
+}
+
+function skipOnboarding() {
+window.parent.postMessage({ type: 'skipOnboarding' }, '*');
+}
+
+function finishOnboarding() {
+if (!selectedCountry || !selectedCity) {
+return;
+}
+
+console.log('Finishing onboarding with:', selectedCountry, selectedCity);
+
+window.parent.postMessage({
+type: 'onboardingComplete',
+locationData: {
+country: selectedCountry,
+city: selectedCity
+}
+}, '*');
+}
+
+document.addEventListener('keydown', (e) => {
+if (e.key === 'Escape') {
+skipOnboarding();
+} else if (e.key === 'Enter') {
+if (currentStep < 4) {
+nextStep();
+} else if (selectedCountry && selectedCity) {
+finishOnboarding();
+}
+}
+});
+
+initOnboarding();
+</script>
 </body>
 </html>
