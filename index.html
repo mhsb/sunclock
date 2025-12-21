@@ -52,8 +52,113 @@
     <link rel="stylesheet" href="css/components/layout.css">
     <link rel="stylesheet" href="css/components/controls.css">
     <link rel="stylesheet" href="css/components/panels.css">
+
+    <style>
+        /* Splash Screen Styles */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #020617; /* Very dark night start */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            transition: opacity 0.8s ease-out, visibility 0.8s;
+            overflow: hidden;
+        }
+
+        #splash-screen.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .splash-sky {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #020617, #0f172a);
+            animation: sky-cycle 6s infinite ease-in-out;
+        }
+
+        .sun-path {
+            position: relative;
+            width: 400px; /* Wider path for bigger sun */
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sun {
+            position: absolute;
+            width: 85px; /* Bigger sun */
+            height: 85px;
+            background: radial-gradient(circle, #fff7ed 0%, #fbbf24 40%, #f59e0b 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 60px #f59e0b, 0 0 120px rgba(251, 191, 36, 0.4);
+            /* Movement from Right (East) to Left (West) */
+            offset-path: path('M 400 250 A 200 150 0 0 0 0 250');
+            animation: sun-cycle 6s infinite ease-in-out;
+        }
+
+        .horizon {
+            position: absolute;
+            bottom: 35%;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.3), transparent);
+            z-index: 1;
+        }
+
+        .splash-text {
+            margin-top: 60px;
+            font-family: 'Vazirmatn', 'Segoe UI', sans-serif;
+            color: white;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            z-index: 2;
+            animation: pulse 2s infinite;
+            text-align: center;
+        }
+
+        @keyframes sun-cycle {
+            0% { offset-distance: 0%; opacity: 0; filter: brightness(0.5); }
+            15% { opacity: 1; filter: brightness(1); }
+            50% { offset-distance: 50%; transform: scale(1.1); filter: brightness(1.2); }
+            85% { opacity: 1; filter: brightness(1); }
+            100% { offset-distance: 100%; opacity: 0; filter: brightness(0.5); }
+        }
+
+        @keyframes sky-cycle {
+            0%, 100% { background: #020617; } /* Deep Night */
+            20% { background: #1e1b4b; }      /* Early Dawn/Twilight */
+            50% { background: #334155; }      /* Midday Haze */
+            80% { background: #1e1b4b; }      /* Dusk */
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scale(0.98); }
+            50% { opacity: 0.7; transform: scale(1); }
+        }
+    </style>
 </head>
 <body>
+    <!-- Splash Screen -->
+    <div id="splash-screen">
+        <div class="splash-sky"></div>
+        <div class="sun-path">
+            <div class="sun"></div>
+        </div>
+        <div class="horizon"></div>
+        <div class="splash-text" id="splashText">در حال بارگذاری</div>
+    </div>
+
     <button class="language-toggle" id="languageToggle">
         <span class="language-toggle-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -96,8 +201,6 @@
                 </svg>
             </button>
 
-            
-
             <h2 id="aboutTitle">About Sunset Clock</h2>
             
             <div class="about-tabs">
@@ -118,19 +221,19 @@
                 <div class="about-text" id="aboutTextDetails"></div>
             </div>
 
-        <div class="about-contact">
-            <h3 id="developerContactTitle">Developer Contact</h3>
-            <div class="contact-buttons">
-                <button class="contact-button contact-button-half" onclick="window.open('https://eitaa.com/shei_bah', '_blank')">
-                    <span class="contact-icon">📱</span>
-                    <span id="contactWebsiteText">Website</span>
-                </button>
-                <button class="contact-button contact-button-half" onclick="window.open('https://eitaa.com/mohosheba', '_blank')">
-                    <span class="contact-icon">💬</span>
-                    <span id="contactLinkText">Contact</span>
-                </button>
+            <div class="about-contact">
+                <h3 id="developerContactTitle">Developer Contact</h3>
+                <div class="contact-buttons">
+                    <button class="contact-button contact-button-half" onclick="window.open('https://eitaa.com/shei_bah', '_blank')">
+                        <span class="contact-icon">📱</span>
+                        <span id="contactWebsiteText">Website</span>
+                    </button>
+                    <button class="contact-button contact-button-half" onclick="window.open('https://eitaa.com/mohosheba', '_blank')">
+                        <span class="contact-icon">💬</span>
+                        <span id="contactLinkText">Contact</span>
+                    </button>
+                </div>
             </div>
-        </div>
         </div>
     </div>
 
@@ -165,12 +268,11 @@
     </div>
 
     <!-- Onboarding Overlay -->
-    <iframe id="onboardingFrame" src="onboarding.html" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; border: none; z-index: 10000; background: transparent;"></iframe>
+    <iframe id="onboardingFrame" src="onboarding.html" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; border: none; z-index: 10000; background: transparent;">    </iframe>
 
     <!-- JavaScript Files -->
-    <!-- Update script order in index.html -->
     <script src="js/utils.js"></script>
-    <script src="js/state.js"></script>  <!-- NEW: Add this FIRST after utils -->
+    <script src="js/state.js"></script>
     <script src="js/translations.js"></script>
     <script src="js/clock.js"></script>
     <script src="js/location.js"></script>
@@ -178,5 +280,26 @@
     <script src="js/prayertimes.js"></script>
     <script src="js/onboarding-integration.js"></script>
     <script src="js/app.js"></script>
+
+    <script>
+        // Splash Screen Logic integrated with app readiness
+        window.addEventListener('load', () => {
+            const splash = document.getElementById('splash-screen');
+            const splashText = document.getElementById('splashText');
+            
+            // Localized loading text fallback if translation engine hasn't kicked in
+            if (localStorage.getItem('language') === 'fa') {
+                splashText.innerText = 'در حال بارگذاری...';
+                splashText.style.fontFamily = 'Vazirmatn, sans-serif';
+            }
+
+            // Minimum 3 seconds to allow a full beautiful cycle to be observed
+            setTimeout(() => {
+                splash.classList.add('fade-out');
+                // Remove from DOM after transition to free up resources
+                setTimeout(() => splash.remove(), 800);
+            }, 3000);
+        });
+    </script>
 </body>
 </html>
