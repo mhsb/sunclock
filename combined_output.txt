@@ -1,0 +1,4403 @@
+
+================================================================================
+File: css\components\controls.css
+================================================================================
+
+.language-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 16px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 25px;
+    color: white;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.language-toggle-icon {
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.language-toggle-text {
+    font-weight: 600;
+    transition: opacity 0.3s ease;
+}
+
+.language-toggle:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.language-toggle:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.language-toggle:hover .language-toggle-icon {
+    transform: rotate(15deg) scale(1.1);
+}
+
+.location-toggle-btn {
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-left: 15px;
+    white-space: nowrap;
+    width: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.location-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.location-toggle-btn:active {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.location-toggle-btn svg {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.location-toggle-btn:hover svg {
+    transform: rotate(90deg) scale(1.1);
+}
+
+#aboutToggleBtn:hover svg {
+    transform: scale(1.15);
+}
+
+body[dir="rtl"] .location-toggle-btn {
+    margin-left: 0;
+    margin-right: 15px;
+}
+
+.location-toggle-btn,
+.language-toggle {
+    width: auto;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 15px;
+}
+
+button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+
+================================================================================
+File: css\components\layout.css
+================================================================================
+
+.container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 60px 40px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    max-width: 700px;
+    width: 100%;
+    text-align: center;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.container:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 12px 48px 0 rgba(31, 38, 135, 0.5);
+    transform: translateY(-4px);
+}
+
+.about-corner-btn {
+    position: absolute;
+    top: 2px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+}
+
+.about-corner-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: scale(1.1);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.about-corner-btn:active {
+    transform: scale(1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.about-corner-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+body[dir="rtl"] .about-corner-btn {
+    right: auto;
+    left: 20px;
+}
+
+h1 {
+    margin-bottom: 40px;
+    font-size: 3em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.clock-display {
+    font-size: 7em;
+    font-weight: bold;
+    margin: 40px 0;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.05em;
+    line-height: 1.2;
+}
+
+.clock-label {
+    font-size: 1.5em;
+    opacity: 0.9;
+    margin-bottom: 30px;
+}
+
+
+================================================================================
+File: css\components\panels.css
+================================================================================
+
+/* Location Bar */
+.location-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    z-index: 999;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.location-bar:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.location-bar-content {
+    flex: 1;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.location-text {
+    font-size: 1em;
+    opacity: 0.9;
+}
+
+
+
+/* Location Panel */
+.location-panel {
+    position: fixed;
+    bottom: -100%;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(20px);
+    padding: 30px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    z-index: 1001;
+    transition: bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.location-panel.show {
+    bottom: 0;
+}
+
+.location-panel-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.location-form {
+    padding: 20px 0;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+body[dir="rtl"] .form-group {
+    text-align: right;
+}
+
+body[dir="rtl"] .form-group label {
+    text-align: right;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.95em;
+    opacity: 0.9;
+}
+
+.dropdown-container {
+    position: relative;
+    width: 100%;
+}
+
+.dropdown-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.dropdown-input:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.dropdown-input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.dropdown-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    margin-top: 5px;
+    z-index: 1002;
+    display: none;
+}
+
+.dropdown-list.show {
+    display: block;
+}
+
+.dropdown-item {
+    padding: 12px;
+    cursor: pointer;
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+
+.loading-cities {
+    padding: 12px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9em;
+}
+
+.error {
+    color: #ff6b6b;
+    margin-top: 10px;
+    font-size: 0.9em;
+}
+
+.status {
+    margin-top: 10px;
+    font-size: 0.85em;
+    opacity: 0.7;
+}
+
+.offline-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #ff6b6b;
+    font-weight: 500;
+}
+
+.offline-indicator svg {
+    width: 14px;
+    height: 14px;
+}
+
+.loading {
+    opacity: 0.6;
+}
+
+/* About Panel */
+.about-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(20px);
+    z-index: 1003;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.about-panel.show {
+    display: flex;
+}
+
+.about-content {
+    max-width: 90vw;
+    max-height: 90vh;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    /* Make the content wrapper itself non-scrolling; individual tab contents will scroll */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.about-content:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
+    transform: translateY(-4px);
+}
+
+.about-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+body[dir="rtl"] .about-close-btn {
+    right: auto;
+    left: 20px;
+}
+
+.about-close-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: rotate(90deg) scale(1.1);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.about-close-btn:active {
+    transform: rotate(90deg) scale(1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.about-close-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.about-content h2 {
+    margin-bottom: 30px;
+    font-size: 2em;
+    text-align: center;
+}
+
+.about-text {
+    line-height: 1.8;
+    font-size: 1.1em;
+}
+
+.about-text p {
+    margin-bottom: 20px;
+}
+
+/* About Tabs */
+.about-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    flex-wrap: nowrap; /* force single row */
+    overflow-x: auto; /* allow horizontal scroll on very small screens */
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+}
+
+/* Hide scrollbar but keep scrolling functionality */
+.about-tabs {
+    -ms-overflow-style: none; /* IE/Edge */
+    scrollbar-width: none; /* Firefox */
+}
+.about-tabs::-webkit-scrollbar {
+    height: 0; /* hide horizontal scrollbar on WebKit */
+}
+
+/* Keep tabs visible when the about content scrolls */
+.about-tabs {
+    position: sticky;
+    top: 0;
+    background: transparent;
+    z-index: 6;
+    padding-top: 6px;
+}
+
+.about-tab-btn {
+    padding: 12px 20px;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+    position: relative;
+    bottom: -2px;
+    flex: 0 0 auto; /* prevent shrinking/wrapping */
+    width: auto; /* override global button width */
+    display: inline-flex;
+    align-items: center;
+    margin-top: 0;
+} 
+
+.about-tab-btn:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.about-tab-btn.active {
+    color: rgba(255, 255, 255, 1);
+    border-bottom-color: #667eea;
+}
+
+.about-tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+    flex: 1 1 auto; /* allow tab content to grow and scroll */
+    overflow-y: auto;
+    padding-right: 8px; /* avoid 1px overflow when scrollbar appears */
+}
+
+.about-tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Prayer Panel */
+.prayer-panel {
+    margin-top: 10px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 14px;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+    backdrop-filter: blur(6px);
+    max-width: 680px;
+    width: 100%;
+}
+
+.prayer-title {
+    margin: 0 0 10px 0;
+    font-size: 1.05em;
+    text-align: center;
+    opacity: 0.95;
+}
+
+.prayer-grid {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: center;
+    padding: 4px 0;
+    width: 100%;
+}
+
+.prayer-item {
+    background: rgba(0,0,0,0.25);
+    padding: 6px 8px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    white-space: nowrap;
+    font-size: 0.8em;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+    border: 1px solid rgba(255,255,255,0.04);
+    font-variant-numeric: tabular-nums;
+    flex: 1;
+    min-width: 0;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.prayer-item:hover {
+    transform: translateY(-2px);
+    background: rgba(255,255,255,0.08);
+}
+
+.prayer-name {
+    font-size: 1.5em;
+    opacity: 0.9;
+    font-weight: 500;
+}
+
+.prayer-time {
+    font-size: 1.5em;
+    font-weight: 700;
+    margin-top: 4px;
+}
+
+.prayer-item.current {
+    background: linear-gradient(90deg, rgba(102,126,234,0.25), rgba(118,75,162,0.20));
+    border-color: rgba(102,126,234,0.5);
+    box-shadow: 0 4px 12px rgba(102,126,234,0.15);
+}
+
+.prayer-item.next {
+    outline: 1px dashed rgba(255,255,255,0.2);
+}
+
+.prayer-status {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 0.95em;
+    opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+    .prayer-grid { gap: 4px; }
+    .prayer-item { padding: 5px 6px; font-size: 0.75em; }
+}
+
+@media (max-width: 480px) {
+    .prayer-grid { gap: 3px; }
+    .prayer-item { padding: 4px 5px; font-size: 0.7em; }
+}
+
+
+================================================================================
+File: css\main.css
+================================================================================
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 20px;
+    padding-bottom: 100px;
+    transition: background 2s ease;
+}
+
+/* Apply Vazir font to all elements when in RTL mode */
+html[dir="rtl"],
+html[dir="rtl"] body,
+html[dir="rtl"] * {
+    font-family: 'Vazir', Vazir, 'Vazirmatn', 'Tahoma', 'Arial', sans-serif !important;
+}
+
+/* Specific overrides for elements that might have inline styles */
+html[dir="rtl"] h1,
+html[dir="rtl"] h2,
+html[dir="rtl"] h3,
+html[dir="rtl"] p,
+html[dir="rtl"] div,
+html[dir="rtl"] span,
+html[dir="rtl"] button,
+html[dir="rtl"] input,
+html[dir="rtl"] label,
+html[dir="rtl"] .clock-display,
+html[dir="rtl"] .clock-label,
+html[dir="rtl"] .location-text,
+html[dir="rtl"] .status,
+html[dir="rtl"] .language-toggle,
+html[dir="rtl"] .location-toggle-btn,
+html[dir="rtl"] .countryLabel,
+html[dir="rtl"] .cityLabel,
+html[dir="rtl"] .about-text,
+html[dir="rtl"] .about-title {
+    font-family: 'Vazir', Vazir, 'Vazirmatn', 'Tahoma', 'Arial', sans-serif !important;
+}
+
+html[dir="rtl"] .countryLabel,
+html[dir="rtl"] .cityLabel {
+    text-align: right !important;
+}
+
+.main-hidden {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .clock-display {
+        font-size: 3.5em;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    .container {
+        padding: 40px 20px;
+    }
+}
+/* Mobile-specific fixes */
+@media (max-width: 768px) {
+    .clock-display {
+        font-size: 3.5em !important;
+        margin: 20px 0;
+    }
+
+    h1 {
+        font-size: 2em !important;
+        margin-bottom: 20px;
+    }
+
+    .container {
+        padding: 30px 20px !important;
+        margin: 10px;
+    }
+
+    .clock-label {
+        font-size: 1.2em !important;
+        margin-bottom: 20px;
+    }
+
+    .language-toggle {
+        top: 10px;
+        right: 10px;
+        padding: 8px 12px;
+        font-size: 0.8em;
+    }
+
+    .location-bar {
+        padding: 10px 15px;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .location-bar-content {
+        order: 2;
+        width: 100%;
+    }
+
+    .location-toggle-btn {
+        margin: 0 !important;
+        padding: 8px 12px;
+        font-size: 0.8em;
+    }
+
+    .about-content {
+        padding: 20px !important;
+        margin: 10px;
+    }
+
+    .about-close-btn {
+        top: 10px;
+        right: 10px;
+        width: 36px;
+        height: 36px;
+    }
+
+    body[dir="rtl"] .about-close-btn {
+        right: auto;
+        left: 10px;
+    }
+
+    .location-panel {
+        padding: 20px 15px;
+    }
+
+    .dropdown-input {
+        padding: 10px;
+        font-size: 0.9em;
+    }
+
+    button {
+        padding: 12px;
+        font-size: 0.9em;
+    }
+
+    .about-contact {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.922);
+    }
+
+    .about-contact h3 {
+        color: white;
+        margin-bottom: 20px;
+        font-size: 1.2em;
+        font-weight: 500;
+    }
+
+    .contact-buttons {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .contact-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 12px 20px;
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
+        border: 1px solid rgba(102, 126, 234, 0.4);
+        border-radius: 12px;
+        color: white;
+        font-size: 0.95em;
+        font-weight: 500;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        outline: none;
+    }
+
+    .contact-button:hover {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.25), rgba(118, 75, 162, 0.25));
+        border-color: rgba(102, 126, 234, 0.6);
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.2);
+    }
+
+    .contact-button:active {
+        transform: translateY(0) scale(0.98);
+        transition-duration: 0.1s;
+    }
+
+    .contact-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transition: left 0.5s;
+    }
+
+    .contact-button:hover::before {
+        left: 100%;
+    }
+
+    .contact-icon {
+        font-size: 1.2em;
+        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+    }
+
+    .contact-button span:not(.contact-icon) {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Mobile responsive adjustments for contact buttons */
+    @media (max-width: 480px) {
+        .contact-buttons {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .contact-button {
+            padding: 14px 20px;
+            font-size: 1em;
+        }
+    }
+}
+
+/* Tutorial button in main UI */
+.tutorial-corner-btn {
+    position: fixed;
+    top: 20px;
+    right: 80px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(34, 197, 94, 0.9);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+    z-index: 1000;
+}
+
+.tutorial-corner-btn:hover {
+    background: rgba(34, 197, 94, 1);
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(34, 197, 94, 0.5);
+}
+
+.tutorial-corner-btn:active {
+    transform: scale(0.95);
+}
+
+.tutorial-corner-btn svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* RTL adjustments for tutorial button */
+html[dir="rtl"] .tutorial-corner-btn {
+    right: auto;
+    left: 80px;
+}
+
+/* Mobile adjustments for tutorial button */
+@media (max-width: 768px) {
+    .tutorial-corner-btn {
+        top: 15px;
+        right: 75px;
+        width: 45px;
+        height: 45px;
+    }
+
+    html[dir="rtl"] .tutorial-corner-btn {
+        right: auto;
+        left: 75px;
+    }
+}
+
+/* Help icon for revisiting onboarding (fallback) */
+.help-icon {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(102, 126, 234, 0.9);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    z-index: 1000;
+}
+
+.help-icon:hover {
+    background: rgba(102, 126, 234, 1);
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+.help-icon:active {
+    transform: scale(0.95);
+}
+
+/* RTL adjustments for help icon */
+html[dir="rtl"] .help-icon {
+    right: auto;
+    left: 20px;
+}
+
+/* Mobile adjustments for help icon */
+@media (max-width: 768px) {
+    .help-icon {
+        top: 15px;
+        right: 15px;
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+    }
+
+    html[dir="rtl"] .help-icon {
+        right: auto;
+        left: 15px;
+    }
+}
+
+/* Clock display with smaller seconds */
+.clock-display {
+    font-size: 4em;
+    font-weight: 700;
+    text-align: center;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    line-height: 1.2;
+}
+
+/* Make seconds smaller than minutes and hours */
+.clock-display span.seconds {
+    font-size: 0.4em;
+    opacity: 0.8;
+    
+}
+
+/* Persian time period styling */
+.clock-display span.period {
+    font-size: 0.4em;
+    margin-left: 0.3em;
+    opacity: 0.9;
+    vertical-align: super;
+}
+
+/* Extra small phones */
+@media (max-width: 480px) {
+    .clock-display {
+        font-size: 3.2em !important;
+    }
+
+    h1 {
+        font-size: 1.7em !important;
+    }
+
+    .container {
+        padding: 20px 15px !important;
+    }
+}
+
+/* Hide the old tutorial/onboarding button if it exists */
+.tutorial-button,
+.tutorial-corner-btn,
+.onboarding-trigger,
+button[onclick*="onboarding"],
+button[onclick*="tutorial"] {
+    display: none !important;
+}
+
+
+
+================================================================================
+File: icons\icon-192.png
+================================================================================
+
+[Binary file - skipped]
+
+
+================================================================================
+File: icons\icon-512.png
+================================================================================
+
+[Binary file - skipped]
+
+
+================================================================================
+File: icons\icon.svg
+================================================================================
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <defs>
+        <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+    <circle cx="50" cy="50" r="45" fill="url(#grad)"/>
+    <circle cx="50" cy="30" r="8" fill="white" opacity="0.9"/>
+    <path d="M 50 30 L 50 50 L 65 50" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
+</svg>
+
+
+================================================================================
+File: js\app.js
+================================================================================
+
+// Initialize
+window.addEventListener('DOMContentLoaded', () => {
+    // Register Service Worker for PWA
+    if ('serviceWorker' in navigator) {
+        const swVersion = 'v2.1';
+        const CACHE_NAME = `sunset-clock-${swVersion}`;
+        
+        const swCode = `
+            const CACHE_NAME = '${CACHE_NAME}';
+            const urlsToCache = [
+                './manifest.json',
+                './icons/icon.svg',
+                './icons/icon-192.png',
+                './icons/icon-512.png',
+                './css/main.css',
+                './css/components/layout.css',
+                './css/components/controls.css',
+                './css/components/panels.css',
+                './js/utils.js',
+                './js/state.js',
+                './js/translations.js',
+                './js/clock.js',
+                './js/location.js',
+                './js/prayertimes.js',
+                './js/ui.js',
+                './js/app.js'
+            ];
+
+            // Install event - cache all resources
+            self.addEventListener('install', (event) => {
+                console.log('[Service Worker] Installing...');
+                event.waitUntil(
+                    caches.open(CACHE_NAME)
+                        .then((cache) => {
+                            console.log('[Service Worker] Caching app shell');
+                            return cache.addAll(urlsToCache);
+                        })
+                        .then(() => {
+                            console.log('[Service Worker] Skip waiting');
+                            return self.skipWaiting();
+                        })
+                );
+            });
+
+            // Activate event - clean old caches
+            self.addEventListener('activate', (event) => {
+                console.log('[Service Worker] Activating...');
+                event.waitUntil(
+                    caches.keys().then((cacheNames) => {
+                        return Promise.all(
+                            cacheNames.map((cacheName) => {
+                                if (cacheName !== CACHE_NAME) {
+                                    console.log('[Service Worker] Deleting old cache:', cacheName);
+                                    return caches.delete(cacheName);
+                                }
+                            })
+                        );
+                    }).then(() => {
+                        console.log('[Service Worker] Claiming clients');
+                        return self.clients.claim();
+                    })
+                );
+            });
+
+            // Fetch event - Network First for HTML, Cache First for assets
+            self.addEventListener('fetch', (event) => {
+                // Skip non-GET requests and chrome-extension requests
+                if (event.request.method !== 'GET' ||
+                    event.request.url.startsWith('chrome-extension://')) {
+                    return;
+                }
+
+                const url = new URL(event.request.url);
+
+                // For HTML pages (navigation requests), use Network First strategy
+                if (event.request.mode === 'navigate' || event.request.headers.get('accept').includes('text/html')) {
+                    event.respondWith(
+                        fetch(event.request)
+                            .then((networkResponse) => {
+                                // If network succeeds, return it (don't cache HTML)
+                                console.log('[Service Worker] Serving HTML from network:', event.request.url);
+                                return networkResponse;
+                            })
+                            .catch(() => {
+                                // If network fails, try cache, then fallback to offline page
+                                return caches.match(event.request)
+                                    .then((cachedResponse) => {
+                                        if (cachedResponse) {
+                                            console.log('[Service Worker] Serving cached HTML:', event.request.url);
+                                            return cachedResponse;
+                                        }
+                                        // Return a simple offline page
+                                        return new Response(\`
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sunset Clock - Offline</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        h1 { margin-bottom: 20px; }
+        p { margin-bottom: 30px; }
+    </style>
+</head>
+<body>
+    <h1>🌅 Sunset Clock</h1>
+    <p>You are currently offline. Please check your internet connection and try again.</p>
+    <p>The app will work normally when you're back online.</p>
+</body>
+</html>
+                                        \`, {
+                                            headers: { 'Content-Type': 'text/html' }
+                                        });
+                                    });
+                            })
+                    );
+                } else {
+                    // For assets (CSS, JS, images, etc.), use Cache First strategy
+                    event.respondWith(
+                        caches.match(event.request)
+                            .then((cachedResponse) => {
+                                // Return cached response if found
+                                if (cachedResponse) {
+                                    console.log('[Service Worker] Serving asset from cache:', event.request.url);
+                                    return cachedResponse;
+                                }
+
+                                // Otherwise fetch from network
+                                return fetch(event.request)
+                                    .then((networkResponse) => {
+                                        // Don't cache non-successful responses
+                                        if (!networkResponse || networkResponse.status !== 200) {
+                                            return networkResponse;
+                                        }
+
+                                        // Clone and cache the successful response
+                                        const responseToCache = networkResponse.clone();
+                                        caches.open(CACHE_NAME)
+                                            .then((cache) => {
+                                                cache.put(event.request, responseToCache);
+                                                console.log('[Service Worker] Caching new asset:', event.request.url);
+                                            });
+
+                                        return networkResponse;
+                                    })
+                                    .catch(() => {
+                                        console.log('[Service Worker] Asset not available offline:', event.request.url);
+                                        // For assets, return a simple error response
+                                        return new Response('Offline', {
+                                            status: 408,
+                                            headers: { 'Content-Type': 'text/plain' }
+                                        });
+                                    });
+                            })
+                    );
+                }
+            });
+            // Listen for messages from the main thread
+            self.addEventListener('message', (event) => {
+                if (event.data && event.data.type === 'SKIP_WAITING') {
+                    self.skipWaiting();
+                }
+            });
+        `;
+
+        // Create and register service worker
+        const blob = new Blob([swCode], { type: 'application/javascript' });
+        const swUrl = URL.createObjectURL(blob);
+        
+        navigator.serviceWorker.register(swUrl, { scope: './' })
+            .then((registration) => {
+                console.log('Service Worker registered with scope:', registration.scope);
+
+                // Force immediate activation of waiting service worker
+                if (registration.waiting) {
+                    registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+                }
+
+                // Listen for new service worker becoming available
+                registration.addEventListener('updatefound', () => {
+                    const newWorker = registration.installing;
+                    if (newWorker) {
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                // New version available, skip waiting to activate immediately
+                                newWorker.postMessage({ type: 'SKIP_WAITING' });
+                            }
+                        });
+                    }
+                });
+
+                // Check for updates every 30 minutes
+                setInterval(() => {
+                    registration.update();
+                }, 30 * 60 * 1000);
+
+                // Force update on page load (after 2 seconds)
+                setTimeout(() => {
+                    registration.update();
+                }, 2000);
+            })
+            .catch((error) => {
+                console.error('Service Worker registration failed:', error);
+            });
+    }
+
+    // Initialize the app
+    initializeApp();
+});
+
+function initializeApp() {
+    // Set initial language
+    window.setLanguage(currentLang);
+
+    // Initialize countries
+    if (typeof window.initializeCountries === 'function') {
+        window.initializeCountries();
+    }
+
+    // Setup event listeners
+    if (typeof window.setupEventListeners === 'function') {
+        window.setupEventListeners();
+    }
+
+    // Ensure we have a fallback sunset time before starting anything
+    if (!sunsetTime) {
+        const now = new Date();
+        const fallbackSunset = new Date(now);
+        fallbackSunset.setHours(18, 0, 0, 0); // 6:00 PM
+        if (now.getHours() < 18) {
+            fallbackSunset.setDate(fallbackSunset.getDate() - 1);
+        }
+        sunsetTime = fallbackSunset;
+        console.log('App: Set fallback sunset time:', sunsetTime);
+    }
+
+    // Start clock immediately with fallback time
+    if (window.clockState) {
+        window.clockState.start();
+    }
+
+    // Load saved location and update with real data if available
+    if (typeof window.loadSavedLocation === 'function') {
+        window.loadSavedLocation().then(() => {
+            // Fetch prayer times after location is loaded
+            if (typeof window.fetchPrayerTimes === 'function') {
+                window.fetchPrayerTimes();
+                if (typeof window.startPrayerUpdater === 'function') window.startPrayerUpdater();
+            }
+        }).catch((err) => {
+            console.error('Error loading location:', err);
+            // Location failed, but clock is already running with fallback time
+        });
+    }
+
+    // Initial gradient update
+    if (typeof window.updateGradient === 'function') {
+        window.updateGradient();
+    }
+
+    // Initial offline status
+    if (typeof window.updateOfflineStatus === 'function') {
+        window.updateOfflineStatus(!navigator.onLine);
+    }
+
+    // Update gradient every minute
+    setInterval(() => {
+        if (typeof window.updateGradient === 'function') {
+            window.updateGradient();
+        }
+    }, 60000);
+
+    // Cleanup on page unload
+    window.addEventListener('beforeunload', () => {
+        if (window.clockState) {
+            window.clockState.cleanup();
+        }
+    });
+    // PWA Install Prompt
+    let deferredPrompt;
+    const installButton = document.createElement('button');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        console.log('PWA install prompt available');
+        
+        // Prevent Chrome 67 and earlier from automatically showing the prompt
+        e.preventDefault();
+        
+        // Stash the event so it can be triggered later
+        deferredPrompt = e;
+        
+        // Create and show install button (optional)
+        installButton.textContent = '📱 Install App';
+        installButton.style.cssText = `
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            padding: 12px 20px;
+            background: rgba(102, 126, 234, 0.9);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 14px;
+            cursor: pointer;
+            z-index: 10000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            display: none;
+        `;
+        
+        document.body.appendChild(installButton);
+        
+        // Show button after 5 seconds
+        setTimeout(() => {
+            installButton.style.display = 'block';
+        }, 5000);
+        
+        installButton.addEventListener('click', () => {
+            // Hide button
+            installButton.style.display = 'none';
+            
+            // Show the install prompt
+            deferredPrompt.prompt();
+            
+            // Wait for the user to respond to the prompt
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('User accepted the install prompt');
+                } else {
+                    console.log('User dismissed the install prompt');
+                }
+                deferredPrompt = null;
+            });
+        });
+    });
+
+    // Track app installation
+    window.addEventListener('appinstalled', (evt) => {
+        console.log('PWA was installed');
+        if (installButton.parentNode) {
+            installButton.parentNode.removeChild(installButton);
+        }
+    });
+}
+
+
+================================================================================
+File: js\clock.js
+================================================================================
+
+// Persian numeral conversion
+function toPersianNumerals(num) {
+    const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+    return String(num).replace(/\d/g, digit => persianDigits[parseInt(digit)]);
+}
+
+// Format time with Persian numbers and 12-hour format
+function formatTimeDisplay(hours24, minutes, seconds) {
+    const lang = window.currentLang || 'en';
+
+    // Convert to 12-hour format
+    const period = hours24 >= 12 ? (lang === 'fa' ? 'روز' : 'PM') : (lang === 'fa' ? 'شب' : 'AM');
+    const hours12 = hours24 % 12 || 12; // Convert 0 to 12 for 12 AM/PM
+
+    // Format with leading zeros
+    const hoursStr = String(hours12).padStart(2, '0');
+    const minutesStr = String(minutes).padStart(2, '0');
+    const secondsStr = String(seconds).padStart(2, '0');
+
+    if (lang === 'fa') {
+        // Persian mode: convert to Persian numerals
+        const persianHours = toPersianNumerals(hoursStr);
+        const persianMinutes = toPersianNumerals(minutesStr);
+        const persianSeconds = toPersianNumerals(secondsStr);
+
+        return `${persianHours}:${persianMinutes}<span class="seconds">:${persianSeconds}</span><span class="period">${period}</span>`;
+    } else {
+        // English mode: keep regular format
+        return `${hoursStr}:${minutesStr}:<span class="seconds">${secondsStr}</span> <span class="period">${period}</span>`;
+    }
+}
+
+function startClock() {
+    try {
+        if (clockInterval) {
+            clearInterval(clockInterval);
+        }
+
+        if (!window.sunsetTime) {
+            // No sunset time available, show a basic clock or try to estimate
+            const clockElement = document.getElementById('clock');
+            if (clockElement) {
+                clockElement.textContent = '--:--:--';
+            }
+            return;
+        }
+
+        function updateClock() {
+            try {
+                const now = new Date();
+
+                // Get the most recent sunset (either today or yesterday)
+                const todaySunset = new Date(window.sunsetTime);
+                todaySunset.setHours(todaySunset.getHours(), todaySunset.getMinutes(), todaySunset.getSeconds(), 0);
+                const yesterdaySunset = new Date(todaySunset);
+                yesterdaySunset.setDate(yesterdaySunset.getDate() - 1);
+
+                // Determine which sunset to reference based on current time
+                let referenceSunset;
+                if (now >= todaySunset) {
+                    // After today's sunset, show time since today's sunset
+                    referenceSunset = todaySunset;
+                } else if (now >= yesterdaySunset) {
+                    // Between yesterday's sunset and today's sunset, show time since yesterday's sunset
+                    referenceSunset = yesterdaySunset;
+                } else {
+                    // Before yesterday's sunset (very unlikely), use yesterday's sunset
+                    referenceSunset = yesterdaySunset;
+                }
+
+                const timeSinceSunset = now - referenceSunset;
+                const totalSeconds = Math.floor(Math.max(0, timeSinceSunset) / 1000);
+                const hours = Math.floor(totalSeconds / 3600) % 24; // Keep within 24 hours
+                const minutes = Math.floor((totalSeconds % 3600) / 60);
+                const seconds = totalSeconds % 60;
+
+                const display = formatTimeDisplay(hours, minutes, seconds);
+
+                const clockElement = document.getElementById('clock');
+                if (clockElement) {
+                    clockElement.innerHTML = display;
+                }
+
+                // Update gradient
+                if (typeof updateGradient === 'function') {
+                    updateGradient();
+                }
+            } catch (error) {
+                console.error('Error updating clock:', error);
+            }
+        }
+
+        updateClock();
+        clockInterval = setInterval(updateClock, 1000);
+    } catch (error) {
+        console.error('Error starting clock:', error);
+    }
+}
+
+async function fetchSunsetTime() {
+    try {
+        const t = window.translations && window.translations[currentLang] ? window.translations[currentLang] : {};
+        const statusDiv = document.getElementById('status');
+    
+    if (!locationData) {
+        if (statusDiv) statusDiv.textContent = t.locationNotSet || 'Location not set';
+        return;
+    }
+
+    if (statusDiv) {
+        statusDiv.textContent = t.fetchingSunset;
+        statusDiv.classList.add('loading');
+    }
+
+    const cached = localStorage.getItem('sunsetTimeCache');
+    
+    // OFFLINE GUARANTEE: If offline, immediately use cache or fallback
+    if (!navigator.onLine) {
+        if (statusDiv) {
+            statusDiv.textContent = t.offline;
+            statusDiv.classList.remove('loading');
+        }
+        
+        let sunsetFromCache = null;
+        
+        if (cached) {
+            try {
+                const cachedData = JSON.parse(cached);
+                sunsetFromCache = new Date(cachedData.sunsetTime);
+                if (statusDiv) statusDiv.textContent = t.usingCachedOutdated;
+            } catch (e) {
+                console.error('Cache parse error:', e);
+            }
+        }
+        
+        window.sunsetTime = sunsetFromCache || window.sunsetTime;
+
+        // Start clock regardless
+        if (window.clockState) {
+            window.clockState.start();
+        }
+
+        return;
+    }
+
+    // Online logic continues...
+    try {
+        const latitude = locationData.lat;
+        const longitude = locationData.lon;
+        const today = new Date();
+        const dateStr = today.toISOString().split('T')[0]; // YYYY-MM-DD
+
+        const url = `https://api.sunrise-sunset.org/json?lat=${latitude}&lng=${longitude}&date=${dateStr}&formatted=0`;
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('API response not ok');
+        
+        const data = await response.json();
+        if (data.results && data.results.sunset) {
+            const sunsetISO = data.results.sunset; // ISO 8601 string in UTC
+            const sunsetDate = new Date(sunsetISO);
+            
+            window.sunsetTime = sunsetDate;
+            localStorage.setItem('sunsetTimeCache', JSON.stringify({
+                sunsetTime: sunsetDate.toISOString(),
+                date: dateStr,
+                lat: latitude,
+                lon: longitude
+            }));
+            
+            if (statusDiv) {
+                statusDiv.textContent = t.sunsetUpdated;
+                statusDiv.classList.remove('loading');
+            }
+            
+            window.clockState.isRunning = false; // Reset to allow restart
+            if (typeof window.startClock === 'function') {
+                window.startClock();
+            }
+        } else {
+            throw new Error('No sunset data in response');
+        }
+    } catch (error) {
+        console.error('Error fetching sunset time:', error);
+        // Use cache or fallback
+        let sunsetFromCache = null;
+        if (cached) {
+            try {
+                const cachedData = JSON.parse(cached);
+                sunsetFromCache = new Date(cachedData.sunsetTime);
+                if (statusDiv) statusDiv.textContent = t.usingCachedOutdated;
+            } catch (e) {
+                console.error('Cache parse error:', e);
+            }
+        }
+        
+        if (sunsetFromCache) {
+            window.sunsetTime = sunsetFromCache;
+        }
+        
+        if (statusDiv && !sunsetFromCache) {
+            statusDiv.textContent = t.errorFetching || 'Error fetching sunset time. Using cached data if available.';
+            statusDiv.classList.remove('loading');
+        }
+    } finally {
+        // Start clock with available data
+        if (window.clockState) {
+            setTimeout(() => window.clockState.start(), 100);
+        }
+    }
+    } catch (error) {
+        console.error('Critical error in fetchSunsetTime:', error);
+        // Clock will continue with fallback sunset time set at app level
+    }
+}
+
+// Make functions available globally
+window.startClock = startClock;
+window.fetchSunsetTime = fetchSunsetTime;
+window.formatTimeDisplay = formatTimeDisplay;
+
+
+================================================================================
+File: js\location.js
+================================================================================
+
+let countriesList = [];
+let citiesList = [];
+let selectedCountry = null;
+let filteredCountries = [];
+let filteredCities = [];
+let selectedCityCoords = null;
+
+// Helper function to get translated location name
+function getTranslatedLocationName(name, type = 'countries') {
+    const lang = window.currentLang || 'en';
+    const translations = window.translations && window.translations[lang];
+    if (translations && translations[type] && translations[type][name]) {
+        return translations[type][name];
+    }
+    return name; // Fallback to original name if no translation
+}
+
+// Helper function to get English name from translated name
+function getEnglishLocationName(translatedName, type = 'countries') {
+    const lang = window.currentLang || 'en';
+    const translations = window.translations && window.translations[lang];
+
+    if (translations && translations[type]) {
+        // Find the English key for the translated value
+        for (const [englishName, translatedValue] of Object.entries(translations[type])) {
+            if (translatedValue === translatedName) {
+                return englishName;
+            }
+        }
+    }
+    return translatedName; // Fallback to the input if no mapping found
+}
+
+async function initializeCountries() {
+    countriesList = [
+        'Afghanistan', 'Albania', 'Algeria', 'Argentina', 'Australia', 'Austria',
+        'Bangladesh', 'Belgium', 'Brazil', 'Bulgaria', 'Canada', 'Chile', 'China',
+        'Colombia', 'Croatia', 'Czech Republic', 'Denmark', 'Egypt', 'Finland',
+        'France', 'Germany', 'Greece', 'Hungary', 'India', 'Indonesia', 'Iran',
+        'Iraq', 'Ireland', 'Italy', 'Japan', 'Jordan', 'Kenya',
+        'Kuwait', 'Lebanon', 'Malaysia', 'Mexico', 'Morocco', 'Netherlands',
+        'New Zealand', 'Nigeria', 'Norway', 'Pakistan', 'Peru', 'Philippines',
+        'Poland', 'Portugal', 'Qatar', 'Romania', 'Russia', 'Saudi Arabia',
+        'Singapore', 'South Africa', 'South Korea', 'Spain', 'Sweden', 'Switzerland',
+        'Syria', 'Thailand', 'Turkey', 'Ukraine', 'United Arab Emirates',
+        'United Kingdom', 'United States', 'Venezuela', 'Vietnam', 'Yemen'
+    ];
+
+    // Sort based on translated names if in Persian mode
+    const lang = window.currentLang || 'en';
+    if (lang === 'fa') {
+        countriesList.sort((a, b) => {
+            const translatedA = getTranslatedLocationName(a, 'countries');
+            const translatedB = getTranslatedLocationName(b, 'countries');
+            return translatedA.localeCompare(translatedB, 'fa');
+        });
+    } else {
+        countriesList.sort();
+    }
+
+    filteredCountries = [...countriesList];
+    renderCountryDropdown();
+}
+
+function renderCountryDropdown() {
+    const countryList = document.getElementById('countryList');
+    if (!countryList) return;
+    
+    countryList.innerHTML = '';
+    
+    const t = window.translations[currentLang];
+    
+    if (filteredCountries.length === 0) {
+        countryList.innerHTML = `<div class="dropdown-item">${t.noCountriesFound}</div>`;
+        countryList.classList.add('show');
+        return;
+    }
+
+    filteredCountries.forEach(country => {
+        const item = document.createElement('div');
+        item.className = 'dropdown-item';
+        item.textContent = getTranslatedLocationName(country, 'countries');
+        item.onclick = () => selectCountry(country);
+        countryList.appendChild(item);
+    });
+}
+
+function renderCityDropdown() {
+    const cityList = document.getElementById('cityList');
+    if (!cityList) return;
+    
+    cityList.innerHTML = '';
+    
+    const t = window.translations[currentLang];
+    
+    if (filteredCities.length === 0) {
+        cityList.innerHTML = `<div class="dropdown-item">${t.noCitiesFound}</div>`;
+        cityList.classList.add('show');
+        return;
+    }
+
+    filteredCities.forEach(city => {
+        const item = document.createElement('div');
+        item.className = 'dropdown-item';
+        item.textContent = getTranslatedLocationName(city.name, 'cities');
+        item.onclick = () => selectCity(city.name, city.lat, city.lon);
+        cityList.appendChild(item);
+    });
+}
+
+function selectCountry(country) {
+    selectedCountry = country;
+    document.getElementById('country').value = getTranslatedLocationName(country, 'countries');
+    document.getElementById('countryList').classList.remove('show');
+    document.getElementById('city').disabled = false;
+    const t = window.translations[currentLang];
+    document.getElementById('city').placeholder = t.searchCity;
+    document.getElementById('city').value = '';
+    citiesList = [];
+    filteredCities = [];
+    fetchCitiesForCountry(country);
+}
+
+function selectCity(city, lat, lon) {
+    document.getElementById('city').value = getTranslatedLocationName(city, 'cities');
+    document.getElementById('cityList').classList.remove('show');
+    // Attach coordinates to a temporary object so saveLocation can persist them
+    selectedCityCoords = null;
+    if (lat && lon) {
+        selectedCityCoords = { lat: parseFloat(lat), lon: parseFloat(lon) };
+        // If locationData already exists, update it immediately
+        if (locationData) {
+            locationData.lat = selectedCityCoords.lat;
+            locationData.lon = selectedCityCoords.lon;
+        }
+    }
+}
+
+// Function to refresh location display when language changes
+function refreshLocationDisplay() {
+    if (locationData) {
+        const countryInput = document.getElementById('country');
+        const cityInput = document.getElementById('city');
+
+        if (countryInput && locationData.country) {
+            countryInput.value = getTranslatedLocationName(locationData.country, 'countries');
+        }
+        if (cityInput && locationData.city) {
+            cityInput.value = getTranslatedLocationName(locationData.city, 'cities');
+        }
+    }
+}
+
+async function fetchCitiesForCountry(country) {
+    const cityList = document.getElementById('cityList');
+    const t = window.translations[currentLang];
+    cityList.innerHTML = `<div class="loading-cities">${t.loadingCities}</div>`;
+    cityList.classList.add('show');
+
+    try {
+        const searchUrl = `https://secure.geonames.org/searchJSON?q=${encodeURIComponent(country)}&maxRows=1000&featureClass=P&username=demo`;
+        let response = await fetch(searchUrl);
+        if (!response.ok) throw new Error('GeoNames failed');
+        
+        let data = await response.json();
+        
+        if (data.geonames && data.geonames.length > 0) {
+            citiesList = data.geonames
+                .filter(place => place.countryName === country || place.adminName1)
+                .map(place => ({ name: place.name, country: place.countryName, lat: place.lat, lon: place.lng || place.lon }))
+                .filter((city, index, self) => 
+                    index === self.findIndex(c => c.name === city.name)
+                )
+                .sort((a, b) => {
+                    const lang = window.currentLang || 'en';
+                    if (lang === 'fa') {
+                        const translatedA = getTranslatedLocationName(a.name, 'cities');
+                        const translatedB = getTranslatedLocationName(b.name, 'cities');
+                        return translatedA.localeCompare(translatedB, 'fa');
+                    } else {
+                        return a.name.localeCompare(b.name);
+                    }
+                });
+            
+            filteredCities = [...citiesList];
+            renderCityDropdown();
+        } else {
+            citiesList = getMajorCitiesForCountry(country);
+            // Sort by translated names when in Persian mode
+            const lang = window.currentLang || 'en';
+            if (lang === 'fa') {
+                citiesList.sort((a, b) => {
+                    const translatedA = getTranslatedLocationName(a.name, 'cities');
+                    const translatedB = getTranslatedLocationName(b.name, 'cities');
+                    return translatedA.localeCompare(translatedB, 'fa');
+                });
+            } else {
+                citiesList.sort((a, b) => a.name.localeCompare(b.name));
+            }
+            filteredCities = [...citiesList];
+            renderCityDropdown();
+        }
+    } catch (error) {
+        console.error('Error fetching cities:', error);
+        citiesList = getMajorCitiesForCountry(country);
+        // Sort by translated names when in Persian mode
+        const lang = window.currentLang || 'en';
+        if (lang === 'fa') {
+            citiesList.sort((a, b) => {
+                const translatedA = getTranslatedLocationName(a.name, 'cities');
+                const translatedB = getTranslatedLocationName(b.name, 'cities');
+                return translatedA.localeCompare(translatedB, 'fa');
+            });
+        } else {
+            citiesList.sort((a, b) => a.name.localeCompare(b.name));
+        }
+        filteredCities = [...citiesList];
+        renderCityDropdown();
+    }
+}
+
+// Try to geocode a city+country to lat/lon using Nominatim
+async function geocodeLocation(country, city) {
+    try {
+        const url = `https://nominatim.openstreetmap.org/search?city=${encodeURIComponent(city)}&country=${encodeURIComponent(country)}&format=json&limit=1`;
+        const resp = await fetch(url, { headers: { 'Accept-Language': 'en' } });
+        if (!resp.ok) return null;
+        const arr = await resp.json();
+        if (!arr || arr.length === 0) return null;
+        const r = arr[0];
+        return { lat: parseFloat(r.lat), lon: parseFloat(r.lon) };
+    } catch (e) {
+        console.error('Geocode error:', e);
+        return null;
+    }
+}
+
+async function loadSavedLocation() {
+    const saved = localStorage.getItem('sunsetClockLocation');
+    if (saved) {
+        try {
+            locationData = JSON.parse(saved);
+            document.getElementById('country').value = locationData.country || '';
+            document.getElementById('city').value = locationData.city || '';
+            if (locationData.country) {
+                selectedCountry = locationData.country;
+                document.getElementById('city').disabled = false;
+                const t = window.translations[currentLang];
+                document.getElementById('city').placeholder = t.searchCity;
+                await fetchCitiesForCountry(locationData.country);
+                // If saved location lacks coordinates, try to geocode it
+                if ((!locationData.lat || !locationData.lon) && locationData.city) {
+                    const coords = await geocodeLocation(locationData.country, locationData.city);
+                    if (coords) {
+                        locationData.lat = coords.lat;
+                        locationData.lon = coords.lon;
+                        localStorage.setItem('sunsetClockLocation', JSON.stringify(locationData));
+                    }
+                }
+            }
+            updateLocationInfo();
+            if (typeof window.fetchSunsetTime === 'function') {
+                await window.fetchSunsetTime();
+            }
+            if (typeof window.fetchPrayerTimes === 'function') {
+                window.fetchPrayerTimes();
+            }
+        } catch (e) {
+            console.error('Error loading saved location:', e);
+            await setDefaults();
+        }
+    } else {
+        await setDefaults();
+    }
+}
+
+async function setDefaults() {
+    document.getElementById('country').value = getTranslatedLocationName(DEFAULT_COUNTRY, 'countries');
+    selectedCountry = DEFAULT_COUNTRY;
+    document.getElementById('city').disabled = false;
+    const t = window.translations[currentLang];
+    document.getElementById('city').placeholder = t.searchCity;
+    
+    try {
+        await fetchCitiesForCountry(DEFAULT_COUNTRY);
+        document.getElementById('city').value = getTranslatedLocationName(DEFAULT_CITY, 'cities');
+        locationData = { country: DEFAULT_COUNTRY, city: DEFAULT_CITY };
+        updateLocationInfo();
+        if (typeof window.fetchSunsetTime === 'function') {
+            await window.fetchSunsetTime();
+        }
+        if (typeof window.fetchPrayerTimes === 'function') {
+            window.fetchPrayerTimes();
+        }
+    } catch (error) {
+        console.error('Error setting defaults:', error);
+        document.getElementById('city').value = getTranslatedLocationName(DEFAULT_CITY, 'cities');
+        locationData = { country: DEFAULT_COUNTRY, city: DEFAULT_CITY };
+        updateLocationInfo();
+        if (typeof window.fetchSunsetTime === 'function') {
+            await window.fetchSunsetTime();
+        }
+    }
+}
+
+function saveLocation() {
+    const countryInput = document.getElementById('country').value.trim();
+    const cityInput = document.getElementById('city').value.trim();
+    const errorDiv = document.getElementById('error');
+    const t = window.translations[currentLang];
+
+    if (!countryInput || !cityInput) {
+        errorDiv.textContent = t.pleaseSelectBoth;
+        return;
+    }
+
+    // Convert translated names back to English for validation and storage
+    const country = getEnglishLocationName(countryInput, 'countries');
+    const city = getEnglishLocationName(cityInput, 'cities');
+
+    if (!countriesList.includes(country)) {
+        errorDiv.textContent = t.pleaseSelectValidCountry;
+        return;
+    }
+
+    errorDiv.textContent = '';
+    locationData = { country, city };
+    // If user selected a city from the list and coordinates are known, attach them
+    if (typeof selectedCityCoords !== 'undefined' && selectedCityCoords && selectedCityCoords.lat && selectedCityCoords.lon) {
+        locationData.lat = selectedCityCoords.lat;
+        locationData.lon = selectedCityCoords.lon;
+    }
+
+    // If coordinates are still missing, try to geocode once
+    (async () => {
+        if (!locationData.lat || !locationData.lon) {
+            const coords = await geocodeLocation(country, city);
+            if (coords) {
+                locationData.lat = coords.lat;
+                locationData.lon = coords.lon;
+            }
+        }
+        localStorage.setItem('sunsetClockLocation', JSON.stringify(locationData));
+        updateLocationInfo();
+        if (typeof window.fetchSunsetTime === 'function') {
+            window.fetchSunsetTime();
+        }
+        if (typeof window.fetchPrayerTimes === 'function') {
+            window.fetchPrayerTimes();
+        }
+    })();
+
+    document.getElementById('locationPanel').classList.remove('show');
+}
+
+function updateLocationInfo() {
+    const locationText = document.getElementById('locationText');
+    const t = window.translations[currentLang];
+    if (locationData) {
+        const translatedCity = getTranslatedLocationName(locationData.city, 'cities');
+        const translatedCountry = getTranslatedLocationName(locationData.country, 'countries');
+        locationText.textContent = `${translatedCity}, ${translatedCountry}`;
+    } else {
+        locationText.textContent = t.pleaseEnterLocation;
+    }
+}
+
+// Make functions available globally
+window.initializeCountries = initializeCountries;
+window.selectCountry = selectCountry;
+window.selectCity = selectCity;
+window.fetchCitiesForCountry = fetchCitiesForCountry;
+window.loadSavedLocation = loadSavedLocation;
+window.saveLocation = saveLocation;
+window.updateLocationInfo = updateLocationInfo;
+window.refreshLocationDisplay = refreshLocationDisplay;
+window.getEnglishLocationName = getEnglishLocationName;
+window.selectedCountry = selectedCountry;
+
+
+================================================================================
+File: js\onboarding-integration.js
+================================================================================
+
+// onboarding-integration.js - Fixed location data passing
+(function() {
+    'use strict';
+
+    let onboardingFrame = null;
+    let mainAppHidden = false;
+
+    function init() {
+        console.log('Initializing onboarding integration');
+
+        // Add message listener
+        window.addEventListener('message', handleOnboardingMessage);
+
+        // Check if onboarding should be shown
+        const hasSeenOnboarding = localStorage.getItem('sunclock_onboarding_seen');
+
+        if (!hasSeenOnboarding) {
+            console.log('First visit - showing onboarding');
+            showOnboarding();
+        } else {
+            console.log('Returning user - adding help icon');
+            addHelpIcon();
+        }
+    }
+
+    function showOnboarding() {
+        console.log('Showing onboarding');
+
+        // Hide main app
+        hideMainApp();
+
+        // Create or show onboarding iframe
+        if (!onboardingFrame) {
+            onboardingFrame = document.createElement('iframe');
+            onboardingFrame.src = 'onboarding.html';
+            onboardingFrame.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border: none;
+                z-index: 10000;
+                background: rgba(0, 0, 0, 0.95);
+            `;
+            document.body.appendChild(onboardingFrame);
+
+            // Wait for iframe to load, then send initialization message
+            onboardingFrame.onload = () => {
+                console.log('Onboarding iframe loaded');
+                // Give it a moment to initialize
+                setTimeout(() => {
+                    sendInitMessage();
+                }, 500);
+            };
+        } else {
+            onboardingFrame.style.display = 'block';
+            hideMainApp();
+            setTimeout(() => {
+                sendInitMessage();
+            }, 200);
+        }
+
+        // Also add help icon for future use
+        addHelpIcon();
+    }
+
+    function sendInitMessage() {
+        console.log('Sending init message to onboarding');
+        const lang = window.currentLang || 'en';
+        
+        sendMessageToOnboarding({
+            type: 'init',
+            lang: lang
+        });
+
+        // Also send location data
+        setTimeout(() => {
+            sendLocationDataToOnboarding();
+        }, 200);
+    }
+
+    function hideOnboarding() {
+        if (!onboardingFrame) return;
+
+        console.log('Hiding onboarding');
+        onboardingFrame.style.display = 'none';
+        showMainApp();
+        localStorage.setItem('sunclock_onboarding_seen', 'true');
+    }
+
+    function addHelpIcon() {
+        const existingIcon = document.querySelector('.help-icon');
+        if (existingIcon) return; // Already exists
+
+        const helpIcon = document.createElement('button');
+        helpIcon.innerHTML = '?';
+        helpIcon.className = 'help-icon';
+        helpIcon.title = window.currentLang === 'fa' ? 'راهنما' : 'Help';
+        helpIcon.onclick = () => showOnboarding();
+
+        document.body.appendChild(helpIcon);
+    }
+
+    function hideMainApp() {
+        const mainContainer = document.getElementById('mainContainer');
+        if (mainContainer) {
+            mainContainer.style.display = 'none';
+            mainAppHidden = true;
+        }
+    }
+
+    function showMainApp() {
+        const mainContainer = document.getElementById('mainContainer');
+        if (mainContainer) {
+            mainContainer.style.display = 'block';
+            mainAppHidden = false;
+        }
+    }
+
+    function handleOnboardingMessage(event) {
+        const data = event.data;
+        console.log('Received message from onboarding:', data);
+
+        switch (data.type) {
+            // Update the onboardingComplete handler in onboarding-integration.js
+            case 'onboardingComplete':
+                console.log('Onboarding complete with location:', data.locationData);
+                
+                if (data.locationData) {
+                    const englishCountry = data.locationData.country;
+                    const englishCity = data.locationData.city;
+
+                    // Store in localStorage
+                    localStorage.setItem('sunsetClockLocation', JSON.stringify({
+                        country: englishCountry,
+                        city: englishCity
+                    }));
+
+                    // Update global locationData
+                    window.locationData = {
+                        country: englishCountry,
+                        city: englishCity
+                    };
+
+                    // Update the input fields in the location panel
+                    const countryInput = document.getElementById('country');
+                    const cityInput = document.getElementById('city');
+                    
+                    if (countryInput && window.getTranslatedLocationName) {
+                        countryInput.value = window.getTranslatedLocationName(englishCountry, 'countries');
+                    }
+                    
+                    if (cityInput && window.getTranslatedLocationName) {
+                        cityInput.value = window.getTranslatedLocationName(englishCity, 'cities');
+                    }
+
+                    // Update location display
+                    if (typeof window.updateLocationInfo === 'function') {
+                        window.updateLocationInfo();
+                    }
+
+                    // Fetch new sunset time
+                    if (typeof window.fetchSunsetTime === 'function') {
+                        window.fetchSunsetTime().then(() => {
+                            // Start the clock after fetching sunset time
+                            if (window.clockState && typeof window.clockState.start === 'function') {
+                                window.clockState.start();
+                            }
+                        });
+                    }
+
+                    // Fetch prayer times if available
+                    if (typeof window.fetchPrayerTimes === 'function') {
+                        window.fetchPrayerTimes();
+                    }
+                }
+
+                hideOnboarding();
+                break;
+                
+            case 'skipOnboarding':
+                hideOnboarding();
+                break;
+
+            case 'requestLocationData':
+            case 'onboardingReady':
+                console.log('Onboarding requesting location data');
+                sendLocationDataToOnboarding();
+                break;
+        }
+    }
+
+    function sendLocationDataToOnboarding() {
+        console.log('Preparing location data...');
+
+        // Get the full countries list from your location.js
+        const countries = [
+            'Afghanistan', 'Albania', 'Algeria', 'Argentina', 'Australia', 'Austria',
+            'Bangladesh', 'Belgium', 'Brazil', 'Bulgaria', 'Canada', 'Chile', 'China',
+            'Colombia', 'Croatia', 'Czech Republic', 'Denmark', 'Egypt', 'Finland',
+            'France', 'Germany', 'Greece', 'Hungary', 'India', 'Indonesia', 'Iran',
+            'Iraq', 'Ireland', 'Italy', 'Japan', 'Jordan', 'Kenya',
+            'Kuwait', 'Lebanon', 'Malaysia', 'Mexico', 'Morocco', 'Netherlands',
+            'New Zealand', 'Nigeria', 'Norway', 'Pakistan', 'Peru', 'Philippines',
+            'Poland', 'Portugal', 'Qatar', 'Romania', 'Russia', 'Saudi Arabia',
+            'Singapore', 'South Africa', 'South Korea', 'Spain', 'Sweden', 'Switzerland',
+            'Syria', 'Thailand', 'Turkey', 'Ukraine', 'United Arab Emirates',
+            'United Kingdom', 'United States', 'Venezuela', 'Vietnam', 'Yemen'
+        ];
+
+        // Translate country names
+        const translatedCountries = countries.map(country => ({
+            value: country,
+            display: window.getTranslatedLocationName ? 
+                window.getTranslatedLocationName(country, 'countries') : country
+        }));
+
+        // Build a simple cities data structure
+        // We'll fetch cities dynamically in the onboarding, just like the main app does
+        const citiesData = {};
+
+        console.log('Sending location data:', {
+            countriesCount: translatedCountries.length
+        });
+
+        sendMessageToOnboarding({
+            type: 'locationData',
+            countries: translatedCountries,
+            citiesData: citiesData // Empty, will be fetched on-demand
+        });
+    }
+
+    function sendMessageToOnboarding(message) {
+        if (onboardingFrame && onboardingFrame.contentWindow) {
+            try {
+                onboardingFrame.contentWindow.postMessage(message, '*');
+                console.log('Sent message to onboarding:', message.type);
+            } catch (error) {
+                console.error('Error sending message:', error);
+            }
+        }
+    }
+
+    window.showOnboarding = showOnboarding;
+    window.hideOnboarding = hideOnboarding;
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();
+
+
+
+================================================================================
+File: js\prayertimes.js
+================================================================================
+
+// js/prayertimes.js - Prayer times module
+// Uses Aladhan API to fetch prayer times based on latitude/longitude
+// Caches results in localStorage for offline use
+
+(function(){
+    const CACHE_KEY = 'prayerTimesCache';
+    const UPDATE_INTERVAL_MIN = 1; // minutes
+    let updateTimer = null;
+
+    function getCache() {
+        try {
+            const raw = localStorage.getItem(CACHE_KEY);
+            return raw ? JSON.parse(raw) : null;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    function setCache(data) {
+        try {
+            localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+        } catch (e) {
+            // ignore
+        }
+    }
+
+    function formatTimeForDisplay(timeStr) {
+        // timeStr format from API is HH:MM (24h)
+        return timeStr;
+    }
+
+    function minutesUntil(fromDate, toDate) {
+        return Math.max(0, Math.round((toDate - fromDate) / 60000));
+    }
+
+    async function fetchPrayerTimes() {
+        const t = window.translations && window.translations[window.currentLang] ? window.translations[window.currentLang] : null;
+        const statusEl = document.getElementById('prayerStatus');
+
+        if (!locationData || !locationData.lat || !locationData.lon) {
+            // Try to use cached
+            const cache = getCache();
+            if (cache) {
+                render(cache.timings, cache.dateReadable);
+                if (statusEl) statusEl.textContent = t ? t.usingCached : 'Using cached prayer times';
+            } else {
+                if (statusEl) statusEl.textContent = t ? t.locationNotSet : 'Location not set';
+            }
+            return;
+        }
+
+        const latitude = locationData.lat;
+        const longitude = locationData.lon;
+        const today = new Date();
+        const dateStr = today.toISOString().slice(0,10);
+
+        // Check cache for today's data and same coords
+        const cache = getCache();
+        if (cache && cache.date === dateStr && cache.lat === latitude && cache.lon === longitude) {
+            render(cache.timings, cache.dateReadable);
+            if (statusEl) statusEl.textContent = t ? t.usingCached : 'Using cached prayer times';
+            return;
+        }
+
+        if (statusEl) statusEl.textContent = t ? t.fetchingPrayers : 'Fetching prayer times...';
+
+        // Try Aladhan API with Shia method first (method 7 = Shia, Sunset+90 minutes for Isha)
+        // If that fails, fallback to standard Aladhan
+        try {
+            const url = `https://api.aladhan.com/v1/timings/${dateStr}?latitude=${latitude}&longitude=${longitude}&method=7`;
+            const resp = await fetch(url);
+            if (!resp.ok) throw new Error('Network response not ok');
+            const data = await resp.json();
+            if (data && data.data && data.data.timings) {
+                const timings = data.data.timings;
+                const dateReadable = data.data.date.readable || dateStr;
+                setCache({ date: dateStr, dateReadable, lat: latitude, lon: longitude, timings });
+                render(timings, dateReadable);
+                if (statusEl) statusEl.textContent = t ? t.prayerTimesUpdated : 'Prayer times updated';
+            } else {
+                throw new Error('Invalid data');
+            }
+        } catch (err) {
+            console.warn('Shia method fetch failed, trying alternative:', err);
+            // Fallback to standard method
+            try {
+                const url = `https://api.aladhan.com/v1/timings/${dateStr}?latitude=${latitude}&longitude=${longitude}&method=2`;
+                const resp = await fetch(url);
+                if (!resp.ok) throw new Error('Network response not ok');
+                const data = await resp.json();
+                if (data && data.data && data.data.timings) {
+                    const timings = data.data.timings;
+                    const dateReadable = data.data.date.readable || dateStr;
+                    setCache({ date: dateStr, dateReadable, lat: latitude, lon: longitude, timings });
+                    render(timings, dateReadable);
+                    if (statusEl) statusEl.textContent = t ? t.prayerTimesUpdated : 'Prayer times updated';
+                } else {
+                    throw new Error('Invalid data');
+                }
+            } catch (err2) {
+                console.error('All prayer time fetch methods failed:', err2);
+                // On error, use cache if available
+                const cache2 = getCache();
+                if (cache2) {
+                    render(cache2.timings, cache2.dateReadable);
+                    if (statusEl) statusEl.textContent = t ? t.usingCachedOutdated : 'Using cached prayer times (may be outdated)';
+                } else {
+                    if (statusEl) statusEl.textContent = t ? t.errorFetchingPrayers : 'Error fetching prayer times';
+                }
+            }
+        }
+    }
+
+    function render(timings, dateReadable) {
+        // Custom prayer times: Fajr, Sunrise, Dhuhr, Maghrib (sunset+20min), Legal Midnight (dhuhr+11:15)
+        const keys = ['Maghrib', 'LegalMidnight', 'Fajr', 'Sunrise', 'Dhuhr'];
+        const container = document.getElementById('prayerGrid');
+        const statusEl = document.getElementById('prayerStatus');
+        const t = window.translations && window.translations[window.currentLang] ? window.translations[window.currentLang] : null;
+        if (!container) return;
+        container.innerHTML = '';
+
+        const now = new Date();
+        let currentPrayerIndex = -1;
+        let nextPrayerIndex = -1;
+        let nextPrayerTime = null;
+
+        // Get the reference sunset - use window.sunsetTime if available
+        if (!window.sunsetTime) {
+            console.warn('[Prayer Times] No sunsetTime available, cannot render prayer times');
+            if (statusEl) statusEl.textContent = 'Sunset time not loaded yet';
+            return;
+        }
+
+        const todaySunsetTime = window.sunsetTime;
+        let referenceSunset = new Date(todaySunsetTime);
+        referenceSunset.setSeconds(0, 0);
+
+        if (now < referenceSunset) {
+            const yesterdaySunset = new Date(referenceSunset);
+            yesterdaySunset.setDate(yesterdaySunset.getDate() - 1);
+            referenceSunset = yesterdaySunset;
+        }
+
+        // Build custom times
+        const customTimes = {};
+        
+        // 1. Fajr: From API
+        customTimes.Fajr = timings.Fajr ? timings.Fajr.split(' ')[0] : null;
+        
+        // 2. Sunrise: From API
+        customTimes.Sunrise = timings.Sunrise ? timings.Sunrise.split(' ')[0] : null;
+        
+        // 3. Dhuhr: From API
+        customTimes.Dhuhr = timings.Dhuhr ? timings.Dhuhr.split(' ')[0] : null;
+        
+        // 4. Maghrib: Sunset + 20 minutes
+        const maghribDate = new Date(todaySunsetTime);
+        maghribDate.setMinutes(maghribDate.getMinutes() + 20);
+        const maghribHours = String(maghribDate.getHours()).padStart(2, '0');
+        const maghribMins = String(maghribDate.getMinutes()).padStart(2, '0');
+        customTimes.Maghrib = `${maghribHours}:${maghribMins}`;
+        
+        // 5. Legal Midnight: Dhuhr + 11:15 (11 hours 15 minutes)
+        if (customTimes.Dhuhr) {
+            const [dhHh, dhMm] = customTimes.Dhuhr.split(':').map(n => parseInt(n, 10));
+            const dhuhrDate = new Date(now);
+            dhuhrDate.setHours(dhHh, dhMm, 0, 0);
+            const midnightDate = new Date(dhuhrDate.getTime() + (11 * 60 + 15) * 60 * 1000);
+            const midHours = String(midnightDate.getHours()).padStart(2, '0');
+            const midMins = String(midnightDate.getMinutes()).padStart(2, '0');
+            customTimes.LegalMidnight = `${midHours}:${midMins}`;
+        }
+
+        // Build items with times relative to sunset
+        keys.forEach((k, idx) => {
+            const timeStr = customTimes[k];
+            const normalized = timeStr || '--:--';
+            
+            const [hh, mm] = normalized.split(':').map(n => parseInt(n, 10));
+            
+            let prayerDate = new Date(now);
+            prayerDate.setHours(hh, mm || 0, 0, 0);
+
+            let timeSinceSunset = prayerDate - referenceSunset;
+            
+            if (timeSinceSunset < 0) {
+                prayerDate.setDate(prayerDate.getDate() + 1);
+                timeSinceSunset = prayerDate - referenceSunset;
+            }
+
+            const totalSeconds = Math.floor(Math.max(0, timeSinceSunset) / 1000);
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const display = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+
+            const item = document.createElement('div');
+            item.className = 'prayer-item';
+            
+            const nameEl = document.createElement('div');
+            nameEl.className = 'prayer-name';
+            const nameText = (t && t['prayer'+k]) ? t['prayer'+k] : k;
+            nameEl.textContent = nameText;
+            
+            const timeEl = document.createElement('div');
+            timeEl.className = 'prayer-time';
+            timeEl.textContent = display;
+            
+            item.appendChild(nameEl);
+            item.appendChild(timeEl);
+            container.appendChild(item);
+
+            if (now >= prayerDate) {
+                currentPrayerIndex = idx;
+            }
+            if ((now < prayerDate) && nextPrayerIndex === -1) {
+                nextPrayerIndex = idx;
+                nextPrayerTime = prayerDate;
+            }
+        });
+
+        // Update highlights
+        const items = container.querySelectorAll('.prayer-item');
+        items.forEach((el, i) => {
+            el.classList.remove('current');
+            el.classList.remove('next');
+            if (i === currentPrayerIndex) el.classList.add('current');
+            if (i === nextPrayerIndex) el.classList.add('next');
+        });
+
+        // If no nextPrayer found, set next to Fajr tomorrow
+        if (nextPrayerIndex === -1 && customTimes.Fajr) {
+            const f = customTimes.Fajr;
+            const [hh, mm] = f.split(':').map(n => parseInt(n, 10));
+            const tomorrow = new Date(now);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow.setHours(hh, mm || 0, 0, 0);
+            nextPrayerTime = tomorrow;
+            nextPrayerIndex = 0;
+        }
+
+        // Update status
+        if (statusEl) {
+            if (nextPrayerTime) {
+                const mins = minutesUntil(now, nextPrayerTime);
+                const nextName = (t && nextPrayerIndex !== -1 && t['prayer'+keys[nextPrayerIndex]]) ? t['prayer'+keys[nextPrayerIndex]] : 'Next';
+                const nextText = (t && t.nextPrayer) ? t.nextPrayer.replace('{name}', nextName).replace('{mins}', mins) : `Next: ${nextName} in ${mins} minutes`;
+                statusEl.textContent = nextText;
+            } else {
+                statusEl.textContent = '';
+            }
+        }
+    }
+
+    function startUpdater() {
+        if (updateTimer) clearInterval(updateTimer);
+        updateTimer = setInterval(() => {
+            fetchPrayerTimes();
+        }, UPDATE_INTERVAL_MIN * 60000);
+    }
+
+    // Expose
+    window.fetchPrayerTimes = fetchPrayerTimes;
+    window.startPrayerUpdater = function(){ startUpdater(); };
+
+    // Auto-run when module loads if possible
+    document.addEventListener('DOMContentLoaded', () => {
+        // Fetch initially if locationData available later initializeApp will call fetchPrayerTimes
+        const cache = getCache();
+        if (cache) {
+            render(cache.timings, cache.dateReadable);
+        }
+        // Don't start updater here - let initializeApp control when to start it
+    });
+})();
+
+
+
+================================================================================
+File: js\state.js
+================================================================================
+
+// js/state.js - Simplified Clock State Management
+class ClockState {
+    constructor() {
+        this.isRunning = false;
+        this.interval = null;
+    }
+
+    // Start the clock with proper error handling
+    start() {
+        if (this.isRunning) {
+            console.log('ClockState: Clock already running');
+            return;
+        }
+
+        try {
+            if (typeof window.startClock === 'function') {
+                window.startClock();
+                this.isRunning = true;
+                console.log('ClockState: Clock started successfully');
+            } else {
+                console.error('ClockState: startClock function not available');
+            }
+        } catch (error) {
+            console.error('ClockState: Failed to start clock:', error);
+        }
+    }
+
+    // Stop the clock and cleanup
+    stop() {
+        if (this.interval) {
+            clearInterval(this.interval);
+            this.interval = null;
+        }
+        this.isRunning = false;
+        console.log('ClockState: Clock stopped');
+    }
+
+    // Restart the clock
+    restart() {
+        console.log('ClockState: Restarting clock...');
+        this.stop();
+        setTimeout(() => this.start(), 100);
+    }
+
+    // Public method to check if clock is running
+    isClockRunning() {
+        return this.isRunning;
+    }
+
+    // Cleanup method to be called on page unload
+    cleanup() {
+        this.stop();
+        console.log('ClockState: Cleanup completed');
+    }
+}
+
+// Initialize and expose globally
+window.clockState = new ClockState();
+
+// Simple initialization when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('ClockState: DOM loaded');
+});
+
+
+================================================================================
+File: js\translations.js
+================================================================================
+
+window.translations = {
+    en: {
+        title: '🌅 Sunset Clock',
+        clockLabel: 'Time since sunset',
+        countryLabel: 'Country:',
+        cityLabel: 'City:',
+        saveBtn: 'Save Location',
+        locationText: 'Loading location...',
+        pleaseEnterLocation: 'Please enter your location',
+        searchCountry: 'Search country...',
+        selectCountryFirst: 'Select country first...',
+        searchCity: 'Search city...',
+        loadingCities: 'Loading cities...',
+        noCountriesFound: 'No countries found',
+        noCitiesFound: 'No cities found',
+        pleaseSelectBoth: 'Please select both country and city',
+        pleaseSelectValidCountry: 'Please select a valid country from the list',
+        locationNotSet: 'Location not set',
+        fetchingSunset: 'Fetching sunset time...',
+        usingCached: 'Using cached sunset time',
+        sunsetUpdated: 'Sunset time updated',
+        errorFetching: 'Error fetching sunset time. Using cached data if available.',
+        usingCachedOutdated: 'Using cached sunset time (may be outdated)',
+        unableToLoad: 'Unable to load sunset time',
+        offline: 'Offline - using cached sunset time',
+        estimatedOffline: 'Estimated sunset time (offline)',
+        settings: '⚙️',
+        aboutTitle: 'About Sunset Clock',
+        aboutText: '<p>Sunset Clock is a unique time display that shows time elapsed since the last sunset. The clock resets every day at sunset, creating a natural 24-hour cycle.</p><p>The background gradient changes throughout the day to reflect the time of day, transitioning from deep night blues to morning purples and afternoon oranges.</p><p>You can set your location to get accurate sunset times for your area. The app works offline using cached sunset times when internet is unavailable.</p>',
+        aboutTextSummary: '<p>A translation of the Persian About page will soon be provided.</p>',
+        aboutTextDetails: '<p>A translation of the Persian About page will soon be provided.</p>',
+        // Prayer translations (EN)
+        prayerTitle: 'Prayer Times',
+        prayerFajr: 'Fajr',
+        prayerSunrise: 'Sunrise',
+        prayerDhuhr: 'Dhuhr',
+        prayerMaghrib: 'Maghrib',
+        // Backwards-compatible key (some code used `prayerMidnight`)
+        prayerMidnight: 'Legal Midnight',
+        // New key used by the custom renderer
+        prayerLegalMidnight: 'Midnight',
+        fetchingPrayers: 'Fetching prayer times...',
+        prayerTimesUpdated: 'Prayer times updated',
+        errorFetchingPrayers: 'Error fetching prayer times',
+        nextPrayer: 'Next: {name} — {mins} minutes',
+
+        // Contact translations (EN)
+        developerContactTitle: 'Developer Contact',
+        contactWebsiteText: 'Website',
+        contactLinkText: 'Contact',
+
+        // Location translations (EN)
+        countries: {
+            'Afghanistan': 'Afghanistan',
+            'Albania': 'Albania',
+            'Algeria': 'Algeria',
+            'Argentina': 'Argentina',
+            'Australia': 'Australia',
+            'Austria': 'Austria',
+            'Bangladesh': 'Bangladesh',
+            'Belgium': 'Belgium',
+            'Brazil': 'Brazil',
+            'Bulgaria': 'Bulgaria',
+            'Canada': 'Canada',
+            'Chile': 'Chile',
+            'China': 'China',
+            'Colombia': 'Colombia',
+            'Croatia': 'Croatia',
+            'Czech Republic': 'Czech Republic',
+            'Denmark': 'Denmark',
+            'Egypt': 'Egypt',
+            'Finland': 'Finland',
+            'France': 'France',
+            'Germany': 'Germany',
+            'Greece': 'Greece',
+            'Hungary': 'Hungary',
+            'India': 'India',
+            'Indonesia': 'Indonesia',
+            'Iran': 'Iran',
+            'Iraq': 'Iraq',
+            'Ireland': 'Ireland',
+            'Italy': 'Italy',
+            'Japan': 'Japan',
+            'Jordan': 'Jordan',
+            'Kenya': 'Kenya',
+            'Kuwait': 'Kuwait',
+            'Lebanon': 'Lebanon',
+            'Malaysia': 'Malaysia',
+            'Mexico': 'Mexico',
+            'Morocco': 'Morocco',
+            'Netherlands': 'Netherlands',
+            'New Zealand': 'New Zealand',
+            'Nigeria': 'Nigeria',
+            'Norway': 'Norway',
+            'Pakistan': 'Pakistan',
+            'Peru': 'Peru',
+            'Philippines': 'Philippines',
+            'Poland': 'Poland',
+            'Portugal': 'Portugal',
+            'Qatar': 'Qatar',
+            'Romania': 'Romania',
+            'Russia': 'Russia',
+            'Saudi Arabia': 'Saudi Arabia',
+            'Singapore': 'Singapore',
+            'South Africa': 'South Africa',
+            'South Korea': 'South Korea',
+            'Spain': 'Spain',
+            'Sweden': 'Sweden',
+            'Switzerland': 'Switzerland',
+            'Syria': 'Syria',
+            'Thailand': 'Thailand',
+            'Turkey': 'Turkey',
+            'Ukraine': 'Ukraine',
+            'United Arab Emirates': 'United Arab Emirates',
+            'United Kingdom': 'United Kingdom',
+            'United States': 'United States',
+            'Venezuela': 'Venezuela',
+            'Vietnam': 'Vietnam',
+            'Yemen': 'Yemen'
+        },
+        cities: {
+            // Iran cities
+            'Tehran': 'تهران',
+            'Mashhad': 'مشهد',
+            'Isfahan': 'اصفهان',
+            'Karaj': 'کرج',
+            'Shiraz': 'شیراز',
+            'Tabriz': 'تبریز',
+            'Qom': 'قم',
+            'Ahvaz': 'اهواز',
+            'Kermanshah': 'کرمانشاه',
+            'Urmia': 'ارومیه',
+            'Rasht': 'رشت',
+            'Zahedan': 'زاهدان',
+            'Hamadan': 'همدان',
+            'Kerman': 'کرمان',
+            'Yazd': 'یزد',
+            'Ardabil': 'اردبیل',
+            'Bandar Abbas': 'بندرعباس',
+            'Arak': 'اراک',
+            'Eslamshahr': 'اسلامشهر',
+            'Zanjan': 'زنجان',
+            // Other cities can be added as needed
+        }
+    },
+    fa: {
+        title: '🌅 ساعت غروب کوک',
+        clockLabel: 'زمان از غروب',
+        countryLabel: 'کشور:',
+        cityLabel: 'شهر:',
+        saveBtn: 'ذخیره موقعیت',
+        locationText: 'در حال بارگذاری موقعیت...',
+        pleaseEnterLocation: 'لطفاً موقعیت خود را وارد کنید',
+        searchCountry: 'جستجوی کشور...',
+        selectCountryFirst: 'ابتدا کشور را انتخاب کنید...',
+        searchCity: 'جستجوی شهر...',
+        loadingCities: 'در حال بارگذاری شهرها...',
+        noCountriesFound: 'کشوری یافت نشد',
+        noCitiesFound: 'شهری یافت نشد',
+        pleaseSelectBoth: 'لطفاً کشور و شهر را انتخاب کنید',
+        pleaseSelectValidCountry: 'لطفاً یک کشور معتبر از لیست انتخاب کنید',
+        locationNotSet: 'موقعیت تنظیم نشده',
+        fetchingSunset: 'در حال دریافت زمان غروب...',
+        usingCached: 'استفاده از زمان غروب ذخیره شده',
+        sunsetUpdated: 'زمان غروب به‌روزرسانی شد',
+        errorFetching: 'خطا در دریافت زمان غروب. در صورت وجود، از داده‌های ذخیره شده استفاده می‌شود.',
+        usingCachedOutdated: 'استفاده از زمان غروب ذخیره شده (ممکن است قدیمی باشد)',
+        unableToLoad: 'امکان بارگذاری زمان غروب وجود ندارد',
+        offline: 'آفلاین - استفاده از زمان غروب ذخیره شده',
+        estimatedOffline: 'زمان غروب تخمینی (آفلاین)',
+        settings: '⚙️',
+        aboutTitle: 'درباره ساعت غروب',
+        aboutText: '<p>ساعت غروب یک نمایش زمان منحصر به فرد است که زمان سپری شده از آخرین غروب را نشان می‌دهد. ساعت هر روز در زمان غروب بازنشانی می‌شود و یک چرخه طبیعی 24 ساعته ایجاد می‌کند.</p><p>گرادیان پس‌زمینه در طول روز تغییر می‌کند تا زمان روز را منعکس کند و از آبی‌های عمیق شب به بنفش‌های صبحگاهی و نارنجی‌های بعدازظهر تبدیل می‌شود.</p><p>می‌توانید موقعیت خود را تنظیم کنید تا زمان‌های دقیق غروب برای منطقه خود را دریافت کنید. این برنامه به صورت آفلاین کار می‌کند و از زمان‌های غروب ذخیره شده استفاده می‌کند.</p>',
+        aboutTextSummary: '<p><strong>ساعت غروب‌کوک چیست؟</strong></p><p>ساعت غروب‌کوک به معنای تنظیم آغاز روزشمار از زمان غروب آفتاب (ساعت ۱۲ شب) است. این سیستم بر اساس آموزه‌های اسلامی و هماهنگ با فطرت انسان طراحی شده است. مهم‌ترین فایده آن، ایجاد تقسیم‌بندی طبیعی و مفید زمان است: شب (از غروب) به‌عنوان زمان مشخص استراحت، عبادت و خواب شمرده می‌شود و روز (از طلوع آفتاب) به‌عنوان زمان فعالیت و کار. این روش به فرد کمک می‌کند تا به‌راحتی مقدار باقی‌مانده از روز برای انجام کارها و مقدار گذشته از شب برای استراحت کافی را محاسبه کند و برنامه‌ریزی بهینه‌ای داشته باشد.</p>',
+        aboutTextDetails: `
+<p><strong>غروب‌کوک، ساعت زندگی</strong></p>
+<p>ساعت غروب‌کوک سیستمی برای اندازه‌گیری زمان است که در آن، آغاز روز جدید با زمان غروب خورشید (که ساعت ۱۲ در نظر گرفته می‌شود) هماهنگ می‌گردد. معنای این سیستم، همسو کردن برنامه‌ریزی زمانی زندگی انسان با چرخه طبیعی شبانه‌روز و احکام اسلامی مبتنی بر فطرت است. در این نگاه، شب و روز هر کدام دارای هویت و کارکرد جداگانه‌ای هستند: شب، زمان تاریکی، مخلوق برای سکون، آرامش، استراحت، خواب و عبادت است و روز، زمان روشنایی، مخلوق برای بیداری، فعالیت، حرکت و تلاش برای معاش.</p>
+<p>فواید این سیستم عبارتند از:</p>
+<ol>
+<li><strong>تنظیم زیستی و بهداشتی:</strong> این سیستم انسان را تشویق می‌کند تا در شب که زمان مناسبی برای استراحت است، بخوابد و در روز که برای فعالیت مناسب‌تر است، بیدار و فعال باشد. این امر با توصیه‌های پزشکی دایر بر مضرّات بیداری در شب و خواب زیاد در روز همسو است و سلامت جسم و روان را تقویت می‌کند.</li>
+<li><strong>شفافیت و برنامه‌ریزی آسان:</strong> در این سیستم، با نگاه کردن به ساعت، فرد به‌وضوح می‌فهمد چقدر از شب گذشته (مثلاً ساعت ۳ به معنای سه ساعت از آغاز شب گذشته) و بنابراین میزان استراحت خود را ارزیابی می‌کند. از طرفی، از آنجا که پایان روز در ساعت ۱۲ (غروب بعدی) ثابت است، می‌تواند محاسبه کند چقدر از روز باقی مانده (مثلاً اگر ساعت ۹ باشد، سه ساعت تا پایان روز باقی است) و به‌طور مؤثر وظایف روزانه خود را اولویت‌بندی و مدیریت نماید.</li>
+<li><strong>هماهنگی با احکام شرعی و عرفی:</strong> بسیاری از زمان‌های عبادی (مانند نماز مغرب و عشاء در آغاز شب، نماز صبح در پایان شب، و نماز ظهر و عصر در روز) و نیز برنامه‌های روزمره (مانند کار، کشاورزی، معاشرت) به طور طبیعی در چارچوب این تقسیم‌بندی معنا می‌یابند و از سردرگمی جلوگیری می‌شود.</li>
+<li><strong>بهینه‌سازی زمان کار و فعالیت:</strong> با شروع فعالیت‌های روزانه از طلوع آفتاب (که در این سیستم ساعتی متغیر اما قابل محاسبه پس از گذشت چند ساعت از آغاز شب است)، افراد می‌توانند در ساعت‌های خنک و مناسب روز کار کنند و در اوج گرمای ظهر (حدود وقت ضحی) استراحت نمایند. این امر بازدهی را افزایش و خستگی را کاهش می‌دهد.</li>
+<li><strong>پرهیز از مشکلات سیستم ظهرکوک (نیمه‌شب‌محور):</strong> در سیستم رایج فعلی که نیمه‌شب را مبدأ می‌گیرد، شب به دو نیمه تقسیم و هویت طبیعی خود را از دست می‌دهد. این امر منجر به سردرگمی در برنامه‌ریزی، تداخل زمان استراحت و کار، و تنظیم نامناسب ساعات کاری اداری و مدارس می‌شود؛ به‌طوری‌که ممکن است در فصول مختلف، ساعت شروع کار با شرایط طبیعی روز (مثلاً میزان روشنایی و گرما) همخوانی نداشته باشد و به سلامت و بهره‌وری آسیب بزند.</li>
+</ol>
+<p>در مجموع، ساعت غروب‌کوک با هدف استفاده بهینه و «سرشار» از عمر، هماهنگی با ریتم فطری بدن و طبیعت، و اجرای منظم برنامه‌های فردی و اجتماعی مبتنی بر اسلام ارائه شده است.</p>
+        `,
+        // Prayer translations (FA)
+        prayerTitle: 'اوقات شرعی',
+        prayerFajr: 'صبح',
+        prayerSunrise: 'طلوع',
+        prayerDhuhr: 'ظهر',
+        prayerMaghrib: 'مغرب',
+        // Backwards-compatible key (some code used `prayerMidnight`)
+        // Update to the requested shorter label
+        prayerMidnight: 'نیمه شب',
+        // New key used by the custom renderer
+        prayerLegalMidnight: 'نیمه شب',
+        fetchingPrayers: 'در حال دریافت اوقات شرعی...',
+        prayerTimesUpdated: 'اوقات شرعی به\u200cروز شد',
+        errorFetchingPrayers: 'خطا در دریافت اوقات شرعی',
+        nextPrayer: 'بعدی: {name} — {mins} دقیقه',
+
+        // Contact translations (FA)
+        developerContactTitle: 'تماس با توسعه‌دهنده',
+        contactWebsiteText: 'وب‌سایت',
+        contactLinkText: 'تماس',
+
+        // Location translations (FA)
+        countries: {
+            'Afghanistan': 'افغانستان',
+            'Albania': 'آلبانی',
+            'Algeria': 'الجزایر',
+            'Argentina': 'آرژانتین',
+            'Australia': 'استرالیا',
+            'Austria': 'اتریش',
+            'Bangladesh': 'بنگلادش',
+            'Belgium': 'بلژیک',
+            'Brazil': 'برزیل',
+            'Bulgaria': 'بلغارستان',
+            'Canada': 'کانادا',
+            'Chile': 'شیلی',
+            'China': 'چین',
+            'Colombia': 'کلمبیا',
+            'Croatia': 'کرواسی',
+            'Czech Republic': 'جمهوری چک',
+            'Denmark': 'دانمارک',
+            'Egypt': 'مصر',
+            'Finland': 'فنلاند',
+            'France': 'فرانسه',
+            'Germany': 'آلمان',
+            'Greece': 'یونان',
+            'Hungary': 'مجارستان',
+            'India': 'هند',
+            'Indonesia': 'اندونزی',
+            'Iran': 'ایران',
+            'Iraq': 'عراق',
+            'Ireland': 'ایرلند',
+            'Italy': 'ایتالیا',
+            'Japan': 'ژاپن',
+            'Jordan': 'اردن',
+            'Kenya': 'کنیا',
+            'Kuwait': 'کویت',
+            'Lebanon': 'لبنان',
+            'Malaysia': 'مالزی',
+            'Mexico': 'مکزیک',
+            'Morocco': 'مراکش',
+            'Netherlands': 'هلند',
+            'New Zealand': 'نیوزیلند',
+            'Nigeria': 'نیجریه',
+            'Norway': 'نروژ',
+            'Pakistan': 'پاکستان',
+            'Peru': 'پرو',
+            'Philippines': 'فیلیپین',
+            'Poland': 'لهستان',
+            'Portugal': 'پرتغال',
+            'Qatar': 'قطر',
+            'Romania': 'رومانی',
+            'Russia': 'روسیه',
+            'Saudi Arabia': 'عربستان سعودی',
+            'Singapore': 'سنگاپور',
+            'South Africa': 'آفریقای جنوبی',
+            'South Korea': 'کره جنوبی',
+            'Spain': 'اسپانیا',
+            'Sweden': 'سوئد',
+            'Switzerland': 'سوئیس',
+            'Syria': 'سوریه',
+            'Thailand': 'تایلند',
+            'Turkey': 'ترکیه',
+            'Ukraine': 'اوکراین',
+            'United Arab Emirates': 'امارات متحده عربی',
+            'United Kingdom': 'بریتانیا',
+            'United States': 'ایالات متحده آمریکا',
+            'Venezuela': 'ونزوئلا',
+            'Vietnam': 'ویتنام',
+            'Yemen': 'یمن'
+        },
+        cities: {
+            // Iran cities
+            'Tehran': 'تهران',
+            'Mashhad': 'مشهد',
+            'Isfahan': 'اصفهان',
+            'Karaj': 'کرج',
+            'Shiraz': 'شیراز',
+            'Tabriz': 'تبریز',
+            'Qom': 'قم',
+            'Ahvaz': 'اهواز',
+            'Kermanshah': 'کرمانشاه',
+            'Urmia': 'ارومیه',
+            'Rasht': 'رشت',
+            'Zahedan': 'زاهدان',
+            'Hamadan': 'همدان',
+            'Kerman': 'کرمان',
+            'Yazd': 'یزد',
+            'Ardabil': 'اردبیل',
+            'Bandar Abbas': 'بندرعباس',
+            'Arak': 'اراک',
+            'Eslamshahr': 'اسلامشهر',
+            'Zanjan': 'زنجان',
+            // Other cities can be added as needed
+        }
+    }
+};
+
+function setLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('sunsetClockLanguage', lang);
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
+    // Keep the window-scoped copy in sync for modules that read window.currentLang
+    window.currentLang = currentLang;
+    
+    const t = window.translations[lang];
+    
+    // Update all translatable elements
+    const elements = {
+        'title': t.title,
+        'clockLabel': t.clockLabel,
+        'countryLabel': t.countryLabel,
+        'cityLabel': t.cityLabel,
+        'saveBtn': t.saveBtn,
+        'languageToggleText': lang === 'en' ? 'فا' : 'en',
+        'prayerTitle': t.prayerTitle,
+        'aboutTitle': t.aboutTitle,
+        'aboutText': t.aboutText,
+        'aboutTextSummary': t.aboutTextSummary,
+        'aboutTextDetails': t.aboutTextDetails,
+        'developerContactTitle': t.developerContactTitle,
+        'contactWebsiteText': t.contactWebsiteText,
+        'contactLinkText': t.contactLinkText
+    };
+    
+    for (const [id, text] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
+            if (id.includes('aboutText')) {
+                element.innerHTML = text;
+            } else {
+                element.textContent = text;
+            }
+        }
+    }
+    
+    // Update tab labels for Persian
+    if (lang === 'fa') {
+        const tabTech = document.getElementById('tabTech');
+        const tabSummary = document.getElementById('tabSummary');
+        const tabDetails = document.getElementById('tabDetails');
+        if (tabTech) tabTech.textContent = 'فناوری';
+        if (tabSummary) tabSummary.textContent = 'خلاصه';
+        if (tabDetails) tabDetails.textContent = 'توضیحات';
+    } else {
+        const tabTech = document.getElementById('tabTech');
+        const tabSummary = document.getElementById('tabSummary');
+        const tabDetails = document.getElementById('tabDetails');
+        if (tabTech) tabTech.textContent = 'Tech';
+        if (tabSummary) tabSummary.textContent = 'Summary';
+        if (tabDetails) tabDetails.textContent = 'Details';
+    }
+    
+    // Update placeholders
+    const countryInput = document.getElementById('country');
+    const cityInput = document.getElementById('city');
+    if (countryInput) countryInput.placeholder = t.searchCountry;
+    if (cityInput) {
+        cityInput.placeholder = window.selectedCountry ? t.searchCity : t.selectCountryFirst;
+    }
+    
+    // Update location info if it exists
+    if (typeof window.updateLocationInfo === 'function') {
+        window.updateLocationInfo();
+    }
+
+    // Refresh location display with new language
+    if (typeof window.refreshLocationDisplay === 'function') {
+        window.refreshLocationDisplay();
+    }
+    // Re-render prayer times/names for the selected language
+    if (typeof window.fetchPrayerTimes === 'function') {
+        try { window.fetchPrayerTimes(); } catch (e) { /* ignore */ }
+    }
+
+    // Refresh clock display with new language format
+    if (typeof window.formatTimeDisplay === 'function' && window.sunsetTime) {
+        setTimeout(() => {
+            // Force immediate clock display update with new format
+            const clockElement = document.getElementById('clock');
+            if (clockElement) {
+                const now = new Date();
+                const todaySunset = new Date(window.sunsetTime);
+                todaySunset.setHours(todaySunset.getHours(), todaySunset.getMinutes(), todaySunset.getSeconds(), 0);
+                const yesterdaySunset = new Date(todaySunset);
+                yesterdaySunset.setDate(yesterdaySunset.getDate() - 1);
+
+                let referenceSunset = todaySunset;
+                if (now < todaySunset) {
+                    referenceSunset = yesterdaySunset;
+                }
+
+                const timeSinceSunset = now - referenceSunset;
+                const totalSeconds = Math.floor(Math.max(0, timeSinceSunset) / 1000);
+                const hours = Math.floor(totalSeconds / 3600) % 24;
+                const minutes = Math.floor((totalSeconds % 3600) / 60);
+                const seconds = totalSeconds % 60;
+
+                const display = window.formatTimeDisplay(hours, minutes, seconds);
+                clockElement.innerHTML = display;
+            }
+        }, 100);
+    }
+}
+
+function toggleLanguage() {
+    const newLang = currentLang === 'en' ? 'fa' : 'en';
+    setLanguage(newLang);
+}
+
+// Make functions available globally
+window.setLanguage = setLanguage;
+window.toggleLanguage = toggleLanguage;
+window.currentLang = currentLang;
+
+
+================================================================================
+File: js\ui.js
+================================================================================
+
+function toggleLocationPanel() {
+    const panel = document.getElementById('locationPanel');
+    panel.classList.toggle('show');
+}
+
+function switchTab(tabName) {
+    // Remove active class from all tabs and contents
+    const tabButtons = document.querySelectorAll('.about-tab-btn');
+    const tabContents = document.querySelectorAll('.about-tab-content');
+    
+    tabButtons.forEach(btn => btn.classList.remove('active'));
+    tabContents.forEach(content => content.classList.remove('active'));
+    
+    // Add active class to selected tab and content
+    const selectedBtn = document.querySelector(`[data-tab="${tabName}"]`);
+    const selectedContent = document.getElementById(`tabContent${tabName.charAt(0).toUpperCase() + tabName.slice(1)}`);
+    
+    if (selectedBtn) selectedBtn.classList.add('active');
+    if (selectedContent) selectedContent.classList.add('active');
+}
+
+function toggleAbout() {
+    const aboutPanel = document.getElementById('aboutPanel');
+    const mainContainer = document.getElementById('mainContainer');
+    
+    if (aboutPanel.classList.contains('show')) {
+        closeAbout();
+    } else {
+        aboutPanel.classList.add('show');
+        mainContainer.classList.add('main-hidden');
+    }
+}
+
+function closeAbout() {
+    const aboutPanel = document.getElementById('aboutPanel');
+    const mainContainer = document.getElementById('mainContainer');
+
+    aboutPanel.classList.remove('show');
+    mainContainer.classList.remove('main-hidden');
+}
+
+function setupEventListeners() {
+    const countryInput = document.getElementById('country');
+    const cityInput = document.getElementById('city');
+    const languageToggle = document.getElementById('languageToggle');
+    const aboutToggleBtnCorner = document.getElementById('aboutToggleBtnCorner');
+    const aboutCloseBtn = document.getElementById('aboutCloseBtn');
+    const saveBtn = document.getElementById('saveBtn');
+    const locationBar = document.getElementById('locationBar');
+
+    // Language toggle
+    if (languageToggle) {
+        languageToggle.addEventListener('click', window.toggleLanguage);
+    }
+
+    // Location bar drawer toggle (the bar itself is the toggle)
+    if (locationBar) {
+        locationBar.addEventListener('click', toggleLocationPanel);
+    }
+
+    // Tutorial button (new corner button)
+    const tutorialToggleBtn = document.getElementById('tutorialToggleBtn');
+    if (tutorialToggleBtn) {
+        tutorialToggleBtn.addEventListener('click', () => {
+            if (typeof window.showOnboarding === 'function') {
+                window.showOnboarding();
+            }
+        });
+    }
+
+    // About panel toggle (new corner button)
+    if (aboutToggleBtnCorner) {
+        aboutToggleBtnCorner.addEventListener('click', toggleAbout);
+    }
+
+    // About close button
+    if (aboutCloseBtn) {
+        aboutCloseBtn.addEventListener('click', closeAbout);
+    }
+
+    // About tabs
+    const tabButtons = document.querySelectorAll('.about-tab-btn');
+    tabButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tabName = btn.getAttribute('data-tab');
+            switchTab(tabName);
+        });
+    });
+
+    // Save location button
+    if (saveBtn) {
+        saveBtn.addEventListener('click', window.saveLocation);
+    }
+
+    // Country dropdown
+    if (countryInput) {
+        countryInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            filteredCountries = countriesList.filter(country => 
+                country.toLowerCase().includes(searchTerm)
+            );
+            renderCountryDropdown();
+            document.getElementById('countryList').classList.add('show');
+        });
+
+        countryInput.addEventListener('focus', () => {
+            if (countryInput.value === '') {
+                filteredCountries = [...countriesList];
+                renderCountryDropdown();
+            }
+            document.getElementById('countryList').classList.add('show');
+        });
+    }
+
+    // City dropdown
+    if (cityInput) {
+        cityInput.addEventListener('input', (e) => {
+            if (!selectedCountry) return;
+            const searchTerm = e.target.value.toLowerCase();
+            filteredCities = citiesList.filter(city => 
+                city.name.toLowerCase().includes(searchTerm)
+            );
+            renderCityDropdown();
+            document.getElementById('cityList').classList.add('show');
+        });
+
+        cityInput.addEventListener('focus', () => {
+            if (!selectedCountry) return;
+            if (cityInput.value === '') {
+                filteredCities = [...citiesList];
+                renderCityDropdown();
+            }
+            document.getElementById('cityList').classList.add('show');
+        });
+    }
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.dropdown-container')) {
+            const countryList = document.getElementById('countryList');
+            const cityList = document.getElementById('cityList');
+            if (countryList) countryList.classList.remove('show');
+            if (cityList) cityList.classList.remove('show');
+        }
+    });
+
+    // Close location panel when clicking outside (outside both panel and location bar)
+    document.addEventListener('click', (e) => {
+        const panel = document.getElementById('locationPanel');
+        const locationBarEl = document.getElementById('locationBar');
+        if (panel && panel.classList.contains('show') && 
+            !panel.contains(e.target) && 
+            !(locationBarEl && locationBarEl.contains(e.target))) {
+            panel.classList.remove('show');
+        }
+    });
+
+    // Close about panel when clicking outside the content area
+    document.addEventListener('click', (e) => {
+        const aboutPanel = document.getElementById('aboutPanel');
+        const aboutContent = document.querySelector('.about-content');
+        const aboutToggleBtn = document.getElementById('aboutToggleBtn');
+        
+        if (aboutPanel && aboutPanel.classList.contains('show') && 
+            aboutContent && !aboutContent.contains(e.target) && 
+            aboutToggleBtn && !aboutToggleBtn.contains(e.target)) {
+            closeAbout();
+        }
+    });
+
+    // Close about panel with ESC key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' || e.keyCode === 27) {
+            const aboutPanel = document.getElementById('aboutPanel');
+            if (aboutPanel && aboutPanel.classList.contains('show')) {
+                closeAbout();
+            }
+        }
+    });
+
+    // Network status listeners
+    window.addEventListener('online', () => {
+        updateOfflineStatus(false);
+        // Refresh data when coming back online
+        if (locationData && typeof window.fetchSunsetTime === 'function') {
+            window.fetchSunsetTime();
+            if (typeof window.fetchPrayerTimes === 'function') window.fetchPrayerTimes();
+        }
+    });
+
+    window.addEventListener('offline', () => {
+        updateOfflineStatus(true);
+        // Ensure clock keeps running with cached data when offline
+        if (window.clockState && !window.clockState.isClockRunning()) {
+            window.clockState.start();
+        }
+    });
+}
+
+// Make functions available globally
+window.toggleLocationPanel = toggleLocationPanel;
+window.toggleAbout = toggleAbout;
+window.closeAbout = closeAbout;
+window.setupEventListeners = setupEventListeners;
+
+
+================================================================================
+File: js\utils.js
+================================================================================
+
+// Global variables (shared across modules)
+let sunsetTime = null;
+let currentLang = localStorage.getItem('sunsetClockLanguage') || 'fa';
+let locationData = null;
+let clockInterval = null;
+
+// Default values
+const DEFAULT_COUNTRY = 'Iran';
+const DEFAULT_CITY = 'Qom';
+
+function updateGradient() {
+    if (!sunsetTime) {
+        // Default gradient
+        document.body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+        return;
+    }
+
+    const now = new Date();
+    const todaySunset = new Date(sunsetTime);
+    todaySunset.setHours(todaySunset.getHours(), todaySunset.getMinutes(), todaySunset.getSeconds(), 0);
+    
+    const yesterdaySunset = new Date(todaySunset);
+    yesterdaySunset.setDate(yesterdaySunset.getDate() - 1);
+    
+    let referenceSunset = todaySunset;
+    if (now < todaySunset) {
+        referenceSunset = yesterdaySunset;
+    }
+    
+    const hoursSinceSunset = (now - referenceSunset) / (1000 * 60 * 60);
+    
+    // Gradient colors based on time of day (0-24 hours since sunset)
+    let color1, color2;
+    
+    if (hoursSinceSunset < 2) {
+        // Early night - deep purple/blue
+        color1 = '#1a1a2e';
+        color2 = '#16213e';
+    } else if (hoursSinceSunset < 6) {
+        // Midnight - dark blue
+        color1 = '#0f0c29';
+        color2 = '#302b63';
+    } else if (hoursSinceSunset < 10) {
+        // Late night - deep blue
+        color1 = '#1e3c72';
+        color2 = '#2a5298';
+    } else if (hoursSinceSunset < 14) {
+        // Early morning - blue to purple
+        color1 = '#667eea';
+        color2 = '#764ba2';
+    } else if (hoursSinceSunset < 18) {
+        // Morning - purple to pink
+        color1 = '#f093fb';
+        color2 = '#f5576c';
+    } else if (hoursSinceSunset < 22) {
+        // Afternoon - orange to red
+        color1 = '#fa709a';
+        color2 = '#fee140';
+    } else {
+        // Evening - red to purple (approaching sunset)
+        color1 = '#f5576c';
+        color2 = '#764ba2';
+    }
+    
+    document.body.style.background = `linear-gradient(135deg, ${color1} 0%, ${color2} 100%)`;
+}
+
+function updateOfflineStatus(isOffline) {
+    const statusDiv = document.getElementById('status');
+    const t = window.translations[currentLang];
+
+    if (isOffline) {
+        statusDiv.innerHTML = `
+            <div class="offline-indicator">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="15" y1="9" x2="9" y2="15"></line>
+                    <line x1="9" y1="9" x2="15" y2="15"></line>
+                </svg>
+                ${t.offline}
+            </div>
+        `;
+    } else {
+        if (statusDiv) {
+            statusDiv.textContent = '';
+        }
+    }
+}
+
+function useFallbackSunsetTime() {
+    const t = window.translations[currentLang];
+    const statusDiv = document.getElementById('status');
+
+    // Estimate sunset time based on location and season
+    // Default to 6 PM local time as a reasonable fallback
+    const now = new Date();
+    const fallbackSunset = new Date(now);
+    fallbackSunset.setHours(18, 0, 0, 0); // 6:00 PM
+
+    // If current time is before 6 PM, use yesterday's sunset
+    if (now.getHours() < 18) {
+        fallbackSunset.setDate(fallbackSunset.getDate() - 1);
+    }
+
+    sunsetTime = fallbackSunset;
+    if (statusDiv) {
+        statusDiv.textContent = t.estimatedOffline;
+    }
+    if (typeof window.startClock === 'function') {
+        window.startClock();
+    }
+}
+
+function getMajorCitiesForCountry(country) {
+    const majorCities = {
+        'Iran': ['Tehran', 'Mashhad', 'Isfahan', 'Karaj', 'Shiraz', 'Tabriz', 'Qom', 'Ahvaz', 'Kermanshah', 'Urmia', 'Rasht', 'Zahedan', 'Hamadan', 'Kerman', 'Yazd', 'Ardabil', 'Bandar Abbas', 'Arak', 'Eslamshahr', 'Zanjan'],
+        'United States': ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix', 'Philadelphia', 'San Antonio', 'San Diego', 'Dallas', 'San Jose'],
+        'United Kingdom': ['London', 'Birmingham', 'Manchester', 'Glasgow', 'Liverpool', 'Leeds', 'Edinburgh', 'Bristol', 'Cardiff', 'Belfast'],
+        'Canada': ['Toronto', 'Montreal', 'Vancouver', 'Calgary', 'Edmonton', 'Ottawa', 'Winnipeg', 'Quebec City', 'Hamilton', 'Kitchener'],
+        'Germany': ['Berlin', 'Munich', 'Hamburg', 'Cologne', 'Frankfurt', 'Stuttgart', 'Düsseldorf', 'Dortmund', 'Essen', 'Leipzig'],
+        'France': ['Paris', 'Marseille', 'Lyon', 'Toulouse', 'Nice', 'Nantes', 'Strasbourg', 'Montpellier', 'Bordeaux', 'Lille'],
+        'Italy': ['Rome', 'Milan', 'Naples', 'Turin', 'Palermo', 'Genoa', 'Bologna', 'Florence', 'Bari', 'Catania'],
+        'Spain': ['Madrid', 'Barcelona', 'Valencia', 'Seville', 'Zaragoza', 'Málaga', 'Murcia', 'Palma', 'Las Palmas', 'Bilbao'],
+        'Japan': ['Tokyo', 'Yokohama', 'Osaka', 'Nagoya', 'Sapporo', 'Fukuoka', 'Kobe', 'Kawasaki', 'Kyoto', 'Saitama'],
+        'China': ['Beijing', 'Shanghai', 'Guangzhou', 'Shenzhen', 'Chengdu', 'Hangzhou', 'Wuhan', 'Xi\'an', 'Nanjing', 'Tianjin'],
+        'India': ['Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Ahmedabad', 'Chennai', 'Kolkata', 'Pune', 'Jaipur', 'Surat'],
+        'Australia': ['Sydney', 'Melbourne', 'Brisbane', 'Perth', 'Adelaide', 'Gold Coast', 'Newcastle', 'Canberra', 'Sunshine Coast', 'Wollongong'],
+        'Brazil': ['São Paulo', 'Rio de Janeiro', 'Brasília', 'Salvador', 'Fortaleza', 'Belo Horizonte', 'Manaus', 'Curitiba', 'Recife', 'Porto Alegre'],
+        'Russia': ['Moscow', 'Saint Petersburg', 'Novosibirsk', 'Yekaterinburg', 'Kazan', 'Nizhny Novgorod', 'Chelyabinsk', 'Samara', 'Omsk', 'Rostov-on-Don'],
+        'Turkey': ['Istanbul', 'Ankara', 'Izmir', 'Bursa', 'Antalya', 'Adana', 'Gaziantep', 'Konya', 'Mersin', 'Diyarbakir'],
+        'Mexico': ['Mexico City', 'Guadalajara', 'Monterrey', 'Puebla', 'Tijuana', 'León', 'Juárez', 'Torreón', 'Querétaro', 'San Luis Potosí'],
+        'Argentina': ['Buenos Aires', 'Córdoba', 'Rosario', 'Mendoza', 'Tucumán', 'La Plata', 'Mar del Plata', 'Salta', 'Santa Fe', 'San Juan'],
+        'South Korea': ['Seoul', 'Busan', 'Incheon', 'Daegu', 'Daejeon', 'Gwangju', 'Suwon', 'Ulsan', 'Changwon', 'Goyang'],
+        'Saudi Arabia': ['Riyadh', 'Jeddah', 'Mecca', 'Medina', 'Dammam', 'Khobar', 'Taif', 'Tabuk', 'Buraydah', 'Khamis Mushait'],
+        'Egypt': ['Cairo', 'Alexandria', 'Giza', 'Shubra El Kheima', 'Port Said', 'Suez', 'Luxor', 'Aswan', 'Asyut', 'Ismailia'],
+        'Pakistan': ['Karachi', 'Lahore', 'Faisalabad', 'Rawalpindi', 'Multan', 'Gujranwala', 'Hyderabad', 'Peshawar', 'Islamabad', 'Quetta'],
+        'Indonesia': ['Jakarta', 'Surabaya', 'Bandung', 'Medan', 'Semarang', 'Palembang', 'Makassar', 'Batam', 'Pekanbaru', 'Bandar Lampung'],
+        'Bangladesh': ['Dhaka', 'Chittagong', 'Khulna', 'Rajshahi', 'Sylhet', 'Comilla', 'Rangpur', 'Mymensingh', 'Barisal', 'Jessore'],
+        'Philippines': ['Manila', 'Quezon City', 'Caloocan', 'Davao', 'Cebu', 'Zamboanga', 'Antipolo', 'Pasig', 'Cagayan de Oro', 'Valenzuela'],
+        'Thailand': ['Bangkok', 'Nonthaburi', 'Pak Kret', 'Hat Yai', 'Nakhon Ratchasima', 'Chiang Mai', 'Udon Thani', 'Pattaya', 'Khon Kaen', 'Nakhon Si Thammarat'],
+        'Vietnam': ['Ho Chi Minh City', 'Hanoi', 'Da Nang', 'Haiphong', 'Can Tho', 'Bien Hoa', 'Hue', 'Nha Trang', 'Vung Tau', 'Quy Nhon'],
+        'Malaysia': ['Kuala Lumpur', 'George Town', 'Ipoh', 'Shah Alam', 'Petaling Jaya', 'Johor Bahru', 'Melaka', 'Kota Kinabalu', 'Kuching', 'Seremban'],
+        'Singapore': ['Singapore'],
+        'Iraq': ['Baghdad', 'Basra', 'Mosul', 'Erbil', 'Najaf', 'Karbala', 'Nasiriyah', 'Amara', 'Samarra', 'Ramadi'],
+        'Syria': ['Damascus', 'Aleppo', 'Homs', 'Latakia', 'Hama', 'Tartus', 'Deir ez-Zor', 'Raqqa', 'Idlib', 'Daraa'],
+        'Lebanon': ['Beirut', 'Tripoli', 'Sidon', 'Tyre', 'Nabatieh', 'Jounieh', 'Zahle', 'Baalbek', 'Byblos', 'Batroun'],
+        'Jordan': ['Amman', 'Zarqa', 'Irbid', 'Russeifa', 'Wadi al-Sir', 'Aqaba', 'Madaba', 'Salt', 'Mafraq', 'Karak'],
+        'Yemen': ['Sana\'a', 'Aden', 'Taiz', 'Hodeidah', 'Ibb', 'Dhamar', 'Al-Mukalla', 'Zinjibar', 'Sayyan', 'Lahij'],
+        'Kuwait': ['Kuwait City', 'Al Ahmadi', 'Hawalli', 'Al Jahra', 'Al Farwaniyah', 'Salmiya', 'Mangaf', 'Mahboula', 'Abu Halifa', 'Fahaheel'],
+        'Qatar': ['Doha', 'Al Rayyan', 'Al Wakrah', 'Al Khor', 'Dukhan', 'Mesaieed', 'Lusail', 'Al Shamal', 'Al Daayen', 'Umm Salal'],
+        'United Arab Emirates': ['Dubai', 'Abu Dhabi', 'Sharjah', 'Al Ain', 'Ajman', 'Ras Al Khaimah', 'Fujairah', 'Umm Al Quwain', 'Khor Fakkan', 'Kalba']
+    };
+
+    if (majorCities[country]) {
+        return majorCities[country].map(name => ({ name, country }));
+    }
+    
+    return [];
+}
+
+
+================================================================================
+File: index.html
+================================================================================
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Sunset Clock</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="A beautiful sunset-to-sunset clock with dynamic gradient backgrounds">
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Sunset Clock">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Sunset Clock">
+    <meta name="msapplication-TileColor" content="#667eea">
+    <meta name="msapplication-starturl" content="/sunclock/">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+    <link rel="icon" type="image/png" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="manifest.json" crossorigin="use-credentials">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="css/main.css" as="style">
+    <link rel="preload" href="js/app.js" as="script">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="//fdn.fontcdn.ir">
+    <link rel="preconnect" href="//v1.fontapi.ir">
+    <link href="https://v1.fontapi.ir/css/Vazir" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirfont@v30.1.0/dist/font-face.css" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components/layout.css">
+    <link rel="stylesheet" href="css/components/controls.css">
+    <link rel="stylesheet" href="css/components/panels.css">
+</head>
+<body>
+    <button class="language-toggle" id="languageToggle">
+        <span class="language-toggle-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+        </span>
+        <span class="language-toggle-text" id="languageToggleText">en</span>
+    </button>
+    
+    <div class="container" id="mainContainer">
+        <h1 id="title">🌅 Sunset Clock</h1>
+        <div class="clock-label" id="clockLabel">Time since sunset</div>
+        <div class="clock-display" id="clock">00:00:00</div>
+
+        <div class="prayer-panel" id="prayerPanel">
+            <h3 class="prayer-title" id="prayerTitle">اوقات شرعی</h3>
+            <div class="prayer-grid" id="prayerGrid">
+                <!-- Prayer items injected here -->
+            </div>
+            <div class="prayer-status" id="prayerStatus"></div>
+        </div>
+
+        <button class="tutorial-corner-btn" id="tutorialToggleBtn" title="Tutorial">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                <path d="M2 17l10 5 10-5"/>
+                <path d="M2 12l10 5 10-5"/>
+            </svg>
+        </button>
+
+        <button class="about-corner-btn" id="aboutToggleBtnCorner" title="About">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+        </button>
+    </div>
+
+    <div class="about-panel" id="aboutPanel">
+        <div class="about-content">
+            <button class="about-close-btn" id="aboutCloseBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <h2 id="aboutTitle">About Sunset Clock</h2>
+            
+            <div class="about-tabs">
+                <button class="about-tab-btn active" data-tab="tech" id="tabTech">فناوری</button>
+                <button class="about-tab-btn" data-tab="summary" id="tabSummary">خلاصه</button>
+                <button class="about-tab-btn" data-tab="details" id="tabDetails">توضیحات</button>
+            </div>
+            
+            <div class="about-tab-content active" id="tabContentTech" data-tab="tech">
+                <div class="about-text" id="aboutText"></div>
+            </div>
+            
+            <div class="about-tab-content" id="tabContentSummary" data-tab="summary">
+                <div class="about-text" id="aboutTextSummary"></div>
+            </div>
+            
+            <div class="about-tab-content" id="tabContentDetails" data-tab="details">
+                <div class="about-text" id="aboutTextDetails"></div>
+            </div>
+
+        <div class="about-contact">
+            <h3 id="developerContactTitle">Developer Contact</h3>
+            <div class="contact-buttons">
+                <button class="contact-button" onclick="window.open('https://eitaa.com/shei_bah', '_blank')">
+                    <span class="contact-icon">📱</span>
+                    <span id="contactWebsiteText">Website</span>
+                </button>
+                <button class="contact-button" onclick="window.open('https://eitaa.com/mohosheba', '_blank')">
+                    <span class="contact-icon">💬</span>
+                    <span id="contactLinkText">Contact</span>
+                </button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <div class="location-bar" id="locationBar">
+        <div class="location-bar-content" id="locationBarContent">
+            <div class="location-text" id="locationText">Loading location...</div>
+            <div class="status" id="status"></div>
+        </div>
+    </div>
+
+    <div class="location-panel" id="locationPanel">
+        <div class="location-panel-content">
+            <div class="location-form">
+                <div class="form-group">
+                    <label for="country" class="countryLabel" id="countryLabel">Country:</label>
+                    <div class="dropdown-container">
+                        <input type="text" class="dropdown-input" id="country" placeholder="Search country..." autocomplete="off">
+                        <div class="dropdown-list" id="countryList"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="city" class="cityLabel" id="cityLabel">City:</label>
+                    <div class="dropdown-container">
+                        <input type="text" class="dropdown-input" id="city" placeholder="Select country first..." autocomplete="off" disabled>
+                        <div class="dropdown-list" id="cityList"></div>
+                    </div>
+                </div>
+                <button id="saveBtn">Save Location</button>
+                <div class="error" id="error"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Onboarding Overlay -->
+    <iframe id="onboardingFrame" src="onboarding.html" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; border: none; z-index: 10000; background: transparent;"></iframe>
+
+    <!-- JavaScript Files -->
+    <!-- Update script order in index.html -->
+    <script src="js/utils.js"></script>
+    <script src="js/state.js"></script>  <!-- NEW: Add this FIRST after utils -->
+    <script src="js/translations.js"></script>
+    <script src="js/clock.js"></script>
+    <script src="js/location.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/prayertimes.js"></script>
+    <script src="js/onboarding-integration.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
+
+
+================================================================================
+File: manifest.json
+================================================================================
+
+{
+    "name": "Sunset Clock",
+    "short_name": "SunsetClock",
+    "description": "Beautiful sunset-to-sunset time tracker",
+    "start_url": "/sunclock/",
+    "scope": "/sunclock/",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#667eea",
+    "theme_color": "#667eea",
+    "icons": [
+        {
+            "src": "icons/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "icons/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "categories": ["utilities", "productivity"],
+    "prefer_related_applications": false
+}
+
+
+================================================================================
+File: onboarding.html
+================================================================================
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome to Sunset Clock</title>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css');
+
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body {
+font-family: 'Vazir', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+color: #ffffff;
+overflow: hidden;
+direction: ltr;
+}
+
+body.rtl {
+direction: rtl;
+}
+
+.overlay {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.95);
+display: flex;
+align-items: center;
+justify-content: center;
+z-index: 10000;
+}
+
+.modal {
+background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 100%);
+border-radius: 20px;
+box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+width: 90%;
+max-width: 650px;
+height: 600px;
+padding: 40px;
+position: relative;
+overflow: hidden;
+border: 1px solid rgba(255, 255, 255, 0.1);
+display: flex;
+flex-direction: column;
+}
+
+.close-btn {
+position: absolute;
+top: 15px;
+right: 15px;
+width: 34px;
+height: 34px;
+min-width: 34px;
+min-height: 34px;
+max-width: 34px;
+max-height: 34px;
+background: rgba(255, 255, 255, 0.1);
+border: none;
+border-radius: 50%;
+color: #ffffff;
+font-size: 22px;
+line-height: 34px;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 0;
+transition: all 0.3s ease;
+z-index: 100;
+}
+
+body.rtl .close-btn {
+right: auto;
+left: 15px;
+}
+
+.close-btn:hover {
+background: rgba(255, 255, 255, 0.2);
+transform: scale(1.1);
+}
+
+.step-indicators {
+display: flex;
+justify-content: center;
+gap: 10px;
+margin-bottom: 30px;
+flex-shrink: 0;
+}
+
+.indicator {
+width: 10px;
+height: 10px;
+border-radius: 50%;
+background: rgba(255, 255, 255, 0.3);
+transition: all 0.3s ease;
+}
+
+.indicator.active {
+background: #ffa500;
+width: 30px;
+border-radius: 5px;
+}
+
+.steps-container {
+flex: 1;
+position: relative;
+overflow: hidden;
+min-height: 0;
+}
+
+.step {
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+display: flex;
+flex-direction: column;
+opacity: 0;
+visibility: hidden;
+transition: opacity 0.3s ease;
+}
+
+.step.active {
+opacity: 1;
+visibility: visible;
+}
+
+.step-content {
+flex: 1;
+overflow-y: auto;
+padding-right: 10px;
+padding-bottom: 20px;
+min-height: 0;
+}
+
+body.rtl .step-content {
+padding-right: 0;
+padding-left: 10px;
+}
+
+.step-content::-webkit-scrollbar {
+width: 6px;
+}
+
+.step-content::-webkit-scrollbar-track {
+background: rgba(255, 255, 255, 0.1);
+border-radius: 3px;
+}
+
+.step-content::-webkit-scrollbar-thumb {
+background: rgba(255, 165, 0, 0.5);
+border-radius: 3px;
+}
+
+h2 {
+font-size: 28px;
+margin-bottom: 20px;
+color: #ffa500;
+text-align: center;
+}
+
+p {
+font-size: 16px;
+line-height: 1.8;
+margin-bottom: 15px;
+color: rgba(255, 255, 255, 0.9);
+}
+
+.emoji {
+font-size: 48px;
+text-align: center;
+margin: 20px 0;
+}
+
+.location-setup {
+margin-top: 20px;
+}
+
+.form-group {
+margin-bottom: 20px;
+}
+
+label {
+display: block;
+margin-bottom: 8px;
+font-size: 14px;
+color: rgba(255, 255, 255, 0.8);
+}
+
+select {
+width: 100%;
+padding: 12px;
+background: rgba(255, 255, 255, 0.1);
+border: 1px solid rgba(255, 255, 255, 0.2);
+border-radius: 8px;
+color: #ffffff;
+font-size: 16px;
+font-family: 'Vazir', sans-serif;
+cursor: pointer;
+transition: all 0.3s ease;
+}
+
+select:focus {
+outline: none;
+border-color: #ffa500;
+background: rgba(255, 255, 255, 0.15);
+}
+
+select option {
+background: #1a1a2e;
+color: #ffffff;
+}
+
+.buttons {
+display: flex;
+justify-content: space-between;
+gap: 15px;
+padding-top: 20px;
+border-top: 1px solid rgba(255, 255, 255, 0.1);
+flex-shrink: 0;
+}
+
+button {
+flex: 1;
+padding: 14px 24px;
+font-size: 16px;
+font-family: 'Vazir', sans-serif;
+border: none;
+border-radius: 10px;
+cursor: pointer;
+transition: all 0.3s ease;
+font-weight: 500;
+}
+
+.btn-back,
+.btn-skip {
+background: rgba(255, 255, 255, 0.1);
+color: #ffffff;
+}
+
+.btn-back:hover,
+.btn-skip:hover {
+background: rgba(255, 255, 255, 0.2);
+}
+
+.btn-next,
+.btn-finish {
+background: linear-gradient(135deg, #ffa500 0%, #ff8c00 100%);
+color: #ffffff;
+}
+
+.btn-next:hover,
+.btn-finish:hover {
+transform: translateY(-2px);
+box-shadow: 0 5px 20px rgba(255, 165, 0, 0.4);
+}
+
+.btn-next:disabled,
+.btn-finish:disabled {
+opacity: 0.5;
+cursor: not-allowed;
+transform: none;
+}
+
+@media (max-width: 600px) {
+.modal {
+width: 95%;
+height: 90vh;
+padding: 30px 20px;
+}
+
+h2 {
+font-size: 24px;
+}
+
+p {
+font-size: 14px;
+}
+}
+</style>
+</head>
+<body>
+<div class="overlay">
+<div class="modal">
+<button class="close-btn" onclick="skipOnboarding()">×</button>
+
+<div class="step-indicators">
+<div class="indicator active" data-step="1"></div>
+<div class="indicator" data-step="2"></div>
+<div class="indicator" data-step="3"></div>
+<div class="indicator" data-step="4"></div>
+</div>
+
+<div class="steps-container">
+<!-- Step 1: Welcome -->
+<div class="step active" data-step="1">
+<div class="step-content">
+<div class="emoji">🌅</div>
+<h2 data-i18n="welcome">Welcome to Sunset Clock</h2>
+<p data-i18n="welcomeText">A revolutionary way to experience time, aligned with nature's rhythm.</p>
+<p data-i18n="welcomeText2">This clock resets at sunset every day, creating a natural 24-hour cycle that connects you to the sun's journey.</p>
+</div>
+</div>
+
+<!-- Step 2: The Problem -->
+<div class="step" data-step="2">
+<div class="step-content">
+<div class="emoji">🌙</div>
+<h2 data-i18n="problemTitle">The Midnight Problem</h2>
+<p data-i18n="problemText1">The current system starts the day at midnight - an arbitrary point that splits the night in two.</p>
+<p data-i18n="problemText2">This creates confusion: Is 2 AM part of yesterday or today? When does rest time truly begin?</p>
+<p data-i18n="problemText3">Our bodies know better - the day ends when the sun sets.</p>
+</div>
+</div>
+
+<!-- Step 3: The Solution -->
+<div class="step" data-step="3">
+<div class="step-content">
+<div class="emoji">☀️</div>
+<h2 data-i18n="solutionTitle">The Natural Solution</h2>
+<p data-i18n="solutionText1"><strong>Sunset Clock (Ghorub-Cook)</strong> resets at sunset, creating clear boundaries:</p>
+<p data-i18n="solutionText2">• <strong>Night begins at sunset (12:00)</strong> - time for rest, reflection, and worship</p>
+<p data-i18n="solutionText3">• <strong>Day begins at sunrise</strong> - time for activity and work</p>
+<p data-i18n="solutionText4">This helps you easily calculate remaining work time and ensure adequate rest.</p>
+</div>
+</div>
+
+<!-- Step 4: Location Setup -->
+<div class="step" data-step="4">
+<div class="step-content">
+<div class="emoji">📍</div>
+<h2 data-i18n="locationTitle">Set Your Location</h2>
+<p data-i18n="locationText">Choose your location to get accurate sunset times:</p>
+
+<div class="location-setup">
+<div class="form-group">
+<label for="country" data-i18n="countryLabel">Country:</label>
+<select id="country">
+<option value="" data-i18n="selectCountry">Select a country...</option>
+</select>
+</div>
+
+<div class="form-group">
+<label for="city" data-i18n="cityLabel">City:</label>
+<select id="city" disabled>
+<option value="" data-i18n="selectCity">Select a city...</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="buttons">
+<button class="btn-skip" id="leftBtn" onclick="skipOnboarding()" data-i18n="skip">Skip</button>
+<button class="btn-next" id="rightBtn" onclick="nextStep()" data-i18n="next">Next</button>
+</div>
+</div>
+</div>
+
+<script>
+let currentStep = 1;
+let currentLang = 'en';
+let countriesData = [];
+let citiesData = {};
+let selectedCountry = '';
+let selectedCity = '';
+
+const translations = {
+en: {
+welcome: 'Welcome to Sunset Clock',
+welcomeText: 'A revolutionary way to experience time, aligned with nature\'s rhythm.',
+welcomeText2: 'This clock resets at sunset every day, creating a natural 24-hour cycle that connects you to the sun\'s journey.',
+problemTitle: 'The Midnight Problem',
+problemText1: 'The current system starts the day at midnight - an arbitrary point that splits the night in two.',
+problemText2: 'This creates confusion: Is 2 AM part of yesterday or today? When does rest time truly begin?',
+problemText3: 'Our bodies know better - the day ends when the sun sets.',
+solutionTitle: 'The Natural Solution',
+solutionText1: 'Sunset Clock (Ghorub-Cook) resets at sunset, creating clear boundaries:',
+solutionText2: '• Night begins at sunset (12:00) - time for rest, reflection, and worship',
+solutionText3: '• Day begins at sunrise - time for activity and work',
+solutionText4: 'This helps you easily calculate remaining work time and ensure adequate rest.',
+locationTitle: 'Set Your Location',
+locationText: 'Choose your location to get accurate sunset times:',
+countryLabel: 'Country:',
+cityLabel: 'City:',
+selectCountry: 'Select a country...',
+selectCity: 'Select a city...',
+loadingCities: 'Loading cities...',
+skip: 'Skip',
+back: 'Back',
+next: 'Next',
+finish: 'Start Using'
+},
+fa: {
+welcome: 'خوش آمدید به ساعت غروب',
+welcomeText: 'روشی انقلابی برای تجربه زمان، هماهنگ با ریتم طبیعت.',
+welcomeText2: 'این ساعت هر روز در غروب بازنشانی می‌شود و یک چرخه طبیعی ۲۴ ساعته ایجاد می‌کند که شما را به سفر خورشید متصل می‌کند.',
+problemTitle: 'مشکل نیمه‌شب',
+problemText1: 'سیستم فعلی روز را از نیمه‌شب شروع می‌کند - نقطه‌ای دلبخواهی که شب را به دو نیمه تقسیم می‌کند.',
+problemText2: 'این امر باعث سردرگمی می‌شود: آیا ساعت ۲ بامداد بخشی از دیروز است یا امروز؟ زمان استراحت واقعاً کی شروع می‌شود؟',
+problemText3: 'بدن ما بهتر می‌داند - روز با غروب خورشید پایان می‌یابد.',
+solutionTitle: 'راه‌حل طبیعی',
+solutionText1: 'ساعت غروب (غروب‌کوک) در غروب بازنشانی می‌شود و مرزهای روشنی ایجاد می‌کند:',
+solutionText2: '• شب از غروب (۱۲:۰۰) شروع می‌شود - زمان استراحت، تفکر و عبادت',
+solutionText3: '• روز از طلوع شروع می‌شود - زمان فعالیت و کار',
+solutionText4: 'این به شما کمک می‌کند به‌راحتی زمان باقی‌مانده کار را محاسبه کنید و از استراحت کافی اطمینان حاصل کنید.',
+locationTitle: 'موقعیت خود را تنظیم کنید',
+locationText: 'برای دریافت زمان دقیق غروب، موقعیت خود را انتخاب کنید:',
+countryLabel: 'کشور:',
+cityLabel: 'شهر:',
+selectCountry: 'انتخاب کشور...',
+selectCity: 'انتخاب شهر...',
+loadingCities: 'در حال بارگذاری شهرها...',
+skip: 'رد کردن',
+back: 'قبلی',
+next: 'بعدی',
+finish: 'شروع استفاده'
+}
+};
+
+function initOnboarding() {
+console.log('Onboarding initialized');
+
+window.addEventListener('message', handleParentMessage);
+window.parent.postMessage({ type: 'onboardingReady' }, '*');
+
+setupEventListeners();
+updateButtons();
+}
+
+function setupEventListeners() {
+const countrySelect = document.getElementById('country');
+const citySelect = document.getElementById('city');
+
+countrySelect.addEventListener('change', loadCities);
+
+citySelect.addEventListener('change', function() {
+selectedCity = this.value;
+updateButtons();
+});
+}
+
+function handleParentMessage(event) {
+const data = event.data;
+console.log('Onboarding received:', data.type);
+
+if (data.type === 'init') {
+currentLang = data.lang || 'en';
+updateLanguage();
+} else if (data.type === 'locationData') {
+countriesData = data.countries || [];
+console.log('Received', countriesData.length, 'countries');
+populateCountries();
+}
+}
+
+function updateLanguage() {
+document.body.className = currentLang === 'fa' ? 'rtl' : '';
+const elements = document.querySelectorAll('[data-i18n]');
+elements.forEach(el => {
+const key = el.getAttribute('data-i18n');
+if (translations[currentLang] && translations[currentLang][key]) {
+if (el.tagName === 'OPTION') {
+el.textContent = translations[currentLang][key];
+} else {
+el.textContent = translations[currentLang][key];
+}
+}
+});
+}
+
+function populateCountries() {
+const countrySelect = document.getElementById('country');
+const placeholder = countrySelect.querySelector('option[value=""]');
+countrySelect.innerHTML = '';
+
+if (placeholder) {
+countrySelect.appendChild(placeholder);
+}
+
+const sorted = [...countriesData].sort((a, b) => {
+return a.display.localeCompare(b.display, currentLang === 'fa' ? 'fa' : 'en');
+});
+
+sorted.forEach(country => {
+const option = document.createElement('option');
+option.value = country.value;
+option.textContent = country.display;
+countrySelect.appendChild(option);
+});
+
+console.log('Populated', sorted.length, 'countries');
+}
+
+async function loadCities() {
+const countrySelect = document.getElementById('country');
+const citySelect = document.getElementById('city');
+
+selectedCountry = countrySelect.value;
+selectedCity = '';
+
+if (!selectedCountry) {
+citySelect.disabled = true;
+citySelect.innerHTML = `<option value="">${translations[currentLang].selectCity}</option>`;
+updateButtons();
+return;
+}
+
+citySelect.disabled = true;
+citySelect.innerHTML = `<option value="">${translations[currentLang].loadingCities}</option>`;
+updateButtons();
+
+try {
+const response = await fetch(
+`https://secure.geonames.org/searchJSON?country=${getCountryCode(selectedCountry)}&featureClass=P&maxRows=100&username=sunclock&orderby=population`
+);
+const data = await response.json();
+
+if (data.geonames && data.geonames.length > 0) {
+citySelect.innerHTML = `<option value="">${translations[currentLang].selectCity}</option>`;
+
+const cities = data.geonames
+.sort((a, b) => b.population - a.population)
+.slice(0, 50);
+
+cities.forEach(city => {
+const option = document.createElement('option');
+option.value = city.name;
+option.textContent = city.name;
+citySelect.appendChild(option);
+});
+
+citySelect.disabled = false;
+console.log('Loaded', cities.length, 'cities');
+} else {
+citySelect.innerHTML = `<option value="">No cities found</option>`;
+}
+} catch (error) {
+console.error('Error loading cities:', error);
+citySelect.innerHTML = `<option value="">Error loading cities</option>`;
+}
+}
+
+function getCountryCode(countryName) {
+const codes = {
+'Iran': 'IR', 'United States': 'US', 'Germany': 'DE', 'France': 'FR',
+'United Kingdom': 'GB', 'Canada': 'CA', 'Australia': 'AU', 'Italy': 'IT',
+'Spain': 'ES', 'Netherlands': 'NL', 'Afghanistan': 'AF', 'Albania': 'AL',
+'Algeria': 'DZ', 'Argentina': 'AR', 'Austria': 'AT', 'Bangladesh': 'BD',
+'Belgium': 'BE', 'Brazil': 'BR', 'Bulgaria': 'BG', 'Chile': 'CL',
+'China': 'CN', 'Colombia': 'CO', 'Croatia': 'HR', 'Czech Republic': 'CZ',
+'Denmark': 'DK', 'Egypt': 'EG', 'Finland': 'FI', 'Greece': 'GR',
+'Hungary': 'HU', 'India': 'IN', 'Indonesia': 'ID', 'Iraq': 'IQ',
+'Ireland': 'IE', 'Japan': 'JP', 'Jordan': 'JO', 'Kenya': 'KE',
+'Kuwait': 'KW', 'Lebanon': 'LB', 'Malaysia': 'MY', 'Mexico': 'MX',
+'Morocco': 'MA', 'New Zealand': 'NZ', 'Nigeria': 'NG', 'Norway': 'NO',
+'Pakistan': 'PK', 'Peru': 'PE', 'Philippines': 'PH', 'Poland': 'PL',
+'Portugal': 'PT', 'Qatar': 'QA', 'Romania': 'RO', 'Russia': 'RU',
+'Saudi Arabia': 'SA', 'Singapore': 'SG', 'South Africa': 'ZA',
+'South Korea': 'KR', 'Sweden': 'SE', 'Switzerland': 'CH', 'Syria': 'SY',
+'Thailand': 'TH', 'Turkey': 'TR', 'Ukraine': 'UA',
+'United Arab Emirates': 'AE', 'Venezuela': 'VE', 'Vietnam': 'VN', 'Yemen': 'YE'
+};
+return codes[countryName] || '';
+}
+
+function previousStep() {
+if (currentStep <= 1) return;
+
+const currentStepEl = document.querySelector(`.step[data-step="${currentStep}"]`);
+const currentIndicator = document.querySelector(`.indicator[data-step="${currentStep}"]`);
+
+currentStepEl.classList.remove('active');
+currentIndicator.classList.remove('active');
+
+currentStep--;
+
+const prevStepEl = document.querySelector(`.step[data-step="${currentStep}"]`);
+const prevIndicator = document.querySelector(`.indicator[data-step="${currentStep}"]`);
+
+prevStepEl.classList.add('active');
+prevIndicator.classList.add('active');
+
+updateButtons();
+}
+
+function nextStep() {
+if (currentStep >= 4) return;
+
+const currentStepEl = document.querySelector(`.step[data-step="${currentStep}"]`);
+const currentIndicator = document.querySelector(`.indicator[data-step="${currentStep}"]`);
+
+currentStepEl.classList.remove('active');
+currentIndicator.classList.remove('active');
+
+currentStep++;
+
+const nextStepEl = document.querySelector(`.step[data-step="${currentStep}"]`);
+const nextIndicator = document.querySelector(`.indicator[data-step="${currentStep}"]`);
+
+nextStepEl.classList.add('active');
+nextIndicator.classList.add('active');
+
+updateButtons();
+}
+
+function updateButtons() {
+const leftBtn = document.getElementById('leftBtn');
+const rightBtn = document.getElementById('rightBtn');
+
+// Left button: Skip on step 1, Back on other steps
+if (currentStep === 1) {
+leftBtn.className = 'btn-skip';
+leftBtn.onclick = skipOnboarding;
+leftBtn.setAttribute('data-i18n', 'skip');
+leftBtn.textContent = translations[currentLang].skip;
+} else {
+leftBtn.className = 'btn-back';
+leftBtn.onclick = previousStep;
+leftBtn.setAttribute('data-i18n', 'back');
+leftBtn.textContent = translations[currentLang].back;
+}
+
+// Right button: Next on steps 1-3, Start Using on step 4
+if (currentStep === 4) {
+rightBtn.className = 'btn-finish';
+rightBtn.onclick = finishOnboarding;
+rightBtn.setAttribute('data-i18n', 'finish');
+rightBtn.textContent = translations[currentLang].finish;
+rightBtn.disabled = !selectedCity;
+} else {
+rightBtn.className = 'btn-next';
+rightBtn.onclick = nextStep;
+rightBtn.setAttribute('data-i18n', 'next');
+rightBtn.textContent = translations[currentLang].next;
+rightBtn.disabled = false;
+}
+}
+
+function skipOnboarding() {
+window.parent.postMessage({ type: 'skipOnboarding' }, '*');
+}
+
+function finishOnboarding() {
+if (!selectedCountry || !selectedCity) {
+return;
+}
+
+console.log('Finishing onboarding with:', selectedCountry, selectedCity);
+
+window.parent.postMessage({
+type: 'onboardingComplete',
+locationData: {
+country: selectedCountry,
+city: selectedCity
+}
+}, '*');
+}
+
+document.addEventListener('keydown', (e) => {
+if (e.key === 'Escape') {
+skipOnboarding();
+} else if (e.key === 'Enter') {
+if (currentStep < 4) {
+nextStep();
+} else if (selectedCountry && selectedCity) {
+finishOnboarding();
+}
+}
+});
+
+initOnboarding();
+</script>
+</body>
+</html>
+

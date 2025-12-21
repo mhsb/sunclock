@@ -288,6 +288,14 @@ font-size: 14px;
 }
 }
 </style>
+
+<!-- Load translation content files -->
+<script src="../content/ui/interface.js"></script>
+<script src="../content/ui/prayer.js"></script>
+<script src="../content/ui/countries.js"></script>
+<script src="../content/ui/cities.js"></script>
+<script src="../content/onboarding/en.js"></script>
+<script src="../content/onboarding/fa.js"></script>
 </head>
 <body>
 <div class="overlay">
@@ -376,57 +384,10 @@ let citiesData = {};
 let selectedCountry = '';
 let selectedCity = '';
 
-const translations = {
-en: {
-welcome: 'Welcome to Sunset Clock',
-welcomeText: 'A revolutionary way to experience time, aligned with nature\'s rhythm.',
-welcomeText2: 'This clock resets at sunset every day, creating a natural 24-hour cycle that connects you to the sun\'s journey.',
-problemTitle: 'The Midnight Problem',
-problemText1: 'The current system starts the day at midnight - an arbitrary point that splits the night in two.',
-problemText2: 'This creates confusion: Is 2 AM part of yesterday or today? When does rest time truly begin?',
-problemText3: 'Our bodies know better - the day ends when the sun sets.',
-solutionTitle: 'The Natural Solution',
-solutionText1: 'Sunset Clock (Ghorub-Cook) resets at sunset, creating clear boundaries:',
-solutionText2: '• Night begins at sunset (12:00) - time for rest, reflection, and worship',
-solutionText3: '• Day begins at sunrise - time for activity and work',
-solutionText4: 'This helps you easily calculate remaining work time and ensure adequate rest.',
-locationTitle: 'Set Your Location',
-locationText: 'Choose your location to get accurate sunset times:',
-countryLabel: 'Country:',
-cityLabel: 'City:',
-selectCountry: 'Select a country...',
-selectCity: 'Select a city...',
-loadingCities: 'Loading cities...',
-skip: 'Skip',
-back: 'Back',
-next: 'Next',
-finish: 'Start Using'
-},
-fa: {
-welcome: 'خوش آمدید به ساعت غروب',
-welcomeText: 'روشی انقلابی برای تجربه زمان، هماهنگ با ریتم طبیعت.',
-welcomeText2: 'این ساعت هر روز در غروب بازنشانی می‌شود و یک چرخه طبیعی ۲۴ ساعته ایجاد می‌کند که شما را به سفر خورشید متصل می‌کند.',
-problemTitle: 'مشکل نیمه‌شب',
-problemText1: 'سیستم فعلی روز را از نیمه‌شب شروع می‌کند - نقطه‌ای دلبخواهی که شب را به دو نیمه تقسیم می‌کند.',
-problemText2: 'این امر باعث سردرگمی می‌شود: آیا ساعت ۲ بامداد بخشی از دیروز است یا امروز؟ زمان استراحت واقعاً کی شروع می‌شود؟',
-problemText3: 'بدن ما بهتر می‌داند - روز با غروب خورشید پایان می‌یابد.',
-solutionTitle: 'راه‌حل طبیعی',
-solutionText1: 'ساعت غروب (غروب‌کوک) در غروب بازنشانی می‌شود و مرزهای روشنی ایجاد می‌کند:',
-solutionText2: '• شب از غروب (۱۲:۰۰) شروع می‌شود - زمان استراحت، تفکر و عبادت',
-solutionText3: '• روز از طلوع شروع می‌شود - زمان فعالیت و کار',
-solutionText4: 'این به شما کمک می‌کند به‌راحتی زمان باقی‌مانده کار را محاسبه کنید و از استراحت کافی اطمینان حاصل کنید.',
-locationTitle: 'موقعیت خود را تنظیم کنید',
-locationText: 'برای دریافت زمان دقیق غروب، موقعیت خود را انتخاب کنید:',
-countryLabel: 'کشور:',
-cityLabel: 'شهر:',
-selectCountry: 'انتخاب کشور...',
-selectCity: 'انتخاب شهر...',
-loadingCities: 'در حال بارگذاری شهرها...',
-skip: 'رد کردن',
-back: 'قبلی',
-next: 'بعدی',
-finish: 'شروع استفاده'
-}
+// Onboarding translations are loaded from external files in HTML head
+let translations = {
+    en: window.onboardingContent ? window.onboardingContent.en : {},
+    fa: window.onboardingContent ? window.onboardingContent.fa : {}
 };
 
 function initOnboarding() {
@@ -489,14 +450,18 @@ if (placeholder) {
 countrySelect.appendChild(placeholder);
 }
 
-const sorted = [...countriesData].sort((a, b) => {
-return a.display.localeCompare(b.display, currentLang === 'fa' ? 'fa' : 'en');
+// Use countries from the modular UI texts
+const countries = window.uiTexts && window.uiTexts.countries && window.uiTexts.countries[currentLang] ?
+    window.uiTexts.countries[currentLang].countries : {};
+
+const sorted = Object.keys(countries).sort((a, b) => {
+return countries[a].localeCompare(countries[b], currentLang === 'fa' ? 'fa' : 'en');
 });
 
-sorted.forEach(country => {
+sorted.forEach(countryKey => {
 const option = document.createElement('option');
-option.value = country.value;
-option.textContent = country.display;
+option.value = countryKey;
+option.textContent = countries[countryKey];
 countrySelect.appendChild(option);
 });
 

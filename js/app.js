@@ -23,7 +23,16 @@ window.addEventListener('DOMContentLoaded', () => {
                 './js/location.js',
                 './js/prayertimes.js',
                 './js/ui.js',
-                './js/app.js'
+                './js/app.js',
+                // Content files for modular translations
+                './content/ui/interface.js',
+                './content/ui/prayer.js',
+                './content/ui/countries.js',
+                './content/ui/cities.js',
+                './content/about/en.js',
+                './content/about/fa.js',
+                './content/onboarding/en.js',
+                './content/onboarding/fa.js'
             ];
 
             // Install event - cache all resources
