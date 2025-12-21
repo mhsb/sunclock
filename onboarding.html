@@ -370,8 +370,8 @@ font-size: 14px;
 </div>
 
 <div class="buttons">
-<button class="btn-skip" id="leftBtn" onclick="skipOnboarding()" data-i18n="skip">Skip</button>
-<button class="btn-next" id="rightBtn" onclick="nextStep()" data-i18n="next">Next</button>
+<button class="btn-skip" id="leftBtn" onclick="skipOnboarding()" data-i18n="skip"></button>
+<button class="btn-next" id="rightBtn" onclick="nextStep()" data-i18n="next"></button>
 </div>
 </div>
 </div>
@@ -384,14 +384,29 @@ let citiesData = {};
 let selectedCountry = '';
 let selectedCity = '';
 
-// Onboarding translations are loaded from external files in HTML head
-let translations = {
-    en: window.onboardingContent ? window.onboardingContent.en : {},
-    fa: window.onboardingContent ? window.onboardingContent.fa : {}
-};
+// Onboarding translations are loaded from parent window
+let translations = { en: {}, fa: {} };
 
-function initOnboarding() {
+// Wait for parent to provide translations
+function waitForTranslations() {
+    return new Promise((resolve) => {
+        const checkTranslations = () => {
+            if (window.translations && window.translations.en && window.translations.fa) {
+                translations = window.translations;
+                resolve();
+            } else {
+                setTimeout(checkTranslations, 50);
+            }
+        };
+        checkTranslations();
+    });
+}
+
+async function initOnboarding() {
 console.log('Onboarding initialized');
+
+// Wait for translations from parent
+await waitForTranslations();
 
 window.addEventListener('message', handleParentMessage);
 window.parent.postMessage({ type: 'onboardingReady' }, '*');
@@ -418,6 +433,10 @@ console.log('Onboarding received:', data.type);
 
 if (data.type === 'init') {
 currentLang = data.lang || 'en';
+// Get translations from parent if available
+if (data.translations) {
+    translations = data.translations;
+}
 updateLanguage();
 } else if (data.type === 'locationData') {
 countriesData = data.countries || [];

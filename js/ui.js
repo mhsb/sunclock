@@ -58,10 +58,10 @@ function setupEventListeners() {
         locationBar.addEventListener('click', toggleLocationPanel);
     }
 
-    // Tutorial button (new corner button)
-    const tutorialToggleBtn = document.getElementById('tutorialToggleBtn');
-    if (tutorialToggleBtn) {
-        tutorialToggleBtn.addEventListener('click', () => {
+    // Tutorial button (top left of about panel)
+    const tutorialBtnTop = document.getElementById('tutorialBtnTop');
+    if (tutorialBtnTop) {
+        tutorialBtnTop.addEventListener('click', () => {
             if (typeof window.showOnboarding === 'function') {
                 window.showOnboarding();
             }

@@ -118,6 +118,8 @@ html[dir="rtl"] .cityLabel {
     .about-content {
         padding: 20px !important;
         margin: 10px;
+        max-height: 60vh;
+        overflow-y: auto;
     }
 
     .about-close-btn {
@@ -130,6 +132,50 @@ html[dir="rtl"] .cityLabel {
     body[dir="rtl"] .about-close-btn {
         right: auto;
         left: 10px;
+    }
+
+    .tutorial-btn-top {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(59, 130, 246, 0.9);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        color: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        z-index: 100;
+    }
+
+    .tutorial-btn-top:hover {
+        background: rgba(59, 130, 246, 1);
+        transform: scale(1.1);
+        box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+    }
+
+    .tutorial-btn-top:active {
+        transform: scale(0.95);
+    }
+
+    .tutorial-btn-top svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    body[dir="rtl"] .tutorial-btn-top {
+        left: auto;
+        right: 10px;
+    }
+
+    .contact-button-half {
+        flex: 1;
+        max-width: calc(50% - 6px);
     }
 
     .location-panel {
@@ -227,78 +273,22 @@ html[dir="rtl"] .cityLabel {
     /* Mobile responsive adjustments for contact buttons */
     @media (max-width: 480px) {
         .contact-buttons {
-            flex-direction: column;
-            align-items: stretch;
+            gap: 8px;
         }
 
         .contact-button {
-            padding: 14px 20px;
-            font-size: 1em;
+            padding: 12px 16px;
+            font-size: 0.9em;
         }
     }
 }
 
-/* Tutorial button in main UI */
-.tutorial-corner-btn {
-    position: fixed;
-    top: 20px;
-    right: 80px;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: rgba(34, 197, 94, 0.9);
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    color: white;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
-    z-index: 1000;
-}
-
-.tutorial-corner-btn:hover {
-    background: rgba(34, 197, 94, 1);
-    transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(34, 197, 94, 0.5);
-}
-
-.tutorial-corner-btn:active {
-    transform: scale(0.95);
-}
-
-.tutorial-corner-btn svg {
-    width: 24px;
-    height: 24px;
-}
-
-/* RTL adjustments for tutorial button */
-html[dir="rtl"] .tutorial-corner-btn {
-    right: auto;
-    left: 80px;
-}
-
-/* Mobile adjustments for tutorial button */
-@media (max-width: 768px) {
-    .tutorial-corner-btn {
-        top: 15px;
-        right: 75px;
-        width: 45px;
-        height: 45px;
-    }
-
-    html[dir="rtl"] .tutorial-corner-btn {
-        right: auto;
-        left: 75px;
-    }
-}
 
 /* Help icon for revisiting onboarding (fallback) */
 .help-icon {
-    position: fixed;
+    position: absolute;
     top: 20px;
-    right: 20px;
+    left: 20px;
     width: 50px;
     height: 50px;
     border-radius: 50%;

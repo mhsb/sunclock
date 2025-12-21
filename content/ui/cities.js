@@ -3,6 +3,125 @@ window.uiTexts = window.uiTexts || {};
 window.uiTexts.cities = {
     en: {
         cities: {
+            // United States
+            'New York': 'New York',
+            'Los Angeles': 'Los Angeles',
+            'Chicago': 'Chicago',
+            'Houston': 'Houston',
+            'Phoenix': 'Phoenix',
+            'Philadelphia': 'Philadelphia',
+            'San Antonio': 'San Antonio',
+            'San Diego': 'San Diego',
+            'Dallas': 'Dallas',
+            'San Jose': 'San Jose',
+            // China
+            'Shanghai': 'Shanghai',
+            'Beijing': 'Beijing',
+            'Guangzhou': 'Guangzhou',
+            'Shenzhen': 'Shenzhen',
+            'Tianjin': 'Tianjin',
+            // India
+            'Mumbai': 'Mumbai',
+            'Delhi': 'Delhi',
+            'Bangalore': 'Bangalore',
+            'Hyderabad': 'Hyderabad',
+            'Ahmedabad': 'Ahmedabad',
+            // Japan
+            'Tokyo': 'Tokyo',
+            'Yokohama': 'Yokohama',
+            'Osaka': 'Osaka',
+            'Nagoya': 'Nagoya',
+            'Sapporo': 'Sapporo',
+            // United Kingdom
+            'London': 'London',
+            'Birmingham': 'Birmingham',
+            'Manchester': 'Manchester',
+            'Liverpool': 'Liverpool',
+            'Leeds': 'Leeds',
+            // Germany
+            'Berlin': 'Berlin',
+            'Hamburg': 'Hamburg',
+            'Munich': 'Munich',
+            'Cologne': 'Cologne',
+            'Frankfurt': 'Frankfurt',
+            // France
+            'Paris': 'Paris',
+            'Marseille': 'Marseille',
+            'Lyon': 'Lyon',
+            'Toulouse': 'Toulouse',
+            'Nice': 'Nice',
+            // Italy
+            'Rome': 'Rome',
+            'Milan': 'Milan',
+            'Naples': 'Naples',
+            'Turin': 'Turin',
+            'Palermo': 'Palermo',
+            // Canada
+            'Toronto': 'Toronto',
+            'Montreal': 'Montreal',
+            'Vancouver': 'Vancouver',
+            'Calgary': 'Calgary',
+            'Edmonton': 'Edmonton',
+            // Australia
+            'Sydney': 'Sydney',
+            'Melbourne': 'Melbourne',
+            'Brisbane': 'Brisbane',
+            'Perth': 'Perth',
+            'Adelaide': 'Adelaide',
+            // South Korea
+            'Seoul': 'Seoul',
+            'Busan': 'Busan',
+            'Incheon': 'Incheon',
+            'Daegu': 'Daegu',
+            'Daejeon': 'Daejeon',
+            // Spain
+            'Madrid': 'Madrid',
+            'Barcelona': 'Barcelona',
+            'Valencia': 'Valencia',
+            'Seville': 'Seville',
+            'Zaragoza': 'Zaragoza',
+            // Mexico
+            'Mexico City': 'Mexico City',
+            'Guadalajara': 'Guadalajara',
+            'Puebla': 'Puebla',
+            'Tijuana': 'Tijuana',
+            'Ciudad Juárez': 'Ciudad Juárez',
+            // Brazil
+            'São Paulo': 'São Paulo',
+            'Rio de Janeiro': 'Rio de Janeiro',
+            'Brasília': 'Brasília',
+            'Salvador': 'Salvador',
+            'Fortaleza': 'Fortaleza',
+            // Russia
+            'Moscow': 'Moscow',
+            'Saint Petersburg': 'Saint Petersburg',
+            'Novosibirsk': 'Novosibirsk',
+            'Yekaterinburg': 'Yekaterinburg',
+            'Kazan': 'Kazan',
+            // Turkey
+            'Istanbul': 'Istanbul',
+            'Ankara': 'Ankara',
+            'İzmir': 'İzmir',
+            'Bursa': 'Bursa',
+            'Antalya': 'Antalya',
+            // Indonesia
+            'Jakarta': 'Jakarta',
+            'Surabaya': 'Surabaya',
+            'Bandung': 'Bandung',
+            'Bekasi': 'Bekasi',
+            'Medan': 'Medan',
+            // Netherlands
+            'Amsterdam': 'Amsterdam',
+            'Rotterdam': 'Rotterdam',
+            'The Hague': 'The Hague',
+            'Utrecht': 'Utrecht',
+            'Eindhoven': 'Eindhoven',
+            // Saudi Arabia
+            'Riyadh': 'Riyadh',
+            'Jeddah': 'Jeddah',
+            'Mecca': 'Mecca',
+            'Medina': 'Medina',
+            'Dammam': 'Dammam',
             // Iran cities
             'Tehran': 'Tehran',
             'Mashhad': 'Mashhad',
@@ -24,11 +143,129 @@ window.uiTexts.cities = {
             'Arak': 'Arak',
             'Eslamshahr': 'Eslamshahr',
             'Zanjan': 'Zanjan'
-            // Other cities can be added as needed
         }
     },
     fa: {
         cities: {
+            // United States
+            'New York': 'نیویورک',
+            'Los Angeles': 'لس آنجلس',
+            'Chicago': 'شیکاگو',
+            'Houston': 'هیوستون',
+            'Phoenix': 'فونیکس',
+            'Philadelphia': 'فیلادلفیا',
+            'San Antonio': 'سن آنتونیو',
+            'San Diego': 'سن دیگو',
+            'Dallas': 'دالاس',
+            'San Jose': 'سن خوزه',
+            // China
+            'Shanghai': 'شانگهای',
+            'Beijing': 'پکن',
+            'Guangzhou': 'گوانگ‌ژو',
+            'Shenzhen': 'شنژن',
+            'Tianjin': 'تیانجین',
+            // India
+            'Mumbai': 'مومبای',
+            'Delhi': 'دهلی',
+            'Bangalore': 'بنگلور',
+            'Hyderabad': 'حیدرآباد',
+            'Ahmedabad': 'احمدآباد',
+            // Japan
+            'Tokyo': 'توکیو',
+            'Yokohama': 'یوکوهاما',
+            'Osaka': 'اوساکا',
+            'Nagoya': 'ناگویا',
+            'Sapporo': 'ساپورو',
+            // United Kingdom
+            'London': 'لندن',
+            'Birmingham': 'بیرمنگام',
+            'Manchester': 'منچستر',
+            'Liverpool': 'لیورپول',
+            'Leeds': 'لیدز',
+            // Germany
+            'Berlin': 'برلین',
+            'Hamburg': 'هامبورگ',
+            'Munich': 'مونیخ',
+            'Cologne': 'کلن',
+            'Frankfurt': 'فرانکفورت',
+            // France
+            'Paris': 'پاریس',
+            'Marseille': 'مارسی',
+            'Lyon': 'لیون',
+            'Toulouse': 'تولوز',
+            'Nice': 'نیس',
+            // Italy
+            'Rome': 'رم',
+            'Milan': 'میلان',
+            'Naples': 'ناپل',
+            'Turin': 'تورین',
+            'Palermo': 'پالمرو',
+            // Canada
+            'Toronto': 'تورنتو',
+            'Montreal': 'مونترآل',
+            'Vancouver': 'ونکوور',
+            'Calgary': 'کالگری',
+            'Edmonton': 'ادمونتون',
+            // Australia
+            'Sydney': 'سیدنی',
+            'Melbourne': 'ملبورن',
+            'Brisbane': 'بریزبن',
+            'Perth': 'پرت',
+            'Adelaide': 'آدلاید',
+            // South Korea
+            'Seoul': 'سئول',
+            'Busan': 'بوسان',
+            'Incheon': 'اینچئون',
+            'Daegu': 'دائگو',
+            'Daejeon': 'دائجون',
+            // Spain
+            'Madrid': 'مادرید',
+            'Barcelona': 'بارسلون',
+            'Valencia': 'والنسیا',
+            'Seville': 'سویل',
+            'Zaragoza': 'ساراگوسا',
+            // Mexico
+            'Mexico City': 'مکزیکو سیتی',
+            'Guadalajara': 'گوادالاخارا',
+            'Puebla': 'پوئبلا',
+            'Tijuana': 'تیخوانا',
+            'Ciudad Juárez': 'سیوداد خوارز',
+            // Brazil
+            'São Paulo': 'سائو پائولو',
+            'Rio de Janeiro': 'ریو دو ژانیرو',
+            'Brasília': 'برازیلیا',
+            'Salvador': 'سالوادور',
+            'Fortaleza': 'فورتالزا',
+            // Russia
+            'Moscow': 'مسکو',
+            'Saint Petersburg': 'سن پترزبورگ',
+            'Novosibirsk': 'نووسیبیرسک',
+            'Yekaterinburg': 'یکاترینبورگ',
+            'Kazan': 'کازان',
+            // Turkey
+            'Istanbul': 'استانبول',
+            'Ankara': 'آنکارا',
+            'İzmir': 'ازمیر',
+            'Bursa': 'بورصا',
+            'Antalya': 'آنتالیا',
+            // Indonesia
+            'Jakarta': 'جاکارتا',
+            'Surabaya': 'سورابایا',
+            'Bandung': 'باندونگ',
+            'Bekasi': 'بکاسی',
+            'Medan': 'مدان',
+            // Netherlands
+            'Amsterdam': 'آمستردام',
+            'Rotterdam': 'روتردام',
+            'The Hague': 'لاهه',
+            'Utrecht': 'اوترخت',
+            'Eindhoven': 'اینهوون',
+            // Saudi Arabia
+            'Riyadh': 'ریاض',
+            'Jeddah': 'جده',
+            'Mecca': 'مکه',
+            'Medina': 'مدینه',
+            'Dammam': 'دمام',
             // Iran cities
             'Tehran': 'تهران',
             'Mashhad': 'مشهد',
@@ -50,7 +287,6 @@ window.uiTexts.cities = {
             'Arak': 'اراک',
             'Eslamshahr': 'اسلامشهر',
             'Zanjan': 'زنجان'
-            // Other cities can be added as needed
         }
     }
 };

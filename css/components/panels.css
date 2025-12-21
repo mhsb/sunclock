@@ -244,6 +244,7 @@ label {
     justify-content: center;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10;
 }
 
 body[dir="rtl"] .about-close-btn {
@@ -281,6 +282,23 @@ body[dir="rtl"] .about-close-btn {
 
 .about-text p {
     margin-bottom: 20px;
+}
+
+/* Horizontal alignment for contact/website buttons - Overriding main.css mobile defaults if needed */
+.contact-buttons {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    gap: 15px !important;
+    margin-top: 25px !important;
+    flex-wrap: nowrap !important;
+}
+
+.contact-button {
+    flex: 1 !important;
+    min-width: 0 !important;
+    padding: 12px 10px !important;
+    font-size: 0.9em !important;
 }
 
 /* About Tabs */
@@ -363,6 +381,60 @@ body[dir="rtl"] .about-close-btn {
         transform: translateY(0);
     }
 }
+
+/* Help icon for revisiting onboarding (fallback) */
+.help-icon {
+    position: absolute; /* Relative to .about-content */
+    top: 20px;
+    left: 20px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(102, 126, 234, 0.9);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    z-index: 10;
+}
+
+.help-icon:hover {
+    background: rgba(102, 126, 234, 1);
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+.help-icon:active {
+    transform: scale(0.95);
+}
+
+/* RTL adjustments for help icon */
+body[dir="rtl"] .help-icon {
+    right: auto;
+    left: 20px;
+}
+
+/* Mobile adjustments for help icon */
+@media (max-width: 768px) {
+    .help-icon {
+        top: 15px;
+        left: 15px;
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+    }
+
+    body[dir="rtl"] .help-icon {
+        right: auto;
+        left: 15px;
+    }
+}
+
 
 /* Prayer Panel */
 .prayer-panel {

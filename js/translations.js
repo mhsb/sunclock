@@ -75,7 +75,8 @@ function setLanguage(lang) {
         'aboutTextDetails': t.aboutTextDetails,
         'developerContactTitle': t.developerContactTitle,
         'contactWebsiteText': t.contactWebsiteText,
-        'contactLinkText': t.contactLinkText
+        'contactLinkText': t.contactLinkText,
+        'tutorialText': t.tutorialText
     };
     
     for (const [id, text] of Object.entries(elements)) {

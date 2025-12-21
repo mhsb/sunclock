@@ -30,7 +30,8 @@ window.uiTexts.interface = {
         aboutTitle: 'About Sunset Clock',
         developerContactTitle: 'Developer Contact',
         contactWebsiteText: 'Website',
-        contactLinkText: 'Contact'
+        contactLinkText: 'Contact',
+        tutorialText: 'Tutorial'
     },
     fa: {
         title: '🌅 ساعت غروب‌کوک',
@@ -61,6 +62,7 @@ window.uiTexts.interface = {
         aboutTitle: 'درباره ساعت غروب',
         developerContactTitle: 'تماس با توسعه‌دهنده',
         contactWebsiteText: 'وب‌سایت',
-        contactLinkText: 'تماس'
+        contactLinkText: 'تماس',
+        tutorialText: 'آموزش'
     }
 };

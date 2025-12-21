@@ -68,10 +68,11 @@
     function sendInitMessage() {
         console.log('Sending init message to onboarding');
         const lang = window.currentLang || 'en';
-        
+
         sendMessageToOnboarding({
             type: 'init',
-            lang: lang
+            lang: lang,
+            translations: window.translations
         });
 
         // Also send location data
@@ -90,16 +91,22 @@
     }
 
     function addHelpIcon() {
-        const existingIcon = document.querySelector('.help-icon');
-        if (existingIcon) return; // Already exists
-
+        // Target the specific content box inside the about panel
+        const targetPanel = document.querySelector('.about-content');
+        
+        if (!targetPanel) return;
+    
+        const existingIcon = targetPanel.querySelector('.help-icon');
+        if (existingIcon) return; 
+    
         const helpIcon = document.createElement('button');
         helpIcon.innerHTML = '?';
         helpIcon.className = 'help-icon';
+        // Position it away from the close button (Close is at top-right, let's use top-left)
         helpIcon.title = window.currentLang === 'fa' ? 'راهنما' : 'Help';
         helpIcon.onclick = () => showOnboarding();
-
-        document.body.appendChild(helpIcon);
+    
+        targetPanel.appendChild(helpIcon);
     }
 
     function hideMainApp() {
