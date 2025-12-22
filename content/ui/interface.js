@@ -31,7 +31,11 @@ window.uiTexts.interface = {
         developerContactTitle: 'Developer Contact',
         contactWebsiteText: 'Website',
         contactLinkText: 'Contact',
-        tutorialText: 'Tutorial'
+        tutorialText: 'Tutorial',
+        skip: 'Skip',
+        back: 'Back',
+        next: 'Next',
+        finish: 'Start Using'
     },
     fa: {
         title: '🌅 ساعت غروب‌کوک',
@@ -63,6 +67,10 @@ window.uiTexts.interface = {
         developerContactTitle: 'تماس با توسعه‌دهنده',
         contactWebsiteText: 'وب‌سایت',
         contactLinkText: 'تماس',
-        tutorialText: 'آموزش'
+        tutorialText: 'آموزش',
+        skip: 'رد کردن',
+        back: 'قبلی',
+        next: 'بعدی',
+        finish: 'شروع استفاده'
     }
 };

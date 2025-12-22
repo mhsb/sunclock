@@ -19,9 +19,5 @@ window.onboardingContent.fa = {
     cityLabel: 'شهر:',
     selectCountry: 'انتخاب کشور...',
     selectCity: 'انتخاب شهر...',
-    loadingCities: 'در حال بارگذاری شهرها...',
-    skip: 'رد کردن',
-    back: 'قبلی',
-    next: 'بعدی',
-    finish: 'شروع استفاده'
+    loadingCities: 'در حال بارگذاری شهرها...'
 };

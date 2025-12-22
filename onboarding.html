@@ -314,9 +314,9 @@ font-size: 14px;
 <div class="step active" data-step="1">
 <div class="step-content">
 <div class="emoji">🌅</div>
-<h2 data-i18n="welcome">Welcome to Sunset Clock</h2>
-<p data-i18n="welcomeText">A revolutionary way to experience time, aligned with nature's rhythm.</p>
-<p data-i18n="welcomeText2">This clock resets at sunset every day, creating a natural 24-hour cycle that connects you to the sun's journey.</p>
+<h2 data-i18n="welcome"></h2>
+<p data-i18n="welcomeText"></p>
+<p data-i18n="welcomeText2"></p>
 </div>
 </div>
 
@@ -324,10 +324,10 @@ font-size: 14px;
 <div class="step" data-step="2">
 <div class="step-content">
 <div class="emoji">🌙</div>
-<h2 data-i18n="problemTitle">The Midnight Problem</h2>
-<p data-i18n="problemText1">The current system starts the day at midnight - an arbitrary point that splits the night in two.</p>
-<p data-i18n="problemText2">This creates confusion: Is 2 AM part of yesterday or today? When does rest time truly begin?</p>
-<p data-i18n="problemText3">Our bodies know better - the day ends when the sun sets.</p>
+<h2 data-i18n="problemTitle"></h2>
+<p data-i18n="problemText1"></p>
+<p data-i18n="problemText2"></p>
+<p data-i18n="problemText3"></p>
 </div>
 </div>
 
@@ -335,11 +335,11 @@ font-size: 14px;
 <div class="step" data-step="3">
 <div class="step-content">
 <div class="emoji">☀️</div>
-<h2 data-i18n="solutionTitle">The Natural Solution</h2>
-<p data-i18n="solutionText1"><strong>Sunset Clock (Ghorub-Cook)</strong> resets at sunset, creating clear boundaries:</p>
-<p data-i18n="solutionText2">• <strong>Night begins at sunset (12:00)</strong> - time for rest, reflection, and worship</p>
-<p data-i18n="solutionText3">• <strong>Day begins at sunrise</strong> - time for activity and work</p>
-<p data-i18n="solutionText4">This helps you easily calculate remaining work time and ensure adequate rest.</p>
+<h2 data-i18n="solutionTitle"></h2>
+<p data-i18n="solutionText1"></p>
+<p data-i18n="solutionText2"></p>
+<p data-i18n="solutionText3"></p>
+<p data-i18n="solutionText4"></p>
 </div>
 </div>
 
@@ -347,21 +347,21 @@ font-size: 14px;
 <div class="step" data-step="4">
 <div class="step-content">
 <div class="emoji">📍</div>
-<h2 data-i18n="locationTitle">Set Your Location</h2>
-<p data-i18n="locationText">Choose your location to get accurate sunset times:</p>
+<h2 data-i18n="locationTitle"></h2>
+<p data-i18n="locationText"></p>
 
 <div class="location-setup">
 <div class="form-group">
-<label for="country" data-i18n="countryLabel">Country:</label>
+<label for="country" data-i18n="countryLabel"></label>
 <select id="country">
-<option value="" data-i18n="selectCountry">Select a country...</option>
+<option value="" data-i18n="selectCountry"></option>
 </select>
 </div>
 
 <div class="form-group">
-<label for="city" data-i18n="cityLabel">City:</label>
+<label for="city" data-i18n="cityLabel"></label>
 <select id="city" disabled>
-<option value="" data-i18n="selectCity">Select a city...</option>
+<option value="" data-i18n="selectCity"></option>
 </select>
 </div>
 </div>
@@ -384,29 +384,44 @@ let citiesData = {};
 let selectedCountry = '';
 let selectedCity = '';
 
-// Onboarding translations are loaded from parent window
+// Load onboarding translations directly
 let translations = { en: {}, fa: {} };
 
-// Wait for parent to provide translations
-function waitForTranslations() {
+// Load translations from content files
+function loadOnboardingTranslations() {
     return new Promise((resolve) => {
-        const checkTranslations = () => {
-            if (window.translations && window.translations.en && window.translations.fa) {
-                translations = window.translations;
+        // Wait for content files to load (they're loaded in head)
+        const checkContent = () => {
+            if (window.onboardingContent && window.uiTexts && window.uiTexts.interface) {
+                // Merge onboarding content
+                translations.en = { ...window.onboardingContent.en };
+                translations.fa = { ...window.onboardingContent.fa };
+
+                // Add button translations from interface
+                translations.en.skip = window.uiTexts.interface.en.skip || 'Skip';
+                translations.en.back = window.uiTexts.interface.en.back || 'Back';
+                translations.en.next = window.uiTexts.interface.en.next || 'Next';
+                translations.en.finish = window.uiTexts.interface.en.finish || 'Start Using';
+
+                translations.fa.skip = window.uiTexts.interface.fa.skip || 'رد کردن';
+                translations.fa.back = window.uiTexts.interface.fa.back || 'قبلی';
+                translations.fa.next = window.uiTexts.interface.fa.next || 'بعدی';
+                translations.fa.finish = window.uiTexts.interface.fa.finish || 'شروع استفاده';
+
                 resolve();
             } else {
-                setTimeout(checkTranslations, 50);
+                setTimeout(checkContent, 50);
             }
         };
-        checkTranslations();
+        checkContent();
     });
 }
 
 async function initOnboarding() {
 console.log('Onboarding initialized');
 
-// Wait for translations from parent
-await waitForTranslations();
+// Load translations
+await loadOnboardingTranslations();
 
 window.addEventListener('message', handleParentMessage);
 window.parent.postMessage({ type: 'onboardingReady' }, '*');
@@ -433,11 +448,8 @@ console.log('Onboarding received:', data.type);
 
 if (data.type === 'init') {
 currentLang = data.lang || 'en';
-// Get translations from parent if available
-if (data.translations) {
-    translations = data.translations;
-}
 updateLanguage();
+updateButtons();
 } else if (data.type === 'locationData') {
 countriesData = data.countries || [];
 console.log('Received', countriesData.length, 'countries');

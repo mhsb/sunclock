@@ -19,9 +19,5 @@ window.onboardingContent.en = {
     cityLabel: 'City:',
     selectCountry: 'Select a country...',
     selectCity: 'Select a city...',
-    loadingCities: 'Loading cities...',
-    skip: 'Skip',
-    back: 'Back',
-    next: 'Next',
-    finish: 'Start Using'
+    loadingCities: 'Loading cities...'
 };

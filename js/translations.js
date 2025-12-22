@@ -76,7 +76,11 @@ function setLanguage(lang) {
         'developerContactTitle': t.developerContactTitle,
         'contactWebsiteText': t.contactWebsiteText,
         'contactLinkText': t.contactLinkText,
-        'tutorialText': t.tutorialText
+        'tutorialText': t.tutorialText,
+        'skip': t.skip,
+        'back': t.back,
+        'next': t.next,
+        'finish': t.finish
     };
     
     for (const [id, text] of Object.entries(elements)) {
