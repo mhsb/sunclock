@@ -1,1443 +1,801 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sunset Clock</title>
-    
-    <!-- PWA Meta Tags -->
-    <meta name="description" content="A beautiful sunset-to-sunset clock with dynamic gradient backgrounds">
-    <meta name="theme-color" content="#667eea">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Sunset Clock">
-    
-    <!-- Favicon and App Icons -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23667eea;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23764ba2;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='45' fill='url(%23grad)'/%3E%3Ccircle cx='50' cy='30' r='8' fill='white' opacity='0.9'/%3E%3Cpath d='M 50 30 L 50 50 L 65 50' stroke='white' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23667eea;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23764ba2;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='45' fill='url(%23grad)'/%3E%3Ccircle cx='50' cy='30' r='8' fill='white' opacity='0.9'/%3E%3Cpath d='M 50 30 L 50 50 L 65 50' stroke='white' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
-    
-    <!-- Web App Manifest -->
-    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiU3Vuc2V0IENsb2NrIiwiU2hvcnRfbmFtZSI6IlN1bnNldCBDbG9jayIsImRlc2NyaXB0aW9uIjoiQSBiZWF1dGlmdWwgc3Vuc2V0LXRvLXN1bnNldCBjbG9jayB3aXRoIGR5bmFtaWMgZ3JhZGllbnQgYmFja2dyb3VuZHMiLCJzdGFydF91cmwiOiIvIiwiaWNvbnMiOlt7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbCwlM0NzdmcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyB2aWV3Qm94PScwIDAgMTkyIDE5MiclM0UlM0NkZWZzJTNFJTNDbGluZWFyR3JhZGllbnQgaWQ9J2dyYWQnIHgxPScwJScgeTE9JzAlJyB4Mj0nMTAwJScgeTI9JzEwMCUnJTNFJTNDc3RvcCBvZmZzZXQ9JzAlJyBzdHlsZT0nc3RvcC1jb2xvcjolMjM2NjdlZWE7c3RvcC1vcGFjaXR5OjEnIC8lM0UlM0NzdG9wIG9mZnNldD0nMTAwJScgc3R5bGU9J3N0b3AtY29sb3I6JTIzNzY0YmEyO3N0b3Atb3BhY2l0eToxJyAvJTNFJTNDL2xpbmVhckdyYWRpZW50JTNFJTNDL2RlZnMlM0UlM0NjaXJjbGUgY3g9Jzk2JyBjeT0nOTYnIHI9Jzg2JyBmaWxsPSd1cmwoJTIzZ3JhZCknLyUzRSUzQ2NpcmNsZSBjeD0nOTYnIGN5PSc1OCcgcj0nMTUnIGZpbGw9J3doaXRlJyBvcGFjaXR5PScwLjknLyUzRSUzQ3BhdGggZD0nTSA5NiA1OCBMIDk2IDk2IEwgMTI4IDk2JyBzdHJva2U9J3doaXRlJyBzdHJva2Utd2lkdGg9JzYnIGZpbGw9J25vbmUnIHN0cm9rZS1saW5lY2FwPSdyb3VuZCcvJTNFJTNDL3N2ZyUzRSIsInNpemVzIjoiMTkyeDE5MiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIiwiZHVycGF0aW9uIjoiYW55In1dLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsIm9yaWVudGF0aW9uIjoicG9ydHJhaXQtcHJpbWFyeSIsImJhY2tncm91bmRfY29sb3IiOiIjNjY3ZWVhIn0=">
-    <!-- Iranian Font Server (Primary) -->
-    <link rel="preconnect" href="//fdn.fontcdn.ir">
-    <link rel="preconnect" href="//v1.fontapi.ir">
-    <link href="https://v1.fontapi.ir/css/Vazir" rel="stylesheet">
-    
-    <!-- Fallback: Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">
-    
-    <!-- Fallback: jsDelivr CDN -->
-    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirfont@v30.1.0/dist/font-face.css" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            padding: 20px;
-            padding-bottom: 100px;
-            transition: background 2s ease;
-        }
-
-        /* Apply Vazir font to all elements when in RTL mode */
-        html[dir="rtl"],
-        html[dir="rtl"] body,
-        html[dir="rtl"] * {
-            font-family: 'Vazir', Vazir, 'Vazirmatn', 'Tahoma', 'Arial', sans-serif !important;
-        }
-        
-        /* Specific overrides for elements that might have inline styles */
-        html[dir="rtl"] h1,
-        html[dir="rtl"] h2,
-        html[dir="rtl"] h3,
-        html[dir="rtl"] p,
-        html[dir="rtl"] div,
-        html[dir="rtl"] span,
-        html[dir="rtl"] button,
-        html[dir="rtl"] input,
-        html[dir="rtl"] label,
-        html[dir="rtl"] .clock-display,
-        html[dir="rtl"] .clock-label,
-        html[dir="rtl"] .location-text,
-        html[dir="rtl"] .status,
-        html[dir="rtl"] .language-toggle,
-        html[dir="rtl"] .location-toggle-btn,
-        html[dir="rtl"] .about-text,
-        html[dir="rtl"] .about-title {
-            font-family: 'Vazir', Vazir, 'Vazirmatn', 'Tahoma', 'Arial', sans-serif !important;
-        }
-
-        .language-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 10px 16px;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 25px;
-            color: white;
-            cursor: pointer;
-            font-size: 0.9em;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            white-space: nowrap;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .language-toggle-icon {
-            width: 18px;
-            height: 18px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .language-toggle-text {
-            font-weight: 600;
-            transition: opacity 0.3s ease;
-        }
-
-        .language-toggle:hover {
-            background: rgba(255, 255, 255, 0.25);
-            border-color: rgba(255, 255, 255, 0.4);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-        }
-
-        .language-toggle:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        .language-toggle:hover .language-toggle-icon {
-            transform: rotate(15deg) scale(1.1);
-        }
-
-        .container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 60px 40px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            max-width: 700px;
-            width: 100%;
-            text-align: center;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .container:hover {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(255, 255, 255, 0.25);
-            box-shadow: 0 12px 48px 0 rgba(31, 38, 135, 0.5);
-            transform: translateY(-4px);
-        }
-
-        h1 {
-            margin-bottom: 40px;
-            font-size: 3em;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .clock-display {
-            font-size: 7em;
-            font-weight: bold;
-            margin: 40px 0;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
-            font-variant-numeric: tabular-nums;
-            letter-spacing: 0.05em;
-            line-height: 1.2;
-        }
-
-        .clock-label {
-            font-size: 1.5em;
-            opacity: 0.9;
-            margin-bottom: 30px;
-        }
-
-        /* Location Bar */
-        .location-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            z-index: 999;
-            transition: transform 0.3s ease;
-        }
-
-        .location-bar-content {
-            flex: 1;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .location-text {
-            font-size: 1em;
-            opacity: 0.9;
-        }
-
-        .location-toggle-btn {
-            padding: 10px 14px;
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            color: white;
-            cursor: pointer;
-            font-size: 0.9em;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            margin-left: 15px;
-            white-space: nowrap;
-            width: auto;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 44px;
-            min-height: 44px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .location-toggle-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            border-color: rgba(255, 255, 255, 0.4);
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-        }
-
-        .location-toggle-btn:active {
-            transform: translateY(0) scale(1);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        .location-toggle-btn svg {
-            width: 20px;
-            height: 20px;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .location-toggle-btn:hover svg {
-            transform: rotate(90deg) scale(1.1);
-        }
-
-        #aboutToggleBtn:hover svg {
-            transform: scale(1.15);
-        }
-
-        body[dir="rtl"] .location-toggle-btn {
-            margin-left: 0;
-            margin-right: 15px;
-        }
-
-        /* Location Panel */
-        .location-panel {
-            position: fixed;
-            bottom: -100%;
-            left: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(20px);
-            padding: 30px 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            z-index: 1001;
-            transition: bottom 0.3s ease;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .location-panel.show {
-            bottom: 0;
-        }
-
-        .location-panel-content {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .location-form {
-            padding: 20px 0;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        body[dir="rtl"] .form-group {
-            text-align: right;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 0.95em;
-            opacity: 0.9;
-        }
-
-        .dropdown-container {
-            position: relative;
-            width: 100%;
-        }
-
-        .dropdown-input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            font-size: 1em;
-            cursor: pointer;
-        }
-
-        .dropdown-input:focus {
-            outline: none;
-            border-color: rgba(255, 255, 255, 0.5);
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .dropdown-input:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .dropdown-list {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            max-height: 200px;
-            overflow-y: auto;
-            background: rgba(0, 0, 0, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            margin-top: 5px;
-            z-index: 1002;
-            display: none;
-        }
-
-        .dropdown-list.show {
-            display: block;
-        }
-
-        .dropdown-item {
-            padding: 12px;
-            cursor: pointer;
-            color: white;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .dropdown-item:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .dropdown-item:last-child {
-            border-bottom: none;
-        }
-
-        .loading-cities {
-            padding: 12px;
-            text-align: center;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9em;
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            font-size: 1em;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 15px;
-        }
-
-        .location-toggle-btn,
-        .language-toggle {
-            width: auto;
-        }
-
-        button:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        .error {
-            color: #ff6b6b;
-            margin-top: 10px;
-            font-size: 0.9em;
-        }
-
-        .status {
-            margin-top: 10px;
-            font-size: 0.85em;
-            opacity: 0.7;
-        }
-
-        .offline-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            color: #ff6b6b;
-            font-weight: 500;
-        }
-
-        .offline-indicator svg {
-            width: 14px;
-            height: 14px;
-        }
-
-        .loading {
-            opacity: 0.6;
-        }
-
-        /* About Panel */
-        .about-panel {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(20px);
-            z-index: 1003;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
-            overflow-y: auto;
-        }
-
-        .about-panel.show {
-            display: flex;
-        }
-
-        .about-content {
-            max-width: 600px;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-        }
-
-        .about-content:hover {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
-            transform: translateY(-4px);
-        }
-
-        .about-close-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            width: 44px;
-            height: 44px;
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        body[dir="rtl"] .about-close-btn {
-            right: auto;
-            left: 20px;
-        }
-
-        .about-close-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            border-color: rgba(255, 255, 255, 0.4);
-            transform: rotate(90deg) scale(1.1);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-        }
-
-        .about-close-btn:active {
-            transform: rotate(90deg) scale(1);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        .about-close-btn svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        .about-content h2 {
-            margin-bottom: 30px;
-            font-size: 2em;
-            text-align: center;
-        }
-
-        .about-text {
-            line-height: 1.8;
-            font-size: 1.1em;
-        }
-
-        .about-text p {
-            margin-bottom: 20px;
-        }
-
-        .main-hidden {
-            display: none !important;
-        }
-
-        @media (max-width: 768px) {
-            .clock-display {
-                font-size: 3.5em;
-            }
-
-            h1 {
-                font-size: 2em;
-            }
-
-            .container {
-                padding: 40px 20px;
-            }
-        }
-    </style>
+<meta charset="utf-8">
+<title>Sunset Clock</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="A sunset-to-sunset clock with a sky that follows the real sun, plus prayer times.">
+<meta name="theme-color" content="#0a1030" id="themeColor">
+<meta name="color-scheme" content="dark">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Sunset Clock">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;600&family=Vazirmatn:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #fff;
+    --ink-soft: rgba(255,255,255,.72);
+    --glass: rgba(8,12,36,.34);
+    --line: rgba(255,255,255,.16);
+    --accent: #ffd27a;
+    --sheet: #121a3d;
+    color-scheme: dark;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  *, *::before, *::after { box-sizing: inherit; }
+  html, body { margin: 0; min-height: 100%; }
+  body {
+    background: #0a1030;
+    color: var(--ink);
+    font-family: 'Outfit', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  html[lang="fa"] body { font-family: 'Vazirmatn', 'Outfit', system-ui, Tahoma, sans-serif; }
+
+  #sky, #glow, #stars { position: fixed; inset: 0; pointer-events: none; }
+  #sky { z-index: 0; background: linear-gradient(180deg, #0a1030, #0a1030); }
+  #glow { z-index: 1; opacity: 0; background: radial-gradient(ellipse 120% 55% at 50% 100%, rgba(255,160,80,.85), rgba(255,160,80,0) 70%); }
+  #stars { z-index: 1; opacity: 0; }
+  #stars i { position: absolute; border-radius: 50%; background: #fff; animation: tw 4s ease-in-out infinite; }
+  @keyframes tw { 0%,100% { opacity: .9 } 50% { opacity: .25 } }
+  @media (prefers-reduced-motion: reduce) { #stars i { animation: none; } }
+
+  .wrap { position: relative; z-index: 2; max-width: 520px; margin: 0 auto; padding: 14px 16px 40px; }
+  .top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .chip {
+    background: var(--glass); border: 1px solid var(--line); color: var(--ink);
+    padding: 9px 14px; border-radius: 999px; font: inherit; font-size: 14px; cursor: pointer;
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    display: inline-flex; align-items: center; gap: 8px; min-width: 0; max-width: 72%;
+  }
+  .chip span.t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .chip:active { transform: scale(.97); }
+
+  .hero { text-align: center; padding: 18px 0 6px; }
+  .phase { font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase; opacity: .9; min-height: 18px; }
+  html[lang="fa"] .phase { letter-spacing: 0; text-transform: none; font-size: 14px; }
+  .ring { position: relative; width: min(84vw, 340px); aspect-ratio: 1; margin: 12px auto 16px; }
+  .ring svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .ring-in { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 0 10%; }
+  .label { font-size: 14px; color: var(--ink-soft); }
+  .digits {
+    font-size: min(14vw, 60px); font-weight: 200; direction: ltr; unicode-bidi: isolate;
+    font-variant-numeric: tabular-nums; letter-spacing: .02em; line-height: 1;
+    text-shadow: 0 2px 18px rgba(0,0,0,.25);
+  }
+  .sub { font-size: 12.5px; color: var(--ink-soft); line-height: 1.5; }
+  .note { font-size: 12px; color: var(--accent); margin: 6px auto 0; max-width: 300px; }
+
+  .upnext { display: block; width: fit-content; max-width: 100%; margin: 0 auto 14px; padding: 8px 14px; font-size: 14px; line-height: 1.5; background: var(--glass); border: 1px solid var(--line); border-radius: 16px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+  .ltr { direction: ltr; unicode-bidi: isolate; font-variant-numeric: tabular-nums; }
+  .tools { display: flex; gap: 8px; align-items: center; }
+  .chip.icon { padding: 9px 12px; }
+  .chip[aria-pressed="true"] { background: rgba(255,210,122,.28); border-color: rgba(255,210,122,.6); }
+  #locBtn { max-width: calc(100% - 150px); }
+  .seg { display: inline-flex; padding: 4px; gap: 2px; background: var(--glass); border: 1px solid var(--line); border-radius: 999px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+  .seg button { background: transparent; color: var(--ink-soft); border: 0; font: inherit; font-size: 13.5px; padding: 8px 16px; border-radius: 999px; cursor: pointer; }
+  .seg button[aria-pressed="true"] { background: rgba(255,255,255,.22); color: var(--ink); }
+
+  .dates { margin-top: 18px; line-height: 1.6; }
+  .dates .h { font-size: 17px; font-weight: 400; }
+  .dates .c { font-size: 13.5px; color: var(--ink-soft); }
+
+  .card { margin-top: 14px; padding: 16px; background: var(--glass); border: 1px solid var(--line); border-radius: 20px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+  .card h2 { margin: 0 0 12px; font-size: 12.5px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; opacity: .85; }
+  html[lang="fa"] .card h2 { letter-spacing: 0; text-transform: none; font-size: 15px; }
+  .card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+  .card-head h2 { margin: 0; }
+
+  .chart { direction: ltr; }
+  .chart svg { width: 100%; height: auto; display: block; }
+  .chart-foot { position: relative; height: 34px; font-size: 12px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+  .chart-foot span { position: absolute; top: 6px; white-space: nowrap; }
+  .chart-foot .l { left: 0; } .chart-foot .r { right: 0; } .chart-foot .m { transform: translateX(-50%); }
+
+  .sels { display: flex; gap: 8px; flex-wrap: wrap; margin: 6px 0 12px; }
+  select, input {
+    background: rgba(255,255,255,.1); color: var(--ink); border: 1px solid var(--line);
+    border-radius: 10px; padding: 8px 10px; font: inherit; font-size: 14px; max-width: 100%;
+  }
+  select option { color: #111; background: #fff; }
+  .sels select { flex: 1 1 140px; font-size: 13px; }
+
+  .nextbar { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 2px 4px 12px; font-size: 14px; color: var(--ink-soft); }
+  .nextbar b { color: var(--ink); font-weight: 600; }
+  .nextbar .cd { color: var(--accent); font-size: 18px; font-variant-numeric: tabular-nums; direction: ltr; unicode-bidi: isolate; }
+  .rows { display: grid; gap: 4px; }
+  .row { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border-radius: 12px; font-size: 16px; }
+  .row .tm { font-variant-numeric: tabular-nums; direction: ltr; unicode-bidi: isolate; font-weight: 400; }
+  .row.passed { opacity: .5; }
+  .row.next { background: rgba(255,210,122,.16); outline: 1px solid rgba(255,210,122,.5); }
+  .row.minor { font-size: 14px; color: var(--ink-soft); }
+  .row .vals { display: flex; align-items: baseline; gap: 12px; direction: ltr; unicode-bidi: isolate; }
+  .row .lc { font-size: 12.5px; color: var(--ink-soft); font-variant-numeric: tabular-nums; min-width: 3.2em; text-align: right; }
+  .pnote { font-size: 12.5px; color: var(--ink-soft); margin: 0 4px 10px; }
+
+  details { border-top: 1px solid var(--line); padding: 12px 0; }
+  details:first-of-type { border-top: 0; padding-top: 0; }
+  summary { cursor: pointer; font-weight: 600; font-size: 15px; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: '+'; opacity: .7; font-size: 18px; }
+  details[open] summary::after { content: '–'; }
+  details p { margin: 10px 0 0; font-size: 14px; line-height: 1.7; color: var(--ink-soft); }
+  footer { text-align: center; font-size: 12px; color: var(--ink-soft); margin: 22px 0 0; opacity: .8; }
+
+  dialog { padding: 0; border: 1px solid var(--line); border-radius: 22px; background: var(--sheet); color: var(--ink); width: calc(100% - 32px); max-width: 420px; font: inherit; }
+  dialog::backdrop { background: rgba(0,0,0,.55); backdrop-filter: blur(4px); }
+  .sheet { padding: 20px; display: grid; gap: 14px; }
+  .sheet h3 { margin: 0; font-size: 18px; font-weight: 600; }
+  .sheet label { display: grid; gap: 6px; font-size: 13px; color: var(--ink-soft); }
+  .sheet select, .sheet input { width: 100%; font-size: 15px; padding: 10px 12px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .btn { font: inherit; font-size: 15px; padding: 11px 16px; border-radius: 12px; border: 1px solid var(--line); background: rgba(255,255,255,.08); color: var(--ink); cursor: pointer; }
+  .btn.primary { background: var(--accent); color: #1a1a2e; border-color: transparent; font-weight: 600; }
+  .actions { display: flex; gap: 10px; justify-content: flex-end; }
+  .msg { font-size: 13px; color: var(--accent); min-height: 18px; }
+  [hidden] { display: none !important; }
+</style>
 </head>
 <body>
-    <button class="language-toggle" id="languageToggle" onclick="toggleLanguage()">
-        <span class="language-toggle-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="2" y1="12" x2="22" y2="12"></line>
-                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-            </svg>
-        </span>
-        <span class="language-toggle-text" id="languageToggleText">en</span>
-    </button>
-    
-    <div class="container" id="mainContainer">
-        <h1 id="title">🌅 Sunset Clock</h1>
-        <div class="clock-label" id="clockLabel">Time since sunset</div>
-        <div class="clock-display" id="clock">00:00:00</div>
+<div id="sky"></div>
+<div id="glow"></div>
+<div id="stars" aria-hidden="true"></div>
+
+<main class="wrap">
+  <header class="top">
+    <button class="chip" id="locBtn" aria-haspopup="dialog"><span aria-hidden="true">📍</span><span class="t" id="locName">…</span></button>
+    <div class="tools">
+      <button class="chip icon" id="installBtn" hidden>⬇</button>
+      <button class="chip icon" id="liveBtn" aria-pressed="false">🔔</button>
+      <button class="chip" id="langBtn" aria-label="Language">فا</button>
     </div>
+  </header>
 
-    <div class="about-panel" id="aboutPanel">
-        <div class="about-content">
-            <button class="about-close-btn" onclick="toggleAbout()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-            </button>
-            <h2 id="aboutTitle">About Sunset Clock</h2>
-            <div class="about-text" id="aboutText"></div>
-        </div>
+  <section class="hero">
+    <div class="phase" id="phase"></div>
+    <div class="ring">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <circle cx="50" cy="50" r="46" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1.2"/>
+        <circle id="prog" cx="50" cy="50" r="46" fill="none" stroke="#ffd27a" stroke-width="2" stroke-linecap="round" pathLength="100" stroke-dasharray="0 100" transform="rotate(-90 50 50)"/>
+        <circle id="knobGlow" r="4.6" fill="rgba(255,210,122,.3)"/>
+        <circle id="knob" r="2.4" fill="#ffd27a" stroke="#fff" stroke-width=".8"/>
+      </svg>
+      <div class="ring-in">
+        <div class="label" id="modeLabel"></div>
+        <div class="digits" id="digits">00:00:00</div>
+        <div class="sub" id="sub"></div>
+      </div>
     </div>
-
-    <div class="location-bar">
-        <div class="location-bar-content" id="locationBarContent">
-            <div class="location-text" id="locationText">Loading location...</div>
-            <div class="status" id="status"></div>
-        </div>
-        <div style="display: flex; gap: 10px;">
-            <button class="location-toggle-btn" id="aboutToggleBtn" onclick="toggleAbout()" title="About">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="12" y1="16" x2="12" y2="12"></line>
-                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                </svg>
-            </button>
-            <button class="location-toggle-btn" id="locationToggleBtn" onclick="toggleLocationPanel()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="3"></circle>
-                    <path d="M12 1v6m0 6v6M5.64 5.64l4.24 4.24m4.24 4.24l4.24 4.24M1 12h6m6 0h6M5.64 18.36l4.24-4.24m4.24-4.24l4.24-4.24"></path>
-                </svg>
-            </button>
-        </div>
+    <div class="upnext" id="upnext"></div>
+    <div class="seg" role="group" id="modeSeg">
+      <button id="mSince" aria-pressed="true" data-i18n="modeSince"></button>
+      <button id="mUntil" aria-pressed="false" data-i18n="modeUntil"></button>
     </div>
-
-    <div class="location-panel" id="locationPanel">
-        <div class="location-panel-content">
-            <div class="location-form">
-                <div class="form-group">
-                    <label for="country" id="countryLabel">Country:</label>
-                    <div class="dropdown-container">
-                        <input type="text" class="dropdown-input" id="country" placeholder="Search country..." autocomplete="off">
-                        <div class="dropdown-list" id="countryList"></div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="city" id="cityLabel">City:</label>
-                    <div class="dropdown-container">
-                        <input type="text" class="dropdown-input" id="city" placeholder="Select country first..." autocomplete="off" disabled>
-                        <div class="dropdown-list" id="cityList"></div>
-                    </div>
-                </div>
-                <button onclick="saveLocation()" id="saveBtn">Save Location</button>
-                <div class="error" id="error"></div>
-            </div>
-        </div>
+    <div class="note" id="polar" hidden></div>
+    <div class="dates">
+      <div class="h" id="hijri"></div>
+      <div class="c" id="civil"></div>
     </div>
-
-    <script>
-        // Translations
-        const translations = {
-            en: {
-                title: '🌅 Sunset Clock',
-                clockLabel: 'Time since sunset',
-                countryLabel: 'Country:',
-                cityLabel: 'City:',
-                saveBtn: 'Save Location',
-                locationText: 'Loading location...',
-                pleaseEnterLocation: 'Please enter your location',
-                searchCountry: 'Search country...',
-                selectCountryFirst: 'Select country first...',
-                searchCity: 'Search city...',
-                loadingCities: 'Loading cities...',
-                noCountriesFound: 'No countries found',
-                noCitiesFound: 'No cities found',
-                pleaseSelectBoth: 'Please select both country and city',
-                pleaseSelectValidCountry: 'Please select a valid country from the list',
-                locationNotSet: 'Location not set',
-                fetchingSunset: 'Fetching sunset time...',
-                usingCached: 'Using cached sunset time',
-                sunsetUpdated: 'Sunset time updated',
-                errorFetching: 'Error fetching sunset time. Using cached data if available.',
-                usingCachedOutdated: 'Using cached sunset time (may be outdated)',
-                unableToLoad: 'Unable to load sunset time',
-                offline: 'Offline - using cached sunset time',
-                estimatedOffline: 'Estimated sunset time (offline)',
-                settings: '⚙️',
-                aboutTitle: 'About Sunset Clock',
-                aboutText: '<p>Sunset Clock is a unique time display that shows time elapsed since the last sunset. The clock resets every day at sunset, creating a natural 24-hour cycle.</p><p>The background gradient changes throughout the day to reflect the time of day, transitioning from deep night blues to morning purples and afternoon oranges.</p><p>You can set your location to get accurate sunset times for your area. The app works offline using cached sunset times when internet is unavailable.</p>'
-            },
-            fa: {
-                title: '🌅 ساعت غروب کوک',
-                clockLabel: 'زمان از غروب',
-                countryLabel: 'کشور:',
-                cityLabel: 'شهر:',
-                saveBtn: 'ذخیره موقعیت',
-                locationText: 'در حال بارگذاری موقعیت...',
-                pleaseEnterLocation: 'لطفاً موقعیت خود را وارد کنید',
-                searchCountry: 'جستجوی کشور...',
-                selectCountryFirst: 'ابتدا کشور را انتخاب کنید...',
-                searchCity: 'جستجوی شهر...',
-                loadingCities: 'در حال بارگذاری شهرها...',
-                noCountriesFound: 'کشوری یافت نشد',
-                noCitiesFound: 'شهری یافت نشد',
-                pleaseSelectBoth: 'لطفاً کشور و شهر را انتخاب کنید',
-                pleaseSelectValidCountry: 'لطفاً یک کشور معتبر از لیست انتخاب کنید',
-                locationNotSet: 'موقعیت تنظیم نشده',
-                fetchingSunset: 'در حال دریافت زمان غروب...',
-                usingCached: 'استفاده از زمان غروب ذخیره شده',
-                sunsetUpdated: 'زمان غروب به‌روزرسانی شد',
-                errorFetching: 'خطا در دریافت زمان غروب. در صورت وجود، از داده‌های ذخیره شده استفاده می‌شود.',
-                usingCachedOutdated: 'استفاده از زمان غروب ذخیره شده (ممکن است قدیمی باشد)',
-                unableToLoad: 'امکان بارگذاری زمان غروب وجود ندارد',
-                offline: 'آفلاین - استفاده از زمان غروب ذخیره شده',
-                estimatedOffline: 'زمان غروب تخمینی (آفلاین)',
-                settings: '⚙️',
-                aboutTitle: 'درباره ساعت غروب',
-                aboutText: '<p>ساعت غروب یک نمایش زمان منحصر به فرد است که زمان سپری شده از آخرین غروب را نشان می‌دهد. ساعت هر روز در زمان غروب بازنشانی می‌شود و یک چرخه طبیعی 24 ساعته ایجاد می‌کند.</p><p>گرادیان پس‌زمینه در طول روز تغییر می‌کند تا زمان روز را منعکس کند و از آبی‌های عمیق شب به بنفش‌های صبحگاهی و نارنجی‌های بعدازظهر تبدیل می‌شود.</p><p>می‌توانید موقعیت خود را تنظیم کنید تا زمان‌های دقیق غروب برای منطقه خود را دریافت کنید. این برنامه به صورت آفلاین کار می‌کند و از زمان‌های غروب ذخیره شده استفاده می‌کند.</p>'
-            }
-        };
-
-        let currentLang = localStorage.getItem('sunsetClockLanguage') || 'fa';
-        let sunsetTime = null;
-        let locationData = null;
-        let clockInterval = null;
-        let gradientInterval = null;
-        let countriesList = [];
-        let citiesList = [];
-        let selectedCountry = null;
-        let filteredCountries = [];
-        let filteredCities = [];
-
-        // Default values
-        const DEFAULT_COUNTRY = 'Iran';
-        const DEFAULT_CITY = 'Qom';
-
-        // Initialize
-        window.addEventListener('DOMContentLoaded', () => {
-            // Register Service Worker for PWA
-            if ('serviceWorker' in navigator) {
-                const swCode = `
-                    const CACHE_NAME = 'sunset-clock-v1';
-                    const urlsToCache = [
-                        './',
-                        './index.html',
-                        'https://cdn.fontserver.ir/css/Vazir.css',
-                        'https://cdn.fontserver.ir/css/Vazirmatn.css',
-                        'https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap',
-                        'https://cdn.jsdelivr.net/gh/rastikerdar/vazirfont@v30.1.0/dist/font-face.css'
-                    ];
-
-                    self.addEventListener('install', (e) => {
-                        e.waitUntil(
-                            caches.open(CACHE_NAME)
-                                .then((cache) => cache.addAll(urlsToCache))
-                                .then(() => self.skipWaiting())
-                        );
-                    });
-
-                    self.addEventListener('activate', (e) => {
-                        e.waitUntil(
-                            caches.keys().then((cacheNames) => {
-                                return Promise.all(
-                                    cacheNames.map((cacheName) => {
-                                        if (cacheName !== CACHE_NAME) {
-                                            return caches.delete(cacheName);
-                                        }
-                                    })
-                                );
-                            }).then(() => self.clients.claim())
-                        );
-                    });
-
-                    self.addEventListener('fetch', (e) => {
-                        e.respondWith(
-                            caches.match(e.request)
-                                .then((response) => {
-                                    if (response) {
-                                        return response;
-                                    }
-                                    return fetch(e.request).catch(() => {
-                                        // Return a fallback for navigation requests
-                                        if (e.request.mode === 'navigate') {
-                                            return caches.match('./');
-                                        }
-                                    });
-                                })
-                        );
-                    });
-                `;
-                const blob = new Blob([swCode], { type: 'application/javascript' });
-                const swUrl = URL.createObjectURL(blob);
-                navigator.serviceWorker.register(swUrl).catch(() => {});
-            }
-
-            // Prevent refresh when offline
-            window.addEventListener('beforeunload', (e) => {
-                if (!navigator.onLine) {
-                    e.preventDefault();
-                    e.returnValue = '';
-                    const t = translations[currentLang];
-                    const offlineMessage = currentLang === 'fa' ?
-                        'شما در حالت آفلاین هستید. لطفاً اتصال اینترنت خود را بررسی کنید.' :
-                        'You are offline. Please check your internet connection.';
-                    alert(offlineMessage);
-                    return false;
-                }
-            });
-
-            // Wait for fonts to load
-            if (document.fonts && document.fonts.ready) {
-                document.fonts.ready.then(() => {
-                    initializeApp();
-                });
-            } else {
-                // Fallback if font loading API not available
-                setTimeout(initializeApp, 500);
-            }
-        });
-
-        function initializeApp() {
-            setLanguage(currentLang);
-            initializeCountries();
-            setupEventListeners();
-            loadSavedLocation();
-            updateGradient();
-            updateOfflineStatus(!navigator.onLine);
-            setInterval(updateGradient, 60000); // Update gradient every minute
-        }
-
-        function setLanguage(lang) {
-            currentLang = lang;
-            localStorage.setItem('sunsetClockLanguage', lang);
-            document.documentElement.lang = lang;
-            document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
-            
-            const t = translations[lang];
-            document.getElementById('title').textContent = t.title;
-            document.getElementById('clockLabel').textContent = t.clockLabel;
-            document.getElementById('countryLabel').textContent = t.countryLabel;
-            document.getElementById('cityLabel').textContent = t.cityLabel;
-            document.getElementById('saveBtn').textContent = t.saveBtn;
-            document.getElementById('country').placeholder = t.searchCountry;
-            document.getElementById('city').placeholder = selectedCountry ? t.searchCity : t.selectCountryFirst;
-            document.getElementById('languageToggleText').textContent = lang === 'en' ? 'فا' : 'en';
-            document.getElementById('aboutTitle').textContent = t.aboutTitle;
-            document.getElementById('aboutText').innerHTML = t.aboutText;
-            
-            updateLocationInfo();
-        }
-
-        function toggleLanguage() {
-            const newLang = currentLang === 'en' ? 'fa' : 'en';
-            setLanguage(newLang);
-        }
-
-        function toggleLocationPanel() {
-            const panel = document.getElementById('locationPanel');
-            panel.classList.toggle('show');
-        }
-
-        function toggleAbout() {
-            const aboutPanel = document.getElementById('aboutPanel');
-            const mainContainer = document.getElementById('mainContainer');
-            
-            if (aboutPanel.classList.contains('show')) {
-                closeAbout();
-            } else {
-                aboutPanel.classList.add('show');
-                mainContainer.classList.add('main-hidden');
-            }
-        }
-
-        function closeAbout() {
-            const aboutPanel = document.getElementById('aboutPanel');
-            const mainContainer = document.getElementById('mainContainer');
-
-            aboutPanel.classList.remove('show');
-            mainContainer.classList.remove('main-hidden');
-        }
-
-        function useFallbackSunsetTime() {
-            const t = translations[currentLang];
-            const statusDiv = document.getElementById('status');
-
-            // Estimate sunset time based on location and season
-            // Default to 6 PM local time as a reasonable fallback
-            const now = new Date();
-            const fallbackSunset = new Date(now);
-            fallbackSunset.setHours(18, 0, 0, 0); // 6:00 PM
-
-            // If current time is before 6 PM, use yesterday's sunset
-            if (now.getHours() < 18) {
-                fallbackSunset.setDate(fallbackSunset.getDate() - 1);
-            }
-
-            sunsetTime = fallbackSunset;
-            statusDiv.textContent = t.estimatedOffline;
-            startClock();
-        }
-
-        function updateGradient() {
-            if (!sunsetTime) {
-                // Default gradient
-                document.body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-                return;
-            }
-
-            const now = new Date();
-            const todaySunset = new Date(sunsetTime);
-            todaySunset.setHours(todaySunset.getHours(), todaySunset.getMinutes(), todaySunset.getSeconds(), 0);
-            
-            const yesterdaySunset = new Date(todaySunset);
-            yesterdaySunset.setDate(yesterdaySunset.getDate() - 1);
-            
-            let referenceSunset = todaySunset;
-            if (now < todaySunset) {
-                referenceSunset = yesterdaySunset;
-            }
-            
-            const hoursSinceSunset = (now - referenceSunset) / (1000 * 60 * 60);
-            
-            // Gradient colors based on time of day (0-24 hours since sunset)
-            let color1, color2;
-            
-            if (hoursSinceSunset < 2) {
-                // Early night - deep purple/blue
-                color1 = '#1a1a2e';
-                color2 = '#16213e';
-            } else if (hoursSinceSunset < 6) {
-                // Midnight - dark blue
-                color1 = '#0f0c29';
-                color2 = '#302b63';
-            } else if (hoursSinceSunset < 10) {
-                // Late night - deep blue
-                color1 = '#1e3c72';
-                color2 = '#2a5298';
-            } else if (hoursSinceSunset < 14) {
-                // Early morning - blue to purple
-                color1 = '#667eea';
-                color2 = '#764ba2';
-            } else if (hoursSinceSunset < 18) {
-                // Morning - purple to pink
-                color1 = '#f093fb';
-                color2 = '#f5576c';
-            } else if (hoursSinceSunset < 22) {
-                // Afternoon - orange to red
-                color1 = '#fa709a';
-                color2 = '#fee140';
-            } else {
-                // Evening - red to purple (approaching sunset)
-                color1 = '#f5576c';
-                color2 = '#764ba2';
-            }
-            
-            document.body.style.background = `linear-gradient(135deg, ${color1} 0%, ${color2} 100%)`;
-        }
-
-        function setupEventListeners() {
-            const countryInput = document.getElementById('country');
-            const cityInput = document.getElementById('city');
-
-            countryInput.addEventListener('input', (e) => {
-                const searchTerm = e.target.value.toLowerCase();
-                filteredCountries = countriesList.filter(country => 
-                    country.toLowerCase().includes(searchTerm)
-                );
-                renderCountryDropdown();
-                document.getElementById('countryList').classList.add('show');
-            });
-
-            countryInput.addEventListener('focus', () => {
-                if (countryInput.value === '') {
-                    filteredCountries = [...countriesList];
-                    renderCountryDropdown();
-                }
-                document.getElementById('countryList').classList.add('show');
-            });
-
-            cityInput.addEventListener('input', (e) => {
-                if (!selectedCountry) return;
-                const searchTerm = e.target.value.toLowerCase();
-                filteredCities = citiesList.filter(city => 
-                    city.name.toLowerCase().includes(searchTerm)
-                );
-                renderCityDropdown();
-                document.getElementById('cityList').classList.add('show');
-            });
-
-            cityInput.addEventListener('focus', () => {
-                if (!selectedCountry) return;
-                if (cityInput.value === '') {
-                    filteredCities = [...citiesList];
-                    renderCityDropdown();
-                }
-                document.getElementById('cityList').classList.add('show');
-            });
-
-            // Close dropdowns when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!e.target.closest('.dropdown-container')) {
-                    document.getElementById('countryList').classList.remove('show');
-                    document.getElementById('cityList').classList.remove('show');
-                }
-            });
-
-            // Close location panel when clicking outside
-            document.addEventListener('click', (e) => {
-                const panel = document.getElementById('locationPanel');
-                const toggleBtn = document.getElementById('locationToggleBtn');
-                if (panel.classList.contains('show') && 
-                    !panel.contains(e.target) && 
-                    !toggleBtn.contains(e.target)) {
-                    panel.classList.remove('show');
-                }
-            });
-
-            // Close about panel when clicking outside the content area
-            document.addEventListener('click', (e) => {
-                const aboutPanel = document.getElementById('aboutPanel');
-                const aboutContent = document.querySelector('.about-content');
-                const aboutToggleBtn = document.getElementById('aboutToggleBtn');
-                
-                if (aboutPanel.classList.contains('show') && 
-                    !aboutContent.contains(e.target) && 
-                    !aboutToggleBtn.contains(e.target)) {
-                    closeAbout();
-                }
-            });
-
-            // Close about panel with ESC key
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' || e.keyCode === 27) {
-                    const aboutPanel = document.getElementById('aboutPanel');
-                    if (aboutPanel.classList.contains('show')) {
-                        closeAbout();
-                    }
-                }
-            });
-        }
-
-        async function initializeCountries() {
-            countriesList = [
-                'Afghanistan', 'Albania', 'Algeria', 'Argentina', 'Australia', 'Austria',
-                'Bangladesh', 'Belgium', 'Brazil', 'Bulgaria', 'Canada', 'Chile', 'China',
-                'Colombia', 'Croatia', 'Czech Republic', 'Denmark', 'Egypt', 'Finland',
-                'France', 'Germany', 'Greece', 'Hungary', 'India', 'Indonesia', 'Iran',
-                'Iraq', 'Ireland', 'Italy', 'Japan', 'Jordan', 'Kenya',
-                'Kuwait', 'Lebanon', 'Malaysia', 'Mexico', 'Morocco', 'Netherlands',
-                'New Zealand', 'Nigeria', 'Norway', 'Pakistan', 'Peru', 'Philippines',
-                'Poland', 'Portugal', 'Qatar', 'Romania', 'Russia', 'Saudi Arabia',
-                'Singapore', 'South Africa', 'South Korea', 'Spain', 'Sweden', 'Switzerland',
-                'Syria', 'Thailand', 'Turkey', 'Ukraine', 'United Arab Emirates',
-                'United Kingdom', 'United States', 'Venezuela', 'Vietnam', 'Yemen'
-            ].sort();
-
-            filteredCountries = [...countriesList];
-            renderCountryDropdown();
-        }
-
-        function renderCountryDropdown() {
-            const countryList = document.getElementById('countryList');
-            countryList.innerHTML = '';
-            
-            const t = translations[currentLang];
-            
-            if (filteredCountries.length === 0) {
-                countryList.innerHTML = `<div class="dropdown-item">${t.noCountriesFound}</div>`;
-                countryList.classList.add('show');
-                return;
-            }
-
-            filteredCountries.forEach(country => {
-                const item = document.createElement('div');
-                item.className = 'dropdown-item';
-                item.textContent = country;
-                item.onclick = () => selectCountry(country);
-                countryList.appendChild(item);
-            });
-        }
-
-        function renderCityDropdown() {
-            const cityList = document.getElementById('cityList');
-            cityList.innerHTML = '';
-            
-            const t = translations[currentLang];
-            
-            if (filteredCities.length === 0) {
-                cityList.innerHTML = `<div class="dropdown-item">${t.noCitiesFound}</div>`;
-                cityList.classList.add('show');
-                return;
-            }
-
-            filteredCities.forEach(city => {
-                const item = document.createElement('div');
-                item.className = 'dropdown-item';
-                item.textContent = city.name;
-                item.onclick = () => selectCity(city.name);
-                cityList.appendChild(item);
-            });
-        }
-
-        function selectCountry(country) {
-            selectedCountry = country;
-            document.getElementById('country').value = country;
-            document.getElementById('countryList').classList.remove('show');
-            document.getElementById('city').disabled = false;
-            const t = translations[currentLang];
-            document.getElementById('city').placeholder = t.searchCity;
-            document.getElementById('city').value = '';
-            citiesList = [];
-            filteredCities = [];
-            fetchCitiesForCountry(country);
-        }
-
-        function selectCity(city) {
-            document.getElementById('city').value = city;
-            document.getElementById('cityList').classList.remove('show');
-        }
-
-        async function fetchCitiesForCountry(country) {
-            const cityList = document.getElementById('cityList');
-            const t = translations[currentLang];
-            cityList.innerHTML = `<div class="loading-cities">${t.loadingCities}</div>`;
-            cityList.classList.add('show');
-
-            try {
-                const searchUrl = `https://secure.geonames.org/searchJSON?q=${encodeURIComponent(country)}&maxRows=1000&featureClass=P&username=demo`;
-                let response = await fetch(searchUrl);
-                if (!response.ok) throw new Error('GeoNames failed');
-                
-                let data = await response.json();
-                
-                if (data.geonames && data.geonames.length > 0) {
-                    citiesList = data.geonames
-                        .filter(place => place.countryName === country || place.adminName1)
-                        .map(place => ({ name: place.name, country: place.countryName }))
-                        .filter((city, index, self) => 
-                            index === self.findIndex(c => c.name === city.name)
-                        )
-                        .sort((a, b) => a.name.localeCompare(b.name));
-                    
-                    filteredCities = [...citiesList];
-                    renderCityDropdown();
-                } else {
-                    citiesList = getMajorCitiesForCountry(country);
-                    filteredCities = [...citiesList];
-                    renderCityDropdown();
-                }
-            } catch (error) {
-                console.error('Error fetching cities:', error);
-                citiesList = getMajorCitiesForCountry(country);
-                filteredCities = [...citiesList];
-                renderCityDropdown();
-            }
-        }
-
-        function getMajorCitiesForCountry(country) {
-            const majorCities = {
-                'Iran': ['Tehran', 'Mashhad', 'Isfahan', 'Karaj', 'Shiraz', 'Tabriz', 'Qom', 'Ahvaz', 'Kermanshah', 'Urmia', 'Rasht', 'Zahedan', 'Hamadan', 'Kerman', 'Yazd', 'Ardabil', 'Bandar Abbas', 'Arak', 'Eslamshahr', 'Zanjan'],
-                'United States': ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix', 'Philadelphia', 'San Antonio', 'San Diego', 'Dallas', 'San Jose'],
-                'United Kingdom': ['London', 'Birmingham', 'Manchester', 'Glasgow', 'Liverpool', 'Leeds', 'Edinburgh', 'Bristol', 'Cardiff', 'Belfast'],
-                'Canada': ['Toronto', 'Montreal', 'Vancouver', 'Calgary', 'Edmonton', 'Ottawa', 'Winnipeg', 'Quebec City', 'Hamilton', 'Kitchener'],
-                'Germany': ['Berlin', 'Munich', 'Hamburg', 'Cologne', 'Frankfurt', 'Stuttgart', 'Düsseldorf', 'Dortmund', 'Essen', 'Leipzig'],
-                'France': ['Paris', 'Marseille', 'Lyon', 'Toulouse', 'Nice', 'Nantes', 'Strasbourg', 'Montpellier', 'Bordeaux', 'Lille'],
-                'Italy': ['Rome', 'Milan', 'Naples', 'Turin', 'Palermo', 'Genoa', 'Bologna', 'Florence', 'Bari', 'Catania'],
-                'Spain': ['Madrid', 'Barcelona', 'Valencia', 'Seville', 'Zaragoza', 'Málaga', 'Murcia', 'Palma', 'Las Palmas', 'Bilbao'],
-                'Japan': ['Tokyo', 'Yokohama', 'Osaka', 'Nagoya', 'Sapporo', 'Fukuoka', 'Kobe', 'Kawasaki', 'Kyoto', 'Saitama'],
-                'China': ['Beijing', 'Shanghai', 'Guangzhou', 'Shenzhen', 'Chengdu', 'Hangzhou', 'Wuhan', 'Xi\'an', 'Nanjing', 'Tianjin'],
-                'India': ['Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Ahmedabad', 'Chennai', 'Kolkata', 'Pune', 'Jaipur', 'Surat'],
-                'Australia': ['Sydney', 'Melbourne', 'Brisbane', 'Perth', 'Adelaide', 'Gold Coast', 'Newcastle', 'Canberra', 'Sunshine Coast', 'Wollongong'],
-                'Brazil': ['São Paulo', 'Rio de Janeiro', 'Brasília', 'Salvador', 'Fortaleza', 'Belo Horizonte', 'Manaus', 'Curitiba', 'Recife', 'Porto Alegre'],
-                'Russia': ['Moscow', 'Saint Petersburg', 'Novosibirsk', 'Yekaterinburg', 'Kazan', 'Nizhny Novgorod', 'Chelyabinsk', 'Samara', 'Omsk', 'Rostov-on-Don'],
-                'Turkey': ['Istanbul', 'Ankara', 'Izmir', 'Bursa', 'Antalya', 'Adana', 'Gaziantep', 'Konya', 'Mersin', 'Diyarbakir'],
-                'Mexico': ['Mexico City', 'Guadalajara', 'Monterrey', 'Puebla', 'Tijuana', 'León', 'Juárez', 'Torreón', 'Querétaro', 'San Luis Potosí'],
-                'Argentina': ['Buenos Aires', 'Córdoba', 'Rosario', 'Mendoza', 'Tucumán', 'La Plata', 'Mar del Plata', 'Salta', 'Santa Fe', 'San Juan'],
-                'South Korea': ['Seoul', 'Busan', 'Incheon', 'Daegu', 'Daejeon', 'Gwangju', 'Suwon', 'Ulsan', 'Changwon', 'Goyang'],
-                'Saudi Arabia': ['Riyadh', 'Jeddah', 'Mecca', 'Medina', 'Dammam', 'Khobar', 'Taif', 'Tabuk', 'Buraydah', 'Khamis Mushait'],
-                'Egypt': ['Cairo', 'Alexandria', 'Giza', 'Shubra El Kheima', 'Port Said', 'Suez', 'Luxor', 'Aswan', 'Asyut', 'Ismailia'],
-                'Pakistan': ['Karachi', 'Lahore', 'Faisalabad', 'Rawalpindi', 'Multan', 'Gujranwala', 'Hyderabad', 'Peshawar', 'Islamabad', 'Quetta'],
-                'Indonesia': ['Jakarta', 'Surabaya', 'Bandung', 'Medan', 'Semarang', 'Palembang', 'Makassar', 'Batam', 'Pekanbaru', 'Bandar Lampung'],
-                'Bangladesh': ['Dhaka', 'Chittagong', 'Khulna', 'Rajshahi', 'Sylhet', 'Comilla', 'Rangpur', 'Mymensingh', 'Barisal', 'Jessore'],
-                'Philippines': ['Manila', 'Quezon City', 'Caloocan', 'Davao', 'Cebu', 'Zamboanga', 'Antipolo', 'Pasig', 'Cagayan de Oro', 'Valenzuela'],
-                'Thailand': ['Bangkok', 'Nonthaburi', 'Pak Kret', 'Hat Yai', 'Nakhon Ratchasima', 'Chiang Mai', 'Udon Thani', 'Pattaya', 'Khon Kaen', 'Nakhon Si Thammarat'],
-                'Vietnam': ['Ho Chi Minh City', 'Hanoi', 'Da Nang', 'Haiphong', 'Can Tho', 'Bien Hoa', 'Hue', 'Nha Trang', 'Vung Tau', 'Quy Nhon'],
-                'Malaysia': ['Kuala Lumpur', 'George Town', 'Ipoh', 'Shah Alam', 'Petaling Jaya', 'Johor Bahru', 'Melaka', 'Kota Kinabalu', 'Kuching', 'Seremban'],
-                'Singapore': ['Singapore'],
-                'Iraq': ['Baghdad', 'Basra', 'Mosul', 'Erbil', 'Najaf', 'Karbala', 'Nasiriyah', 'Amara', 'Samarra', 'Ramadi'],
-                'Syria': ['Damascus', 'Aleppo', 'Homs', 'Latakia', 'Hama', 'Tartus', 'Deir ez-Zor', 'Raqqa', 'Idlib', 'Daraa'],
-                'Lebanon': ['Beirut', 'Tripoli', 'Sidon', 'Tyre', 'Nabatieh', 'Jounieh', 'Zahle', 'Baalbek', 'Byblos', 'Batroun'],
-                'Jordan': ['Amman', 'Zarqa', 'Irbid', 'Russeifa', 'Wadi al-Sir', 'Aqaba', 'Madaba', 'Salt', 'Mafraq', 'Karak'],
-                'Yemen': ['Sana\'a', 'Aden', 'Taiz', 'Hodeidah', 'Ibb', 'Dhamar', 'Al-Mukalla', 'Zinjibar', 'Sayyan', 'Lahij'],
-                'Kuwait': ['Kuwait City', 'Al Ahmadi', 'Hawalli', 'Al Jahra', 'Al Farwaniyah', 'Salmiya', 'Mangaf', 'Mahboula', 'Abu Halifa', 'Fahaheel'],
-                'Qatar': ['Doha', 'Al Rayyan', 'Al Wakrah', 'Al Khor', 'Dukhan', 'Mesaieed', 'Lusail', 'Al Shamal', 'Al Daayen', 'Umm Salal'],
-                'United Arab Emirates': ['Dubai', 'Abu Dhabi', 'Sharjah', 'Al Ain', 'Ajman', 'Ras Al Khaimah', 'Fujairah', 'Umm Al Quwain', 'Khor Fakkan', 'Kalba']
-            };
-
-            if (majorCities[country]) {
-                return majorCities[country].map(name => ({ name, country }));
-            }
-            
-            return [];
-        }
-
-        async function loadSavedLocation() {
-            const saved = localStorage.getItem('sunsetClockLocation');
-            if (saved) {
-                try {
-                    locationData = JSON.parse(saved);
-                    document.getElementById('country').value = locationData.country || '';
-                    document.getElementById('city').value = locationData.city || '';
-                    if (locationData.country) {
-                        selectedCountry = locationData.country;
-                        document.getElementById('city').disabled = false;
-                        const t = translations[currentLang];
-                        document.getElementById('city').placeholder = t.searchCity;
-                        await fetchCitiesForCountry(locationData.country);
-                    }
-                    updateLocationInfo();
-                    fetchSunsetTime();
-                } catch (e) {
-                    console.error('Error loading saved location:', e);
-                    await setDefaults();
-                }
-            } else {
-                await setDefaults();
-            }
-        }
-
-        async function setDefaults() {
-            document.getElementById('country').value = DEFAULT_COUNTRY;
-            selectedCountry = DEFAULT_COUNTRY;
-            document.getElementById('city').disabled = false;
-            const t = translations[currentLang];
-            document.getElementById('city').placeholder = t.searchCity;
-            
-            try {
-                await fetchCitiesForCountry(DEFAULT_COUNTRY);
-                document.getElementById('city').value = DEFAULT_CITY;
-                locationData = { country: DEFAULT_COUNTRY, city: DEFAULT_CITY };
-                updateLocationInfo();
-                fetchSunsetTime();
-            } catch (error) {
-                console.error('Error setting defaults:', error);
-                document.getElementById('city').value = DEFAULT_CITY;
-                locationData = { country: DEFAULT_COUNTRY, city: DEFAULT_CITY };
-                updateLocationInfo();
-                fetchSunsetTime();
-            }
-        }
-
-        function saveLocation() {
-            const country = document.getElementById('country').value.trim();
-            const city = document.getElementById('city').value.trim();
-            const errorDiv = document.getElementById('error');
-            const t = translations[currentLang];
-
-            if (!country || !city) {
-                errorDiv.textContent = t.pleaseSelectBoth;
-                return;
-            }
-
-            if (!countriesList.includes(country)) {
-                errorDiv.textContent = t.pleaseSelectValidCountry;
-                return;
-            }
-
-            errorDiv.textContent = '';
-            locationData = { country, city };
-            localStorage.setItem('sunsetClockLocation', JSON.stringify(locationData));
-            updateLocationInfo();
-            fetchSunsetTime();
-            document.getElementById('locationPanel').classList.remove('show');
-        }
-
-        function updateLocationInfo() {
-            const locationText = document.getElementById('locationText');
-            const t = translations[currentLang];
-            if (locationData) {
-                locationText.textContent = `${locationData.city}, ${locationData.country}`;
-            } else {
-                locationText.textContent = t.pleaseEnterLocation;
-            }
-        }
-
-        async function fetchSunsetTime() {
-            const t = translations[currentLang];
-            const statusDiv = document.getElementById('status');
-            
-            if (!locationData) {
-                statusDiv.textContent = t.locationNotSet;
-                return;
-            }
-
-            statusDiv.textContent = t.fetchingSunset;
-            statusDiv.classList.add('loading');
-
-            const cached = localStorage.getItem('sunsetTimeCache');
-            let useCached = false;
-            if (cached) {
-                try {
-                    const cachedData = JSON.parse(cached);
-                    // Use cached data if it exists, regardless of date when offline
-                    if (cachedData.date === new Date().toDateString() || !navigator.onLine) {
-                        sunsetTime = new Date(cachedData.sunsetTime);
-                        useCached = true;
-                        if (!navigator.onLine || cachedData.date === new Date().toDateString()) {
-                            statusDiv.textContent = t.usingCached;
-                            statusDiv.classList.remove('loading');
-                            startClock();
-                        }
-                    }
-                } catch (e) {
-                    console.error('Error parsing cached data:', e);
-                }
-            }
-
-            if (navigator.onLine) {
-                try {
-                    const geocodeUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationData.city)},${encodeURIComponent(locationData.country)}&limit=1`;
-                    const geocodeResponse = await fetch(geocodeUrl);
-                    if (!geocodeResponse.ok) throw new Error('Geocoding failed');
-                    
-                    const geocodeData = await geocodeResponse.json();
-                    if (!geocodeData || geocodeData.length === 0) {
-                        throw new Error('Location not found');
-                    }
-
-                    const lat = geocodeData[0].lat;
-                    const lon = geocodeData[0].lon;
-                    const today = new Date();
-                    const dateStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-                    const sunsetUrl = `https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lon}&date=${dateStr}&formatted=0`;
-                    const sunsetResponse = await fetch(sunsetUrl);
-                    
-                    if (!sunsetResponse.ok) throw new Error('Sunset API failed');
-                    
-                    const sunsetData = await sunsetResponse.json();
-                    if (sunsetData.status !== 'OK') {
-                        throw new Error('Sunset API error');
-                    }
-
-                    sunsetTime = new Date(sunsetData.results.sunset);
-                    localStorage.setItem('sunsetTimeCache', JSON.stringify({
-                        date: today.toDateString(),
-                        sunsetTime: sunsetTime.toISOString(),
-                        location: `${locationData.city}, ${locationData.country}`
-                    }));
-
-                    statusDiv.textContent = t.sunsetUpdated;
-                    statusDiv.classList.remove('loading');
-                    startClock();
-                } catch (error) {
-                    console.error('Error fetching sunset time:', error);
-                    statusDiv.textContent = t.errorFetching;
-                    statusDiv.classList.remove('loading');
-                    
-                    if (cached && !useCached) {
-                        try {
-                            const cachedData = JSON.parse(cached);
-                            sunsetTime = new Date(cachedData.sunsetTime);
-                            statusDiv.textContent = t.usingCachedOutdated;
-                            startClock();
-                        } catch (e) {
-                            statusDiv.textContent = t.unableToLoad;
-                        }
-                    } else if (!useCached) {
-                        statusDiv.textContent = t.unableToLoad;
-                    }
-                }
-            } else {
-                // Offline - try to use any cached data available
-                if (cached && !useCached) {
-                    try {
-                        const cachedData = JSON.parse(cached);
-                        sunsetTime = new Date(cachedData.sunsetTime);
-                        statusDiv.textContent = `${t.usingCachedOutdated}`;
-                        startClock();
-                    } catch (e) {
-                        console.error('Error using cached data offline:', e);
-                        useFallbackSunsetTime();
-                    }
-                } else if (!sunsetTime) {
-                    useFallbackSunsetTime();
-                } else {
-                    // We have sunsetTime from earlier, start clock
-                    startClock();
-                }
-                statusDiv.classList.remove('loading');
-            }
-        }
-
-        function startClock() {
-            if (clockInterval) {
-                clearInterval(clockInterval);
-            }
-
-            if (!sunsetTime) {
-                // No sunset time available, show a basic clock or try to estimate
-                document.getElementById('clock').textContent = '--:--:--';
-                return;
-            }
-
-            function updateClock() {
-                const now = new Date();
-
-                // Get the most recent sunset (either today or yesterday)
-                const todaySunset = new Date(sunsetTime);
-                todaySunset.setHours(todaySunset.getHours(), todaySunset.getMinutes(), todaySunset.getSeconds(), 0);
-                const yesterdaySunset = new Date(todaySunset);
-                yesterdaySunset.setDate(yesterdaySunset.getDate() - 1);
-
-                // Determine which sunset to reference based on current time
-                let referenceSunset;
-                if (now >= todaySunset) {
-                    // After today's sunset, show time since today's sunset
-                    referenceSunset = todaySunset;
-                } else if (now >= yesterdaySunset) {
-                    // Between yesterday's sunset and today's sunset, show time since yesterday's sunset
-                    referenceSunset = yesterdaySunset;
-                } else {
-                    // Before yesterday's sunset (very unlikely), use yesterday's sunset
-                    referenceSunset = yesterdaySunset;
-                }
-
-                const timeSinceSunset = now - referenceSunset;
-                const totalSeconds = Math.floor(Math.max(0, timeSinceSunset) / 1000);
-                const hours = Math.floor(totalSeconds / 3600) % 24; // Keep within 24 hours
-                const minutes = Math.floor((totalSeconds % 3600) / 60);
-                const seconds = totalSeconds % 60;
-
-                const display = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-                document.getElementById('clock').textContent = display;
-
-                // Update gradient
-                updateGradient();
-            }
-
-            updateClock();
-            clockInterval = setInterval(updateClock, 1000);
-        }
-
-        window.addEventListener('online', () => {
-            if (locationData) {
-                fetchSunsetTime();
-            }
-        });
-
-        window.addEventListener('offline', () => {
-            updateOfflineStatus(true);
-            // Ensure clock keeps running with cached data when offline
-            if (sunsetTime && !clockInterval) {
-                startClock();
-            }
-        });
-
-        window.addEventListener('online', () => {
-            updateOfflineStatus(false);
-            // Refresh sunset time when coming back online
-            if (locationData) {
-                fetchSunsetTime();
-            }
-        });
-
-        function updateOfflineStatus(isOffline) {
-            const statusDiv = document.getElementById('status');
-            const t = translations[currentLang];
-
-            if (isOffline) {
-                statusDiv.innerHTML = `
-                    <div class="offline-indicator">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="15" y1="9" x2="9" y2="15"></line>
-                            <line x1="9" y1="9" x2="15" y2="15"></line>
-                        </svg>
-                        ${t.offline}
-                    </div>
-                `;
-            } else {
-                statusDiv.textContent = t.sunsetUpdated;
-            }
-        }
-    </script>
+    <div class="note" id="liveMsg" hidden></div>
+  </section>
+
+  <section class="card">
+    <h2 data-i18n="pathTitle"></h2>
+    <div class="chart" id="chart"></div>
+  </section>
+
+  <section class="card" id="prayerCard">
+    <div class="card-head"><h2 data-i18n="prayer"></h2></div>
+    <div class="sels">
+      <select id="selMethod" aria-label="Method"></select>
+      <select id="selAsr" aria-label="Asr"></select>
+    </div>
+    <div class="pnote" data-i18n="prayerNote"></div>
+    <div class="nextbar"><span><span data-i18n="next"></span> · <b id="nextName"></b></span><span class="cd" id="nextCd"></span></div>
+    <div class="rows" id="rows"></div>
+  </section>
+
+  <section class="card">
+    <h2 data-i18n="about"></h2>
+    <details open><summary data-i18n="summary"></summary><p data-i18n="summaryText"></p></details>
+    <details><summary data-i18n="tech"></summary><p data-i18n="techText"></p></details>
+    <details><summary data-i18n="notes"></summary><p data-i18n="notesText"></p></details>
+    <details><summary data-i18n="installTitle"></summary><p data-i18n="installText"></p></details>
+  </section>
+
+  <footer>🌅 mhsb · Sunset Clock</footer>
+</main>
+
+<dialog id="locDlg">
+  <div class="sheet">
+    <h3 data-i18n="choose"></h3>
+    <label><span data-i18n="country"></span><select id="selCountry"></select></label>
+    <label id="cityRow"><span data-i18n="city"></span><select id="selCity"></select></label>
+    <div id="customRow" hidden style="display:grid;gap:12px">
+      <label><span data-i18n="customName"></span><input id="cName" type="text" maxlength="60"></label>
+      <div class="grid2">
+        <label><span data-i18n="lat"></span><input id="cLat" type="number" step="any" inputmode="decimal"></label>
+        <label><span data-i18n="lon"></span><input id="cLon" type="number" step="any" inputmode="decimal"></label>
+      </div>
+      <label><span data-i18n="tz"></span><input id="cTz" type="text" list="tzList" autocomplete="off" spellcheck="false"></label>
+      <datalist id="tzList"></datalist>
+    </div>
+    <button class="btn" id="gpsBtn" data-i18n="gps"></button>
+    <div class="msg" id="locMsg" role="status"></div>
+    <div class="actions">
+      <button class="btn" id="cancelBtn" data-i18n="cancel"></button>
+      <button class="btn primary" id="saveBtn" data-i18n="save"></button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+(() => {
+'use strict';
+const $ = id => document.getElementById(id);
+const rad = Math.PI / 180, deg = 180 / Math.PI;
+const mod = (a, n) => ((a % n) + n) % n;
+const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
+const HOUR = 3600000, DAY = 86400000;
+
+/* ---------- Data ---------- */
+// [en, fa, lat, lon, tz]
+const COUNTRIES = [
+  { id:'ir', en:'Iran', fa:'ایران', cities:[
+    ['Tehran','تهران',35.6892,51.3890,'Asia/Tehran'],['Mashhad','مشهد',36.2605,59.6168,'Asia/Tehran'],
+    ['Isfahan','اصفهان',32.6546,51.6680,'Asia/Tehran'],['Shiraz','شیراز',29.5918,52.5837,'Asia/Tehran'],
+    ['Tabriz','تبریز',38.0962,46.2738,'Asia/Tehran'],['Qom','قم',34.6399,50.8759,'Asia/Tehran'],
+    ['Ahvaz','اهواز',31.3183,48.6706,'Asia/Tehran'],['Kermanshah','کرمانشاه',34.3277,47.0778,'Asia/Tehran'],
+    ['Rasht','رشت',37.2808,49.5832,'Asia/Tehran'],['Yazd','یزد',31.8974,54.3569,'Asia/Tehran']]},
+  { id:'af', en:'Afghanistan', fa:'افغانستان', cities:[
+    ['Kabul','کابل',34.5553,69.2075,'Asia/Kabul'],['Herat','هرات',34.3529,62.2040,'Asia/Kabul'],['Mazar-i-Sharif','مزار شریف',36.7090,67.1109,'Asia/Kabul']]},
+  { id:'iq', en:'Iraq', fa:'عراق', cities:[
+    ['Baghdad','بغداد',33.3152,44.3661,'Asia/Baghdad'],['Najaf','نجف',32.0000,44.3363,'Asia/Baghdad'],
+    ['Karbala','کربلا',32.6160,44.0249,'Asia/Baghdad'],['Basra','بصره',30.5085,47.7835,'Asia/Baghdad']]},
+  { id:'sa', en:'Saudi Arabia', fa:'عربستان سعودی', cities:[
+    ['Mecca','مکه',21.3891,39.8579,'Asia/Riyadh'],['Medina','مدینه',24.5247,39.5692,'Asia/Riyadh'],
+    ['Riyadh','ریاض',24.7136,46.6753,'Asia/Riyadh'],['Jeddah','جده',21.4858,39.1925,'Asia/Riyadh']]},
+  { id:'tr', en:'Türkiye', fa:'ترکیه', cities:[
+    ['Istanbul','استانبول',41.0082,28.9784,'Europe/Istanbul'],['Ankara','آنکارا',39.9334,32.8597,'Europe/Istanbul'],['Izmir','ازمیر',38.4237,27.1428,'Europe/Istanbul']]},
+  { id:'ae', en:'United Arab Emirates', fa:'امارات متحده عربی', cities:[
+    ['Dubai','دبی',25.2048,55.2708,'Asia/Dubai'],['Abu Dhabi','ابوظبی',24.4539,54.3773,'Asia/Dubai']]},
+  { id:'pk', en:'Pakistan', fa:'پاکستان', cities:[
+    ['Karachi','کراچی',24.8607,67.0011,'Asia/Karachi'],['Lahore','لاهور',31.5204,74.3587,'Asia/Karachi'],['Islamabad','اسلام‌آباد',33.6844,73.0479,'Asia/Karachi']]},
+  { id:'in', en:'India', fa:'هند', cities:[
+    ['Delhi','دهلی',28.6139,77.2090,'Asia/Kolkata'],['Mumbai','بمبئی',19.0760,72.8777,'Asia/Kolkata'],['Hyderabad','حیدرآباد',17.3850,78.4867,'Asia/Kolkata']]},
+  { id:'az', en:'Azerbaijan', fa:'آذربایجان', cities:[['Baku','باکو',40.4093,49.8671,'Asia/Baku']]},
+  { id:'tj', en:'Tajikistan', fa:'تاجیکستان', cities:[['Dushanbe','دوشنبه',38.5598,68.7870,'Asia/Dushanbe']]},
+  { id:'eg', en:'Egypt', fa:'مصر', cities:[['Cairo','قاهره',30.0444,31.2357,'Africa/Cairo']]},
+  { id:'id', en:'Indonesia', fa:'اندونزی', cities:[['Jakarta','جاکارتا',-6.2088,106.8456,'Asia/Jakarta']]},
+  { id:'my', en:'Malaysia', fa:'مالزی', cities:[['Kuala Lumpur','کوالالامپور',3.1390,101.6869,'Asia/Kuala_Lumpur']]},
+  { id:'gb', en:'United Kingdom', fa:'بریتانیا', cities:[
+    ['London','لندن',51.5072,-0.1276,'Europe/London'],['Manchester','منچستر',53.4808,-2.2426,'Europe/London'],['Birmingham','بیرمنگام',52.4862,-1.8904,'Europe/London']]},
+  { id:'fr', en:'France', fa:'فرانسه', cities:[['Paris','پاریس',48.8566,2.3522,'Europe/Paris']]},
+  { id:'de', en:'Germany', fa:'آلمان', cities:[['Berlin','برلین',52.5200,13.4050,'Europe/Berlin'],['Munich','مونیخ',48.1351,11.5820,'Europe/Berlin']]},
+  { id:'no', en:'Norway', fa:'نروژ', cities:[['Tromsø','تروم‌سو',69.6492,18.9553,'Europe/Oslo']]},
+  { id:'us', en:'United States', fa:'ایالات متحده', cities:[
+    ['New York','نیویورک',40.7128,-74.0060,'America/New_York'],['Chicago','شیکاگو',41.8781,-87.6298,'America/Chicago'],
+    ['Houston','هیوستون',29.7604,-95.3698,'America/Chicago'],['Dearborn','دیربورن',42.3223,-83.1763,'America/Detroit'],
+    ['Los Angeles','لس‌آنجلس',34.0522,-118.2437,'America/Los_Angeles']]},
+  { id:'ca', en:'Canada', fa:'کانادا', cities:[['Toronto','تورنتو',43.6532,-79.3832,'America/Toronto'],['Vancouver','ونکوور',49.2827,-123.1207,'America/Vancouver']]},
+  { id:'au', en:'Australia', fa:'استرالیا', cities:[['Sydney','سیدنی',-33.8688,151.2093,'Australia/Sydney'],['Melbourne','ملبورن',-37.8136,144.9631,'Australia/Melbourne']]}
+];
+
+const METHODS = {
+  tehran: { fajr:17.7, isha:14,   maghrib:4.5, mid:'jafari' },
+  mwl:    { fajr:18,   isha:17,   maghrib:null, mid:'sun' },
+  isna:   { fajr:15,   isha:15,   maghrib:null, mid:'sun' },
+  egypt:  { fajr:19.5, isha:17.5, maghrib:null, mid:'sun' },
+  karachi:{ fajr:18,   isha:18,   maghrib:null, mid:'sun' }
+};
+
+const T = {
+  en: {
+    title:'Sunset Clock', since:'Time since sunset', until:'Time until sunset', modeSince:'Since sunset', modeUntil:'Until sunset',
+    lastSunset:'Last sunset', nextSunset:'Next sunset', pathTitle:'Sun path · sunset to sunset', prayer:'Prayer times',
+    asrStd:'Asr: standard', asrHan:'Asr: Hanafi', next:'Next', noon:'Noon',
+    prayerNote:'Counted from sunset, which is 00:00. Local clock time on the right.',
+    about:'About', summary:'Summary', tech:'How it works', notes:'Notes',
+    summaryText:'Many traditions begin the day at sunset rather than at midnight. Sunset Clock shows how long it has been since the last sunset, a count that restarts the moment a new day begins, or how long remains until the next one. The sky behind it follows the real position of the sun.',
+    techText:'Sun positions are calculated on your device with the NOAA solar equations, so it works offline and your location is never sent anywhere. Sunrise and sunset use the sun’s centre 0.833° below the horizon to account for refraction and the size of the sun’s disc.',
+    notesText:'Prayer times are calculated estimates, usually within a minute or two of published tables, and ignore elevation and local adjustments. Please check with your local authority. The Hijri date uses the Umm al-Qura calendar, moved forward at sunset, and may differ by a day from local moon sighting.',
+    afterSunset:'after sunset', liveLabel:'Live notification', installLabel:'Install app',
+    liveOn:'Live notification is on. Press pause on the notification to stop it.',
+    liveFail:'Couldn’t start the live notification on this device or browser.',
+    installTitle:'Install & live notification',
+    installText:'Install: in Chrome on Android tap the ⬇ button (or ⋮ → Install app). On iPhone use Share → Add to Home Screen. Live notification: tap 🔔 to show the running clock in your notification shade and on the lock screen. It is a media-style notification kept alive by a silent audio track, so it has a pause button that turns it off, and your phone may stop it to save battery. Web apps have no other way to show a ticking clock.',
+    choose:'Choose location', country:'Country', city:'City', customName:'Place name', lat:'Latitude', lon:'Longitude', tz:'Time zone',
+    gps:'📍 Use my current location', save:'Save location', cancel:'Cancel', custom:'Custom coordinates…', myLoc:'My location',
+    gpsWait:'Finding you…', gpsFail:'Couldn’t get your location. You can type coordinates instead.', gpsOk:'Location found. Press save to use it.',
+    badCoords:'Enter a latitude from −90 to 90 and a longitude from −180 to 180.', badTz:'That time zone isn’t recognised.',
+    polar:'The sun doesn’t cross the horizon here today, so sunset is approximated.',
+    ph:{ day:'Daytime', golden:'Golden hour', civil:'Civil twilight', nautical:'Nautical twilight', astro:'Astronomical twilight', night:'Night' },
+    ev:{ fajr:'Fajr', sunrise:'Sunrise', dhuhr:'Dhuhr', asr:'Asr', sunset:'Sunset', maghrib:'Maghrib', isha:'Isha', midnight:'Midnight' },
+    me:{ tehran:'Univ. of Tehran (Shia)', mwl:'Muslim World League', isna:'ISNA (N. America)', egypt:'Egyptian Authority', karachi:'Karachi' },
+    sunAlt:'sun', above:'above', below:'below'
+  },
+  fa: {
+    title:'ساعت غروب', since:'زمان سپری‌شده از غروب', until:'زمان باقی‌مانده تا غروب', modeSince:'از غروب', modeUntil:'تا غروب',
+    lastSunset:'آخرین غروب', nextSunset:'غروب بعدی', pathTitle:'مسیر خورشید · از غروب تا غروب', prayer:'اوقات شرعی',
+    asrStd:'عصر: معمول', asrHan:'عصر: حنفی', next:'بعدی', noon:'ظهر',
+    prayerNote:'زمان‌ها از غروب (۰۰:۰۰) شمرده می‌شوند. ساعت محلی در سمت راست است.',
+    about:'درباره', summary:'خلاصه', tech:'فناوری', notes:'توضیحات',
+    summaryText:'در بسیاری از سنت‌ها روز از غروب آغاز می‌شود، نه نیمه‌شب. ساعت غروب نشان می‌دهد از آخرین غروب چه مدت گذشته است (شمارشی که با آغاز هر روز تازه از نو شروع می‌شود) یا تا غروب بعدی چه‌قدر مانده است. آسمان پس‌زمینه از موقعیت واقعی خورشید پیروی می‌کند.',
+    techText:'موقعیت خورشید با معادلات خورشیدی NOAA روی همین دستگاه محاسبه می‌شود؛ پس بدون اینترنت هم کار می‌کند و هیچ اطلاعاتی از مکان شما ارسال نمی‌شود. طلوع و غروب بر پایهٔ ۰٫۸۳۳ درجه زیر افق و با لحاظ شکست نور و اندازهٔ قرص خورشید محاسبه می‌شوند.',
+    notesText:'اوقات شرعی برآوردهای محاسباتی‌اند و ممکن است یکی دو دقیقه با تقویم‌های رسمی تفاوت داشته باشند؛ ارتفاع از سطح دریا و تنظیمات محلی در نظر گرفته نشده است. برای اطمینان به مرجع محلی مراجعه کنید. تاریخ قمری بر پایهٔ تقویم ام‌القری است و از غروب یک روز جلو می‌رود؛ ممکن است با رؤیت هلال محلی یک روز اختلاف داشته باشد.',
+    afterSunset:'پس از غروب', liveLabel:'اعلان زنده', installLabel:'نصب برنامه',
+    liveOn:'اعلان زنده روشن است. برای خاموش کردن، دکمهٔ توقف اعلان را بزنید.',
+    liveFail:'اعلان زنده روی این دستگاه یا مرورگر شروع نشد.',
+    installTitle:'نصب و اعلان زنده',
+    installText:'نصب: در کروم اندروید دکمهٔ ⬇ (یا منوی ⋮ ← Install app) را بزنید؛ در آیفون از Share گزینهٔ Add to Home Screen را انتخاب کنید. اعلان زنده: دکمهٔ 🔔 را بزنید تا ساعت در حال شمارش در پردهٔ اعلان‌ها و صفحهٔ قفل نمایش داده شود. این اعلان به شکل اعلان رسانه است و با یک فایل صوتی بی‌صدا زنده می‌ماند؛ پس دکمهٔ توقف دارد و ممکن است گوشی برای صرفه‌جویی در باتری آن را متوقف کند. برنامه‌های وب راه دیگری برای نمایش ساعت زنده ندارند.',
+    choose:'انتخاب موقعیت', country:'کشور', city:'شهر', customName:'نام مکان', lat:'عرض جغرافیایی', lon:'طول جغرافیایی', tz:'منطقهٔ زمانی',
+    gps:'📍 استفاده از موقعیت فعلی من', save:'ذخیره موقعیت', cancel:'انصراف', custom:'مختصات دلخواه…', myLoc:'موقعیت من',
+    gpsWait:'در حال یافتن موقعیت…', gpsFail:'موقعیت شما پیدا نشد. می‌توانید مختصات را وارد کنید.', gpsOk:'موقعیت پیدا شد. برای استفاده، ذخیره را بزنید.',
+    badCoords:'عرض جغرافیایی (۹۰- تا ۹۰) و طول جغرافیایی (۱۸۰- تا ۱۸۰) معتبر وارد کنید.', badTz:'منطقهٔ زمانی نامعتبر است.',
+    polar:'امروز خورشید در این مکان از افق نمی‌گذرد؛ زمان غروب تقریبی است.',
+    ph:{ day:'روز', golden:'ساعت طلایی', civil:'گرگ‌ومیش مدنی', nautical:'گرگ‌ومیش دریایی', astro:'گرگ‌ومیش نجومی', night:'شب' },
+    ev:{ fajr:'اذان صبح', sunrise:'طلوع آفتاب', dhuhr:'اذان ظهر', asr:'عصر', sunset:'غروب آفتاب', maghrib:'اذان مغرب', isha:'عشاء', midnight:'نیمه‌شب شرعی' },
+    me:{ tehran:'مؤسسه ژئوفیزیک (تهران)', mwl:'رابطهٔ جهان اسلام', isna:'آمریکای شمالی (ISNA)', egypt:'مصر', karachi:'کراچی' },
+    sunAlt:'خورشید', above:'بالای افق', below:'زیر افق'
+  }
+};
+
+/* ---------- State & storage ---------- */
+const KEY = 'sunclock:v2';
+const browserTz = (() => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'; } catch (e) { return 'UTC'; } })();
+const validTz = tz => { try { new Intl.DateTimeFormat('en', { timeZone: tz }); return true; } catch (e) { return false; } };
+
+function defaultState() {
+  let country = 'ir', city = 0, found = false;
+  for (const c of COUNTRIES) {
+    const i = c.cities.findIndex(x => x[4] === browserTz);
+    if (i >= 0) { country = c.id; city = i; found = true; break; }
+  }
+  const lang = (navigator.language || '').toLowerCase().startsWith('fa') ? 'fa' : 'en';
+  return { lang, country, city, custom: { name: '', lat: 0, lon: 0, tz: browserTz }, method: country === 'ir' ? 'tehran' : 'mwl', asr: 1, mode: 'since' };
+}
+let S = defaultState();
+try {
+  const saved = JSON.parse(localStorage.getItem(KEY));
+  if (saved && typeof saved === 'object') S = Object.assign(S, saved);
+} catch (e) {}
+if (S.country !== 'custom' && !COUNTRIES.find(c => c.id === S.country)) S = Object.assign(S, { country: 'ir', city: 0 });
+if (!METHODS[S.method]) S.method = 'mwl';
+const persist = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+
+const FA_DIGITS = '۰۱۲۳۴۵۶۷۸۹';
+const D = s => S.lang === 'fa' ? String(s).replace(/\d/g, d => FA_DIGITS[d]) : String(s);
+const t = k => T[S.lang][k];
+
+function getLoc() {
+  if (S.country === 'custom') {
+    const c = S.custom;
+    return { name: c.name || `${c.lat.toFixed(2)}, ${c.lon.toFixed(2)}`, lat: +c.lat, lon: +c.lon, tz: validTz(c.tz) ? c.tz : browserTz };
+  }
+  const co = COUNTRIES.find(c => c.id === S.country);
+  const ci = co.cities[S.city] || co.cities[0];
+  const li = S.lang === 'fa' ? 1 : 0;
+  return { name: `${ci[li]}${S.lang === 'fa' ? '، ' : ', '}${co[S.lang]}`, lat: ci[2], lon: ci[3], tz: ci[4] };
+}
+
+/* ---------- Solar maths (NOAA) ---------- */
+function sunPos(ms) {
+  const jd = ms / DAY + 2440587.5, Tc = (jd - 2451545) / 36525;
+  const L0 = mod(280.46646 + Tc * (36000.76983 + Tc * 0.0003032), 360);
+  const M = 357.52911 + Tc * (35999.05029 - 0.0001537 * Tc), Mr = M * rad;
+  const e = 0.016708634 - Tc * (0.000042037 + 0.0000001267 * Tc);
+  const C = Math.sin(Mr) * (1.914602 - Tc * (0.004817 + 0.000014 * Tc)) + Math.sin(2 * Mr) * (0.019993 - 0.000101 * Tc) + Math.sin(3 * Mr) * 0.000289;
+  const om = 125.04 - 1934.136 * Tc;
+  const lam = L0 + C - 0.00569 - 0.00478 * Math.sin(om * rad);
+  const eps0 = 23 + (26 + (21.448 - Tc * (46.815 + Tc * (0.00059 - Tc * 0.001813))) / 60) / 60;
+  const eps = eps0 + 0.00256 * Math.cos(om * rad);
+  const decl = Math.asin(Math.sin(eps * rad) * Math.sin(lam * rad));
+  const y = Math.tan(eps * rad / 2) ** 2, L0r = L0 * rad;
+  const eq = 4 * deg * (y * Math.sin(2 * L0r) - 2 * e * Math.sin(Mr) + 4 * e * y * Math.sin(Mr) * Math.cos(2 * L0r)
+    - 0.5 * y * y * Math.sin(4 * L0r) - 1.25 * e * e * Math.sin(2 * Mr));
+  return { decl, eq };
+}
+function altAt(ms, lat, lon) {
+  const { decl, eq } = sunPos(ms);
+  const tst = mod(mod(ms, DAY) / 60000 + eq + 4 * lon, 1440);
+  const ha = (tst / 4 - 180) * rad, la = lat * rad;
+  const s = Math.sin(la) * Math.sin(decl) + Math.cos(la) * Math.cos(decl) * Math.cos(ha);
+  return { alt: Math.asin(clamp(s, -1, 1)) * deg, morning: tst < 720 };
+}
+function noonMs(dayMs, lon) {
+  let tt = dayMs + (720 - 4 * lon) * 60000;
+  for (let i = 0; i < 2; i++) tt = dayMs + (720 - 4 * lon - sunPos(tt).eq) * 60000;
+  return tt;
+}
+function eventMs(dayMs, lat, lon, altDeg, after) {
+  let tt = noonMs(dayMs, lon);
+  const la = lat * rad;
+  for (let i = 0; i < 3; i++) {
+    const { decl, eq } = sunPos(tt);
+    const c = (Math.sin(altDeg * rad) - Math.sin(la) * Math.sin(decl)) / (Math.cos(la) * Math.cos(decl));
+    if (c > 1 || c < -1) return null;
+    tt = dayMs + (720 - 4 * lon - eq + (after ? 1 : -1) * 4 * Math.acos(c) * deg) * 60000;
+  }
+  return tt;
+}
+function dayEvents(dayMs, loc, M, asrF) {
+  const { lat, lon } = loc;
+  const noon = noonMs(dayMs, lon), { decl } = sunPos(noon);
+  const asrAlt = Math.atan(1 / (asrF + Math.tan(Math.abs(lat * rad - decl)))) * deg;
+  return {
+    fajr: eventMs(dayMs, lat, lon, -M.fajr, false),
+    sunrise: eventMs(dayMs, lat, lon, -0.833, false),
+    dhuhr: noon,
+    asr: eventMs(dayMs, lat, lon, asrAlt, true),
+    sunset: eventMs(dayMs, lat, lon, -0.833, true),
+    maghrib: M.maghrib != null ? eventMs(dayMs, lat, lon, -M.maghrib, true) : null,
+    isha: eventMs(dayMs, lat, lon, -M.isha, true),
+    midnight: null
+  };
+}
+
+/* ---------- Sky ---------- */
+const STOPS = [
+  { a:-18, e:['#04061a','#0a1030'], m:['#04061a','#0a1030'] },
+  { a:-12, e:['#0b1043','#252466'], m:['#0a1346','#1f2c6c'] },
+  { a:-6,  e:['#1d2a6e','#8a3f80'], m:['#1d3272','#9a5c92'] },
+  { a:-0.8,e:['#2d3f90','#e0603f'], m:['#394f9f','#ee8b68'] },
+  { a:3,   e:['#4568b5','#f39a48'], m:['#5f87cc','#f6bf78'] },
+  { a:12,  e:['#4a82cf','#e8c48f'], m:['#5592da','#eed39b'] },
+  { a:30,  e:['#3d85d8','#8fc3ee'], m:['#3d85d8','#8fc3ee'] }
+];
+const hex2rgb = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+const mix = (a, b, f) => { const x = hex2rgb(a), y = hex2rgb(b); return `rgb(${x.map((v, i) => Math.round(v + (y[i] - v) * f)).join(',')})`; };
+function skyColors(alt, morning) {
+  const k = morning ? 'm' : 'e';
+  if (alt <= STOPS[0].a) return STOPS[0][k];
+  if (alt >= STOPS[STOPS.length - 1].a) return STOPS[STOPS.length - 1][k];
+  let i = 0; while (alt > STOPS[i + 1].a) i++;
+  const A = STOPS[i], B = STOPS[i + 1], f = (alt - A.a) / (B.a - A.a);
+  return [mix(A[k][0], B[k][0], f), mix(A[k][1], B[k][1], f)];
+}
+const skyEl = $('sky'), glowEl = $('glow'), starsEl = $('stars');
+(() => {
+  let h = '';
+  for (let i = 0; i < 80; i++) {
+    const s = (Math.random() * 1.8 + 0.8).toFixed(1);
+    h += `<i style="left:${(Math.random() * 100).toFixed(1)}%;top:${(Math.random() * 70).toFixed(1)}%;width:${s}px;height:${s}px;animation-delay:${(Math.random() * 4).toFixed(1)}s"></i>`;
+  }
+  starsEl.innerHTML = h;
+})();
+function paintSky(alt, morning) {
+  const [a, b] = skyColors(alt, morning);
+  skyEl.style.background = `linear-gradient(180deg, ${a} 0%, ${b} 100%)`;
+  const g = clamp(1 - Math.abs(alt + 1) / 12, 0, 1) * 0.75;
+  glowEl.style.opacity = g.toFixed(2);
+  glowEl.style.background = `radial-gradient(ellipse 120% 55% at 50% 100%, ${morning ? 'rgba(255,150,170,.85)' : 'rgba(255,150,70,.85)'}, rgba(255,160,80,0) 70%)`;
+  starsEl.style.opacity = clamp((-alt - 3) / 9, 0, 1).toFixed(2);
+  const tc = $('themeColor'); if (tc) tc.setAttribute('content', a.startsWith('rgb') ? rgbToHex(a) : a);
+}
+function rgbToHex(s) { return '#' + s.match(/\d+/g).slice(0, 3).map(n => (+n).toString(16).padStart(2, '0')).join(''); }
+
+/* ---------- Formatting ---------- */
+const fmtCache = {};
+const timeFmt = tz => fmtCache['t' + tz] || (fmtCache['t' + tz] = new Intl.DateTimeFormat('en-GB', { timeZone: tz, hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }));
+const ymdFmt = tz => fmtCache['d' + tz] || (fmtCache['d' + tz] = new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' }));
+const hm = (ms, tz) => ms == null ? '—' : D(timeFmt(tz).format(new Date(ms + 30000)));
+const pad = n => String(n).padStart(2, '0');
+function hms(ms) {
+  const s = Math.max(0, Math.floor(ms / 1000));
+  return D(`${pad(Math.floor(s / 3600))}:${pad(Math.floor(s / 60) % 60)}:${pad(s % 60)}`);
+}
+function phaseKey(a) { return a > 6 ? 'day' : a > -0.833 ? 'golden' : a > -6 ? 'civil' : a > -12 ? 'nautical' : a > -18 ? 'astro' : 'night'; }
+
+/* ---------- Context (events for the current solar day) ---------- */
+const KEYS = ['fajr', 'sunrise', 'dhuhr', 'asr', 'sunset', 'maghrib', 'isha', 'midnight'];
+let ctx = null;
+function buildCtx(now, loc) {
+  const sd = Math.floor((now + loc.lon * 240000) / DAY) * DAY;
+  const key = [sd, loc.lat, loc.lon, S.method, S.asr].join('|');
+  if (ctx && ctx.key === key) return ctx;
+  const M = METHODS[S.method], days = [];
+  for (let k = -1; k <= 2; k++) days.push(dayEvents(sd + k * DAY, loc, M, S.asr));
+  for (let i = 0; i < 3; i++) {
+    const d = days[i], n = days[i + 1], end = M.mid === 'jafari' ? n.fajr : n.sunrise;
+    d.midnight = (d.sunset != null && end != null) ? (d.sunset + end) / 2 : null;
+  }
+  const flat = [];
+  days.forEach((d, i) => KEYS.forEach(k => { if (d[k] != null) flat.push({ k, ms: d[k], day: i }); }));
+  flat.sort((a, b) => a.ms - b.ms);
+  const ss = [0, 1, 2].map(i => days[i].sunset != null ? days[i].sunset : days[i].dhuhr + 6 * HOUR);
+  const polar = [0, 1, 2].some(i => days[i].sunset == null);
+  ctx = { key, sd, days, flat, ss, polar };
+  return ctx;
+}
+
+/* ---------- Rendering ---------- */
+const el = { digits: $('digits'), modeLabel: $('modeLabel'), sub: $('sub'), phase: $('phase'), prog: $('prog'), knob: $('knob'), knobGlow: $('knobGlow'),
+  hijri: $('hijri'), civil: $('civil'), chart: $('chart'), rows: $('rows'), nextName: $('nextName'), nextCd: $('nextCd'), polar: $('polar'), locName: $('locName'), upnext: $('upnext') };
+let sigRows = '', sigChart = '', chartInfo = null;
+
+function renderDates(now, tz, last) {
+  const fa = S.lang === 'fa';
+  const ymd = ymdFmt(tz).format(new Date(now));
+  const [y, m, d] = ymd.split('-').map(Number);
+  const base = Date.UTC(y, m - 1, d, 12);
+  const afterSunset = ymdFmt(tz).format(new Date(last)) === ymd;
+  let h = '', c = '';
+  try {
+    h = new Intl.DateTimeFormat((fa ? 'fa-IR' : 'en-US') + '-u-ca-islamic-umalqura', { timeZone: 'UTC', day: 'numeric', month: 'long', year: 'numeric' })
+      .format(new Date(base + (afterSunset ? DAY : 0)));
+  } catch (e) {}
+  try {
+    c = new Intl.DateTimeFormat(fa ? 'fa-IR-u-ca-persian' : 'en-US', { timeZone: 'UTC', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(base));
+  } catch (e) {}
+  el.hijri.textContent = h ? '🌙 ' + h : '';
+  el.civil.textContent = c;
+}
+
+function buildChart(last, next, loc, c) {
+  const N = 96, W = 340, H = 140, top = 10, bot = 4;
+  const samples = [];
+  for (let i = 0; i <= N; i++) samples.push(altAt(last + (next - last) * i / N, loc.lat, loc.lon).alt);
+  const amax = Math.max(10, ...samples), amin = Math.min(-10, ...samples);
+  const Y = a => top + (amax - a) / (amax - amin) * (H - top - bot);
+  const y0 = Y(0);
+  let line = '';
+  samples.forEach((a, i) => { line += (i ? 'L' : 'M') + (i / N * W).toFixed(1) + ' ' + Y(a).toFixed(1); });
+  const area = `${line}L${W} ${y0.toFixed(1)}L0 ${y0.toFixed(1)}Z`;
+  el.chart.innerHTML = `
+    <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${t('pathTitle')}">
+      <defs><clipPath id="clipDay"><rect x="0" y="0" width="${W}" height="${y0.toFixed(1)}"/></clipPath></defs>
+      <rect x="0" y="${y0.toFixed(1)}" width="${W}" height="${(H - y0).toFixed(1)}" fill="rgba(0,0,0,.22)" rx="0"/>
+      <path d="${area}" fill="rgba(255,214,140,.30)" clip-path="url(#clipDay)"/>
+      <line x1="0" x2="${W}" y1="${y0.toFixed(1)}" y2="${y0.toFixed(1)}" stroke="rgba(255,255,255,.55)" stroke-dasharray="3 4"/>
+      <path d="${line}" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+      <g id="mk"><circle r="11" fill="rgba(255,210,122,.3)"/><circle r="5.5" fill="#ffd27a" stroke="#fff" stroke-width="1.5"/></g>
+    </svg>`;
+  const noon = c.flat.find(e => e.k === 'dhuhr' && e.ms > last && e.ms < next);
+  const foot = document.createElement('div');
+  foot.className = 'chart-foot';
+  foot.innerHTML = `<span class="l">${t('ev').sunset} ${hm(last, loc.tz)}</span>` +
+    (noon ? `<span class="m" style="left:${((noon.ms - last) / (next - last) * 100).toFixed(1)}%">${t('noon')} ${hm(noon.ms, loc.tz)}</span>` : '') +
+    `<span class="r">${t('ev').sunset} ${hm(next, loc.tz)}</span>`;
+  el.chart.appendChild(foot);
+  chartInfo = { last, next, Y, W, mk: el.chart.querySelector('#mk') };
+}
+
+function offs(ms, last) {
+  const m = Math.round((ms - last) / 60000);
+  return D(`${pad(Math.floor(m / 60))}:${pad(m % 60)}`);
+}
+function renderRows(now, loc, c, nextEv, last, next) {
+  const items = [{ k: 'sunset', ms: last }]
+    .concat(c.flat.filter(e => e.k !== 'sunset' && e.ms > last && e.ms < next))
+    .concat([{ k: 'sunset', ms: next, end: true }]);
+  el.rows.innerHTML = items.map(e => {
+    const cls = ['row'];
+    if (e.k === 'sunrise' || e.k === 'midnight' || e.end) cls.push('minor');
+    if (e.ms <= now) cls.push('passed');
+    if (nextEv && nextEv.ms === e.ms && nextEv.k === e.k) cls.push('next');
+    const name = e.end ? t('nextSunset') : t('ev')[e.k];
+    return `<div class="${cls.join(' ')}"><span>${name}</span><span class="vals"><span class="lc">${hm(e.ms, loc.tz)}</span><span class="tm">${offs(e.ms, last)}</span></span></div>`;
+  }).join('');
+}
+
+function render() {
+  const now = Date.now(), loc = getLoc(), c = buildCtx(now, loc);
+  const last = Math.max(...c.ss.filter(x => x <= now)), next = Math.min(...c.ss.filter(x => x > now));
+  const sun = altAt(now, loc.lat, loc.lon);
+
+  // clock
+  const since = S.mode === 'since';
+  const clockText = hms(since ? now - last : next - now);
+  el.digits.textContent = clockText;
+  el.modeLabel.textContent = since ? t('since') : t('until');
+  const pct = clamp((now - last) / (next - last), 0, 1);
+  el.prog.setAttribute('stroke-dasharray', `${(pct * 100).toFixed(2)} 100`);
+  const ang = pct * 2 * Math.PI - Math.PI / 2, kx = 50 + 46 * Math.cos(ang), ky = 50 + 46 * Math.sin(ang);
+  [el.knob, el.knobGlow].forEach(n => { n.setAttribute('cx', kx.toFixed(2)); n.setAttribute('cy', ky.toFixed(2)); });
+  el.sub.textContent = `${t('lastSunset')} ${c.polar ? '≈' : ''}${hm(last, loc.tz)}  ·  ${t('nextSunset')} ${c.polar ? '≈' : ''}${hm(next, loc.tz)}`;
+  el.polar.hidden = !c.polar; el.polar.textContent = t('polar');
+  document.title = `${clockText} · ${t('title')}`;
+
+  // phase + sky
+  const altTxt = D(Math.abs(sun.alt).toFixed(1)) + '° ' + (sun.alt >= 0 ? t('above') : t('below'));
+  el.phase.textContent = `${t('ph')[phaseKey(sun.alt)]} · ${t('sunAlt')} ${altTxt}`;
+  paintSky(sun.alt, sun.morning);
+
+  renderDates(now, loc.tz, last);
+
+  // chart
+  const cs = [last, S.lang, loc.tz].join('|');
+  if (cs !== sigChart) { sigChart = cs; buildChart(last, next, loc, c); }
+  if (chartInfo && chartInfo.mk) {
+    const x = (now - chartInfo.last) / (chartInfo.next - chartInfo.last) * chartInfo.W;
+    chartInfo.mk.setAttribute('transform', `translate(${x.toFixed(1)} ${chartInfo.Y(sun.alt).toFixed(1)})`);
+  }
+
+  // prayer times
+  const nextEv = c.flat.find(e => e.ms > now);
+  const rs = [c.key, S.lang, last, nextEv ? nextEv.ms : 0].join('|');
+  if (rs !== sigRows) { sigRows = rs; renderRows(now, loc, c, nextEv, last, next); }
+  if (nextEv) { el.nextName.textContent = t('ev')[nextEv.k]; el.nextCd.textContent = hms(nextEv.ms - now); }
+
+  // upcoming prayer, expressed on the sunset clock
+  const tgt = (nextEv && nextEv.ms <= next) ? nextEv : { k: 'sunset', ms: next };
+  const uName = t('ev')[tgt.k], uOff = offs(tgt.ms, last), uCd = hms(tgt.ms - now);
+  el.upnext.innerHTML = upText(uName, uOff, uCd, true);
+  if (live.on) updateLive(`${clockText}  ${since ? t('modeSince') : t('modeUntil')}`, upText(uName, uOff, uCd, false), loc.name);
+}
+
+/* ---------- UI wiring ---------- */
+function fillStatic() {
+  document.documentElement.lang = S.lang;
+  document.documentElement.dir = S.lang === 'fa' ? 'rtl' : 'ltr';
+  document.querySelectorAll('[data-i18n]').forEach(n => { n.textContent = t(n.dataset.i18n); });
+  $('langBtn').textContent = S.lang === 'fa' ? 'EN' : 'فا';
+  $('langBtn').setAttribute('aria-label', S.lang === 'fa' ? 'English' : 'فارسی');
+  $('selMethod').innerHTML = Object.keys(METHODS).map(k => `<option value="${k}">${t('me')[k]}</option>`).join('');
+  $('selMethod').value = S.method;
+  $('selAsr').innerHTML = `<option value="1">${t('asrStd')}</option><option value="2">${t('asrHan')}</option>`;
+  $('selAsr').value = String(S.asr);
+  $('locName').textContent = getLoc().name;
+  $('liveBtn').title = t('liveLabel'); $('liveBtn').setAttribute('aria-label', t('liveLabel'));
+  $('installBtn').title = t('installLabel'); $('installBtn').setAttribute('aria-label', t('installLabel'));
+  $('mSince').setAttribute('aria-pressed', S.mode === 'since');
+  $('mUntil').setAttribute('aria-pressed', S.mode === 'until');
+}
+function refresh() { sigRows = ''; sigChart = ''; fillStatic(); render(); }
+
+$('langBtn').onclick = () => { S.lang = S.lang === 'fa' ? 'en' : 'fa'; persist(); refresh(); };
+$('mSince').onclick = () => { S.mode = 'since'; persist(); fillStatic(); render(); };
+$('mUntil').onclick = () => { S.mode = 'until'; persist(); fillStatic(); render(); };
+$('selMethod').onchange = e => { S.method = e.target.value; persist(); refresh(); };
+$('selAsr').onchange = e => { S.asr = +e.target.value; persist(); refresh(); };
+
+// Location dialog
+const dlg = $('locDlg'), selCountry = $('selCountry'), selCity = $('selCity');
+function fillCities() {
+  const isCustom = selCountry.value === 'custom';
+  $('cityRow').hidden = isCustom; $('customRow').hidden = !isCustom;
+  if (!isCustom) {
+    const co = COUNTRIES.find(c => c.id === selCountry.value), li = S.lang === 'fa' ? 1 : 0;
+    selCity.innerHTML = co.cities.map((c, i) => `<option value="${i}">${c[li]}</option>`).join('');
+    selCity.value = (S.country === co.id) ? S.city : 0;
+  }
+}
+function openDialog() {
+  dlg.querySelectorAll('[data-i18n]').forEach(n => { n.textContent = t(n.dataset.i18n); });
+  selCountry.innerHTML = COUNTRIES.map(c => `<option value="${c.id}">${c[S.lang]}</option>`).join('') + `<option value="custom">${t('custom')}</option>`;
+  selCountry.value = S.country;
+  $('cName').value = S.custom.name || ''; $('cLat').value = S.custom.lat; $('cLon').value = S.custom.lon; $('cTz').value = S.custom.tz || browserTz;
+  $('locMsg').textContent = '';
+  fillCities();
+  dlg.showModal();
+}
+selCountry.onchange = fillCities;
+$('locBtn').onclick = openDialog;
+$('cancelBtn').onclick = () => dlg.close();
+dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+try {
+  if (Intl.supportedValuesOf) $('tzList').innerHTML = Intl.supportedValuesOf('timeZone').map(z => `<option value="${z}">`).join('');
+} catch (e) {}
+
+$('gpsBtn').onclick = () => {
+  const msg = $('locMsg');
+  if (!navigator.geolocation) { msg.textContent = t('gpsFail'); return; }
+  msg.textContent = t('gpsWait');
+  navigator.geolocation.getCurrentPosition(p => {
+    selCountry.value = 'custom'; fillCities();
+    $('cName').value = t('myLoc'); $('cLat').value = p.coords.latitude.toFixed(4); $('cLon').value = p.coords.longitude.toFixed(4); $('cTz').value = browserTz;
+    msg.textContent = t('gpsOk');
+  }, () => { msg.textContent = t('gpsFail'); }, { enableHighAccuracy: false, timeout: 10000, maximumAge: 600000 });
+};
+
+$('saveBtn').onclick = () => {
+  const c = selCountry.value, prev = S.country;
+  if (c === 'custom') {
+    const lat = parseFloat($('cLat').value), lon = parseFloat($('cLon').value), tz = $('cTz').value.trim() || browserTz;
+    if (!(lat >= -90 && lat <= 90) || !(lon >= -180 && lon <= 180)) { $('locMsg').textContent = t('badCoords'); return; }
+    if (!validTz(tz)) { $('locMsg').textContent = t('badTz'); return; }
+    S.custom = { name: $('cName').value.trim(), lat, lon, tz };
+    S.country = 'custom';
+  } else {
+    S.country = c; S.city = +selCity.value;
+  }
+  if (S.country !== prev) {
+    if (S.country === 'ir') S.method = 'tehran';
+    else if (S.method === 'tehran') S.method = 'mwl';
+  }
+  persist(); dlg.close(); ctx = null; refresh();
+};
+
+document.addEventListener('visibilitychange', () => { if (!document.hidden) render(); });
+
+function upText(name, off, cd, html) {
+  const w = s => html ? `<span class="ltr">${s}</span>` : s;
+  return S.lang === 'fa'
+    ? `${t('next')}: ${name} · ${w(off)} ${t('afterSunset')} · ${w(cd)} مانده`
+    : `${t('next')}: ${name} · ${w(off)} ${t('afterSunset')} · in ${w(cd)}`;
+}
+
+/* ---------- PWA: install, offline, live notification ---------- */
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredPrompt = e; $('installBtn').hidden = false; });
+window.addEventListener('appinstalled', () => { $('installBtn').hidden = true; });
+$('installBtn').onclick = async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  try { await deferredPrompt.userChoice; } catch (e) {}
+  deferredPrompt = null; $('installBtn').hidden = true;
+};
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
+}
+
+// The "live notification" is a Media Session: a silent looping track keeps the page alive and
+// the OS shows its title/artist in the notification shade, lock screen and media controls.
+const live = { on: false, audio: null, url: null, key: '' };
+const liveMsg = $('liveMsg');
+function setLiveMsg(s) { liveMsg.hidden = !s; liveMsg.textContent = s || ''; }
+function silentWavUrl() {
+  const sr = 8000, n = sr * 10, buf = new ArrayBuffer(44 + n), v = new DataView(buf);
+  const w = (o, s) => { for (let i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); };
+  w(0, 'RIFF'); v.setUint32(4, 36 + n, true); w(8, 'WAVE'); w(12, 'fmt '); v.setUint32(16, 16, true);
+  v.setUint16(20, 1, true); v.setUint16(22, 1, true); v.setUint32(24, sr, true); v.setUint32(28, sr, true);
+  v.setUint16(32, 1, true); v.setUint16(34, 8, true); w(36, 'data'); v.setUint32(40, n, true);
+  new Uint8Array(buf, 44).fill(128);
+  return URL.createObjectURL(new Blob([buf], { type: 'audio/wav' }));
+}
+function updateLive(title, artist, album) {
+  const key = title + '|' + artist;
+  if (key === live.key) return;
+  live.key = key;
+  try {
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title, artist, album,
+      artwork: [{ src: 'icon-192.png', sizes: '192x192', type: 'image/png' }, { src: 'icon-512.png', sizes: '512x512', type: 'image/png' }]
+    });
+  } catch (e) {}
+}
+async function startLive() {
+  if (!('mediaSession' in navigator)) { setLiveMsg(t('liveFail')); return; }
+  try {
+    if (!live.url) live.url = silentWavUrl();
+    const a = live.audio || (live.audio = new Audio(live.url));
+    a.loop = true;
+    await a.play();
+    live.on = true; live.key = '';
+    const ms = navigator.mediaSession;
+    ms.playbackState = 'playing';
+    ['pause', 'stop'].forEach(n => { try { ms.setActionHandler(n, () => stopLive()); } catch (e) {} });
+    try { ms.setActionHandler('play', () => startLive()); } catch (e) {}
+    ['seekbackward', 'seekforward', 'seekto', 'previoustrack', 'nexttrack'].forEach(n => { try { ms.setActionHandler(n, null); } catch (e) {} });
+    try { ms.setPositionState(); } catch (e) {}
+    $('liveBtn').setAttribute('aria-pressed', 'true');
+    setLiveMsg(t('liveOn'));
+    render();
+  } catch (e) { live.on = false; setLiveMsg(t('liveFail')); }
+}
+function stopLive() {
+  live.on = false;
+  try { live.audio && live.audio.pause(); } catch (e) {}
+  try { navigator.mediaSession.metadata = null; navigator.mediaSession.playbackState = 'none'; } catch (e) {}
+  $('liveBtn').setAttribute('aria-pressed', 'false');
+  setLiveMsg('');
+}
+$('liveBtn').onclick = () => (live.on ? stopLive() : startLive());
+
+fillStatic();
+render();
+setInterval(render, 250);
+})();
+</script>
 </body>
 </html>
