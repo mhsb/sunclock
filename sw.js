@@ -1,6 +1,6 @@
 /* Sunset Clock service worker: offline app shell */
-const VERSION = 'sunclock-v3';
-const CORE = ['./', 'index.html', 'manifest.webmanifest', 'icon.svg', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'apple-touch-icon.png'];
+const VERSION = 'sunclock-v4';
+const CORE = ['./', 'index.html', 'i18n/en.json', 'i18n/fa.json', 'manifest.webmanifest', 'icon.svg', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));
@@ -28,7 +28,7 @@ self.addEventListener('fetch', e => {
     return;
   }
 
-  // Everything else (icons, Google Fonts): cached copy first, refreshed in the background.
+  // Everything else (icons, translations, Google Fonts): cached copy first, refreshed in the background.
   e.respondWith(
     caches.match(req).then(hit => {
       const net = fetch(req)

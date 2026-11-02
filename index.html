@@ -5,6 +5,7 @@
 <title>Sunset Clock</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="A sunset-to-sunset clock with a sky that follows the real sun, plus prayer times.">
+<meta name="author" content="Hossein Sheibah">
 <meta name="theme-color" content="#0a1030" id="themeColor">
 <meta name="color-scheme" content="dark">
 <link rel="manifest" href="manifest.webmanifest">
@@ -81,7 +82,8 @@
   .tools { display: flex; gap: 8px; align-items: center; }
   .chip.icon { padding: 9px 12px; }
   .chip[aria-pressed="true"] { background: rgba(255,210,122,.28); border-color: rgba(255,210,122,.6); }
-  #locBtn { max-width: calc(100% - 150px); }
+  #locBtn { flex: 0 1 auto; max-width: none; }
+  .tools { flex: none; }
   .seg { display: inline-flex; padding: 4px; gap: 2px; background: var(--glass); border: 1px solid var(--line); border-radius: 999px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
   .seg button { background: transparent; color: var(--ink-soft); border: 0; font: inherit; font-size: 13.5px; padding: 8px 16px; border-radius: 999px; cursor: pointer; }
   .seg button[aria-pressed="true"] { background: rgba(255,255,255,.22); color: var(--ink); }
@@ -130,6 +132,8 @@
   summary::after { content: '+'; opacity: .7; font-size: 18px; }
   details[open] summary::after { content: '–'; }
   details p { margin: 10px 0 0; font-size: 14px; line-height: 1.7; color: var(--ink-soft); }
+  details a, footer a { color: var(--accent); text-decoration: none; }
+  details a:hover, footer a:hover { text-decoration: underline; }
   footer { text-align: center; font-size: 12px; color: var(--ink-soft); margin: 22px 0 0; opacity: .8; }
 
   dialog { padding: 0; border: 1px solid var(--line); border-radius: 22px; background: var(--sheet); color: var(--ink); width: calc(100% - 32px); max-width: 420px; font: inherit; }
@@ -143,6 +147,47 @@
   .btn.primary { background: var(--accent); color: #1a1a2e; border-color: transparent; font-weight: 600; }
   .actions { display: flex; gap: 10px; justify-content: flex-end; }
   .msg { font-size: 13px; color: var(--accent); min-height: 18px; }
+  /* sunset-clock (12-hour dial) mode */
+  .swrow { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 14px auto 0; font-size: 14px; color: var(--ink-soft); }
+  .sw { position: relative; width: 46px; height: 26px; border-radius: 999px; border: 1px solid var(--line); background: var(--glass); cursor: pointer; padding: 0; flex: none; }
+  .sw::after { content: ''; position: absolute; top: 2px; inset-inline-start: 2px; width: 20px; height: 20px; border-radius: 50%; background: #fff; transition: inset-inline-start .18s, background .18s; }
+  .sw[aria-checked="true"] { background: rgba(255,210,122,.45); border-color: rgba(255,210,122,.7); }
+  .sw[aria-checked="true"]::after { inset-inline-start: 22px; background: var(--accent); }
+  .ring #analog { display: none; }
+  .ring.sc #analog { display: inline; }
+  .ring.sc .ring-in { display: none; }
+  #analog text { fill: rgba(255,255,255,.88); font-size: 5.4px; text-anchor: middle; dominant-baseline: central; font-family: inherit; }
+  .scp { width: 100%; max-width: 340px; margin: 0 auto 14px; }
+  .sc-read { font-size: min(11vw, 44px); font-weight: 200; direction: ltr; unicode-bidi: isolate; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .sc-sub { font-size: 12.5px; color: var(--ink-soft); margin-top: 4px; }
+  .sc-tag { margin: 10px 0 12px; font-size: 16px; color: var(--accent); }
+  .bars { display: grid; gap: 10px; }
+  .bar-h { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; color: var(--ink-soft); margin-bottom: 5px; }
+  .track { height: 6px; border-radius: 99px; background: rgba(255,255,255,.14); overflow: hidden; }
+  .track i { display: block; height: 100%; width: 0; background: var(--accent); border-radius: 99px; }
+  .bar.idle { opacity: .45; }
+
+  /* Hijri adjustment */
+  .adj { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 10px; font-size: 12.5px; color: var(--ink-soft); }
+  .mini { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--line); background: var(--glass); color: var(--ink); font: inherit; font-size: 16px; line-height: 1; cursor: pointer; padding: 0; }
+  .mini:disabled { opacity: .35; cursor: default; }
+  .adj b { min-width: 2em; text-align: center; color: var(--ink); font-weight: 600; }
+
+  /* desk / full-screen mode */
+  #deskExit { display: none; position: fixed; top: calc(10px + env(safe-area-inset-top, 0px)); inset-inline-end: 12px; z-index: 5; opacity: .65; }
+  body.desk #deskExit { display: inline-flex; }
+  body.desk .top, body.desk .card, body.desk footer, body.desk .seg, body.desk .swrow, body.desk .adj, body.desk #liveMsg { display: none; }
+  body.desk .wrap { max-width: none; padding: 0 4vw; }
+  body.desk .hero { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 2vh 0; }
+  body.desk .ring { width: min(74vmin, 700px); margin: 2vh auto; }
+  body.desk .ring.sc { width: min(56vmin, 520px); }
+  body.desk .digits { font-size: min(15vmin, 130px); }
+  body.desk .sc-read { font-size: min(9vmin, 80px); }
+  body.desk .scp { max-width: min(90vw, 520px); }
+  body.desk .phase, body.desk .sub { font-size: clamp(13px, 2.2vmin, 20px); }
+  body.desk .upnext { font-size: clamp(14px, 2.4vmin, 22px); }
+  body.desk .dates .h { font-size: clamp(17px, 3vmin, 28px); }
+  body.desk .dates .c { font-size: clamp(13px, 2.2vmin, 20px); }
   [hidden] { display: none !important; }
 </style>
 </head>
@@ -151,22 +196,32 @@
 <div id="glow"></div>
 <div id="stars" aria-hidden="true"></div>
 
+<button class="chip icon" id="deskExit" aria-label="Exit">✕</button>
+
 <main class="wrap">
   <header class="top">
     <button class="chip" id="locBtn" aria-haspopup="dialog"><span aria-hidden="true">📍</span><span class="t" id="locName">…</span></button>
     <div class="tools">
       <button class="chip icon" id="installBtn" hidden>⬇</button>
       <button class="chip icon" id="liveBtn" aria-pressed="false">🔔</button>
+      <button class="chip icon" id="deskBtn">⛶</button>
       <button class="chip" id="langBtn" aria-label="Language">فا</button>
     </div>
   </header>
 
   <section class="hero">
     <div class="phase" id="phase"></div>
-    <div class="ring">
+    <div class="ring" id="ring">
       <svg viewBox="0 0 100 100" aria-hidden="true">
         <circle cx="50" cy="50" r="46" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1.2"/>
         <circle id="prog" cx="50" cy="50" r="46" fill="none" stroke="#ffd27a" stroke-width="2" stroke-linecap="round" pathLength="100" stroke-dasharray="0 100" transform="rotate(-90 50 50)"/>
+        <g id="analog" aria-hidden="true">
+          <g id="ticks"></g><g id="numerals"></g>
+          <line id="handH" x1="50" y1="50" x2="50" y2="30" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/>
+          <line id="handM" x1="50" y1="50" x2="50" y2="17" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+          <line id="handS" x1="50" y1="54" x2="50" y2="14" stroke="#ffd27a" stroke-width=".7" stroke-linecap="round"/>
+          <circle cx="50" cy="50" r="2" fill="#ffd27a"/>
+        </g>
         <circle id="knobGlow" r="4.6" fill="rgba(255,210,122,.3)"/>
         <circle id="knob" r="2.4" fill="#ffd27a" stroke="#fff" stroke-width=".8"/>
       </svg>
@@ -176,16 +231,27 @@
         <div class="sub" id="sub"></div>
       </div>
     </div>
+    <div class="scp" id="scPanel" hidden>
+      <div class="sc-read" id="scRead"></div>
+      <div class="sc-sub" id="scSub"></div>
+      <div class="sc-tag" id="scTag"></div>
+      <div class="bars" id="scBars">
+        <div class="bar" id="nRow"><div class="bar-h"><span data-i18n="nightPassed"></span><span class="ltr" id="nVal"></span></div><div class="track"><i id="nBar"></i></div></div>
+        <div class="bar" id="dRow"><div class="bar-h"><span data-i18n="dayLeft"></span><span class="ltr" id="dVal"></span></div><div class="track"><i id="dBar"></i></div></div>
+      </div>
+    </div>
     <div class="upnext" id="upnext"></div>
     <div class="seg" role="group" id="modeSeg">
       <button id="mSince" aria-pressed="true" data-i18n="modeSince"></button>
       <button id="mUntil" aria-pressed="false" data-i18n="modeUntil"></button>
     </div>
+    <div class="swrow"><button class="sw" id="scTog" role="switch" aria-checked="false"></button><span data-i18n="scLabel"></span></div>
     <div class="note" id="polar" hidden></div>
     <div class="dates">
       <div class="h" id="hijri"></div>
       <div class="c" id="civil"></div>
     </div>
+    <div class="adj"><span data-i18n="hijriAdj"></span><button class="mini" id="hMinus" aria-label="−1">−</button><b class="ltr" id="hVal">0</b><button class="mini" id="hPlus" aria-label="+1">+</button></div>
     <div class="note" id="liveMsg" hidden></div>
   </section>
 
@@ -211,9 +277,11 @@
     <details><summary data-i18n="tech"></summary><p data-i18n="techText"></p></details>
     <details><summary data-i18n="notes"></summary><p data-i18n="notesText"></p></details>
     <details><summary data-i18n="installTitle"></summary><p data-i18n="installText"></p></details>
+    <details><summary data-i18n="limits"></summary><p data-i18n="limitsText"></p></details>
+    <details><summary data-i18n="creator"></summary><p><span data-i18n="creatorText"></span> <a href="https://sheibah.ir" target="_blank" rel="noopener">sheibah.ir</a></p></details>
   </section>
 
-  <footer>🌅 mhsb · Sunset Clock</footer>
+  <footer>🌅 <span data-i18n="madeBy"></span> · <a href="https://sheibah.ir" target="_blank" rel="noopener">sheibah.ir</a></footer>
 </main>
 
 <dialog id="locDlg">
@@ -299,56 +367,7 @@ const METHODS = {
   karachi:{ fajr:18,   isha:18,   maghrib:null, mid:'sun' }
 };
 
-const T = {
-  en: {
-    title:'Sunset Clock', since:'Time since sunset', until:'Time until sunset', modeSince:'Since sunset', modeUntil:'Until sunset',
-    lastSunset:'Last sunset', nextSunset:'Next sunset', pathTitle:'Sun path · sunset to sunset', prayer:'Prayer times',
-    asrStd:'Asr: standard', asrHan:'Asr: Hanafi', next:'Next', noon:'Noon',
-    prayerNote:'Counted from sunset, which is 00:00. Local clock time on the right.',
-    about:'About', summary:'Summary', tech:'How it works', notes:'Notes',
-    summaryText:'Many traditions begin the day at sunset rather than at midnight. Sunset Clock shows how long it has been since the last sunset, a count that restarts the moment a new day begins, or how long remains until the next one. The sky behind it follows the real position of the sun.',
-    techText:'Sun positions are calculated on your device with the NOAA solar equations, so it works offline and your location is never sent anywhere. Sunrise and sunset use the sun’s centre 0.833° below the horizon to account for refraction and the size of the sun’s disc.',
-    notesText:'Prayer times are calculated estimates, usually within a minute or two of published tables, and ignore elevation and local adjustments. Please check with your local authority. The Hijri date uses the Umm al-Qura calendar, moved forward at sunset, and may differ by a day from local moon sighting.',
-    afterSunset:'after sunset', liveLabel:'Live notification', installLabel:'Install app',
-    liveOn:'Live notification is on. Press pause on the notification to stop it.',
-    liveFail:'Couldn’t start the live notification on this device or browser.',
-    installTitle:'Install & live notification',
-    installText:'Install: in Chrome on Android tap the ⬇ button (or ⋮ → Install app). On iPhone use Share → Add to Home Screen. Live notification: tap 🔔 to show the running clock in your notification shade and on the lock screen. It is a media-style notification kept alive by a silent audio track, so it has a pause button that turns it off, and your phone may stop it to save battery. Web apps have no other way to show a ticking clock.',
-    choose:'Choose location', country:'Country', city:'City', customName:'Place name', lat:'Latitude', lon:'Longitude', tz:'Time zone',
-    gps:'📍 Use my current location', save:'Save location', cancel:'Cancel', custom:'Custom coordinates…', myLoc:'My location',
-    gpsWait:'Finding you…', gpsFail:'Couldn’t get your location. You can type coordinates instead.', gpsOk:'Location found. Press save to use it.',
-    badCoords:'Enter a latitude from −90 to 90 and a longitude from −180 to 180.', badTz:'That time zone isn’t recognised.',
-    polar:'The sun doesn’t cross the horizon here today, so sunset is approximated.',
-    ph:{ day:'Daytime', golden:'Golden hour', civil:'Civil twilight', nautical:'Nautical twilight', astro:'Astronomical twilight', night:'Night' },
-    ev:{ fajr:'Fajr', sunrise:'Sunrise', dhuhr:'Dhuhr', asr:'Asr', sunset:'Sunset', maghrib:'Maghrib', isha:'Isha', midnight:'Midnight' },
-    me:{ tehran:'Univ. of Tehran (Shia)', mwl:'Muslim World League', isna:'ISNA (N. America)', egypt:'Egyptian Authority', karachi:'Karachi' },
-    sunAlt:'sun', above:'above', below:'below'
-  },
-  fa: {
-    title:'ساعت غروب', since:'زمان سپری‌شده از غروب', until:'زمان باقی‌مانده تا غروب', modeSince:'از غروب', modeUntil:'تا غروب',
-    lastSunset:'آخرین غروب', nextSunset:'غروب بعدی', pathTitle:'مسیر خورشید · از غروب تا غروب', prayer:'اوقات شرعی',
-    asrStd:'عصر: معمول', asrHan:'عصر: حنفی', next:'بعدی', noon:'ظهر',
-    prayerNote:'زمان‌ها از غروب (۰۰:۰۰) شمرده می‌شوند. ساعت محلی در سمت راست است.',
-    about:'درباره', summary:'خلاصه', tech:'فناوری', notes:'توضیحات',
-    summaryText:'در بسیاری از سنت‌ها روز از غروب آغاز می‌شود، نه نیمه‌شب. ساعت غروب نشان می‌دهد از آخرین غروب چه مدت گذشته است (شمارشی که با آغاز هر روز تازه از نو شروع می‌شود) یا تا غروب بعدی چه‌قدر مانده است. آسمان پس‌زمینه از موقعیت واقعی خورشید پیروی می‌کند.',
-    techText:'موقعیت خورشید با معادلات خورشیدی NOAA روی همین دستگاه محاسبه می‌شود؛ پس بدون اینترنت هم کار می‌کند و هیچ اطلاعاتی از مکان شما ارسال نمی‌شود. طلوع و غروب بر پایهٔ ۰٫۸۳۳ درجه زیر افق و با لحاظ شکست نور و اندازهٔ قرص خورشید محاسبه می‌شوند.',
-    notesText:'اوقات شرعی برآوردهای محاسباتی‌اند و ممکن است یکی دو دقیقه با تقویم‌های رسمی تفاوت داشته باشند؛ ارتفاع از سطح دریا و تنظیمات محلی در نظر گرفته نشده است. برای اطمینان به مرجع محلی مراجعه کنید. تاریخ قمری بر پایهٔ تقویم ام‌القری است و از غروب یک روز جلو می‌رود؛ ممکن است با رؤیت هلال محلی یک روز اختلاف داشته باشد.',
-    afterSunset:'پس از غروب', liveLabel:'اعلان زنده', installLabel:'نصب برنامه',
-    liveOn:'اعلان زنده روشن است. برای خاموش کردن، دکمهٔ توقف اعلان را بزنید.',
-    liveFail:'اعلان زنده روی این دستگاه یا مرورگر شروع نشد.',
-    installTitle:'نصب و اعلان زنده',
-    installText:'نصب: در کروم اندروید دکمهٔ ⬇ (یا منوی ⋮ ← Install app) را بزنید؛ در آیفون از Share گزینهٔ Add to Home Screen را انتخاب کنید. اعلان زنده: دکمهٔ 🔔 را بزنید تا ساعت در حال شمارش در پردهٔ اعلان‌ها و صفحهٔ قفل نمایش داده شود. این اعلان به شکل اعلان رسانه است و با یک فایل صوتی بی‌صدا زنده می‌ماند؛ پس دکمهٔ توقف دارد و ممکن است گوشی برای صرفه‌جویی در باتری آن را متوقف کند. برنامه‌های وب راه دیگری برای نمایش ساعت زنده ندارند.',
-    choose:'انتخاب موقعیت', country:'کشور', city:'شهر', customName:'نام مکان', lat:'عرض جغرافیایی', lon:'طول جغرافیایی', tz:'منطقهٔ زمانی',
-    gps:'📍 استفاده از موقعیت فعلی من', save:'ذخیره موقعیت', cancel:'انصراف', custom:'مختصات دلخواه…', myLoc:'موقعیت من',
-    gpsWait:'در حال یافتن موقعیت…', gpsFail:'موقعیت شما پیدا نشد. می‌توانید مختصات را وارد کنید.', gpsOk:'موقعیت پیدا شد. برای استفاده، ذخیره را بزنید.',
-    badCoords:'عرض جغرافیایی (۹۰- تا ۹۰) و طول جغرافیایی (۱۸۰- تا ۱۸۰) معتبر وارد کنید.', badTz:'منطقهٔ زمانی نامعتبر است.',
-    polar:'امروز خورشید در این مکان از افق نمی‌گذرد؛ زمان غروب تقریبی است.',
-    ph:{ day:'روز', golden:'ساعت طلایی', civil:'گرگ‌ومیش مدنی', nautical:'گرگ‌ومیش دریایی', astro:'گرگ‌ومیش نجومی', night:'شب' },
-    ev:{ fajr:'اذان صبح', sunrise:'طلوع آفتاب', dhuhr:'اذان ظهر', asr:'عصر', sunset:'غروب آفتاب', maghrib:'اذان مغرب', isha:'عشاء', midnight:'نیمه‌شب شرعی' },
-    me:{ tehran:'مؤسسه ژئوفیزیک (تهران)', mwl:'رابطهٔ جهان اسلام', isna:'آمریکای شمالی (ISNA)', egypt:'مصر', karachi:'کراچی' },
-    sunAlt:'خورشید', above:'بالای افق', below:'زیر افق'
-  }
-};
+let T = null; // loaded from i18n/en.json and i18n/fa.json (see loadI18n at the bottom)
 
 /* ---------- State & storage ---------- */
 const KEY = 'sunclock:v2';
@@ -362,7 +381,7 @@ function defaultState() {
     if (i >= 0) { country = c.id; city = i; found = true; break; }
   }
   const lang = (navigator.language || '').toLowerCase().startsWith('fa') ? 'fa' : 'en';
-  return { lang, country, city, custom: { name: '', lat: 0, lon: 0, tz: browserTz }, method: country === 'ir' ? 'tehran' : 'mwl', asr: 1, mode: 'since' };
+  return { lang, country, city, custom: { name: '', lat: 0, lon: 0, tz: browserTz }, method: country === 'ir' ? 'tehran' : 'mwl', asr: 1, mode: 'since', sc: false, hAdj: 0 };
 }
 let S = defaultState();
 try {
@@ -371,6 +390,7 @@ try {
 } catch (e) {}
 if (S.country !== 'custom' && !COUNTRIES.find(c => c.id === S.country)) S = Object.assign(S, { country: 'ir', city: 0 });
 if (!METHODS[S.method]) S.method = 'mwl';
+S.hAdj = clamp(Math.round(+S.hAdj || 0), -1, 1); S.sc = !!S.sc;
 const persist = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
 
 const FA_DIGITS = '۰۱۲۳۴۵۶۷۸۹';
@@ -523,22 +543,34 @@ const el = { digits: $('digits'), modeLabel: $('modeLabel'), sub: $('sub'), phas
   hijri: $('hijri'), civil: $('civil'), chart: $('chart'), rows: $('rows'), nextName: $('nextName'), nextCd: $('nextCd'), polar: $('polar'), locName: $('locName'), upnext: $('upnext') };
 let sigRows = '', sigChart = '', chartInfo = null;
 
+const LOC = () => S.lang === 'fa' ? 'fa-IR' : 'en-US';
+const fmtOf = (key, locale, opts) => { const k = key + locale; return fmtCache[k] || (fmtCache[k] = new Intl.DateTimeFormat(locale, opts)); };
+// The Islamic day that began at the last sunset falls on the civil date after that sunset;
+// its weekday and Hijri date come from there (plus the user's ±1 adjustment for the Hijri date).
+function periodInfo(last, tz) {
+  const [y, m, d] = ymdFmt(tz).format(new Date(last)).split('-').map(Number);
+  const wdDate = Date.UTC(y, m - 1, d + 1, 12), hjDate = wdDate + S.hAdj * DAY;
+  let wd = '', hd = '', hmn = '', hline = '';
+  try { wd = fmtOf('wd', LOC(), { timeZone: 'UTC', weekday: 'long' }).format(new Date(wdDate)); } catch (e) {}
+  try {
+    const f = fmtOf('hj', LOC() + '-u-ca-islamic-umalqura', { timeZone: 'UTC', day: 'numeric', month: 'long', year: 'numeric' });
+    hline = f.format(new Date(hjDate));
+    f.formatToParts(new Date(hjDate)).forEach(q => { if (q.type === 'day') hd = q.value; if (q.type === 'month') hmn = q.value; });
+  } catch (e) {}
+  return { wd, hd, hmn, hline };
+}
 function renderDates(now, tz, last) {
   const fa = S.lang === 'fa';
-  const ymd = ymdFmt(tz).format(new Date(now));
-  const [y, m, d] = ymd.split('-').map(Number);
+  const [y, m, d] = ymdFmt(tz).format(new Date(now)).split('-').map(Number);
   const base = Date.UTC(y, m - 1, d, 12);
-  const afterSunset = ymdFmt(tz).format(new Date(last)) === ymd;
-  let h = '', c = '';
-  try {
-    h = new Intl.DateTimeFormat((fa ? 'fa-IR' : 'en-US') + '-u-ca-islamic-umalqura', { timeZone: 'UTC', day: 'numeric', month: 'long', year: 'numeric' })
-      .format(new Date(base + (afterSunset ? DAY : 0)));
-  } catch (e) {}
+  const p = periodInfo(last, tz);
+  let c = '';
   try {
     c = new Intl.DateTimeFormat(fa ? 'fa-IR-u-ca-persian' : 'en-US', { timeZone: 'UTC', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(base));
   } catch (e) {}
-  el.hijri.textContent = h ? '🌙 ' + h : '';
+  el.hijri.textContent = p.hline ? '🌙 ' + p.hline : '';
   el.civil.textContent = c;
+  return p;
 }
 
 function buildChart(last, next, loc, c) {
@@ -588,6 +620,53 @@ function renderRows(now, loc, c, nextEv, last, next) {
   }).join('');
 }
 
+const ringEl = $('ring'), scPanel = $('scPanel');
+const durHM = ms => { const m = Math.round(ms / 60000); return D(`${pad(Math.floor(m / 60))}:${pad(m % 60)}`); };
+const rot = (id, a) => $(id).setAttribute('transform', `rotate(${a.toFixed(2)} 50 50)`);
+function buildDial() {
+  let tk = '';
+  for (let i = 0; i < 60; i++) {
+    const a = i * 6 * rad, major = i % 5 === 0, r1 = major ? 38 : 40, r2 = 43;
+    tk += `<line x1="${(50 + r1 * Math.sin(a)).toFixed(2)}" y1="${(50 - r1 * Math.cos(a)).toFixed(2)}" x2="${(50 + r2 * Math.sin(a)).toFixed(2)}" y2="${(50 - r2 * Math.cos(a)).toFixed(2)}" stroke="rgba(255,255,255,${major ? .8 : .35})" stroke-width="${major ? 1 : .5}"/>`;
+  }
+  $('ticks').innerHTML = tk;
+  let nm = '';
+  for (let h = 1; h <= 12; h++) { const a = h * 30 * rad; nm += `<text x="${(50 + 31 * Math.sin(a)).toFixed(2)}" y="${(50 - 31 * Math.cos(a)).toFixed(2)}">${D(h)}</text>`; }
+  $('numerals').innerHTML = nm;
+}
+// Sunset-clock mode: the hands meet at 12 at sunset, like a clock "set to sunset".
+function renderSC(now, last, next, c, sun, clockText, since, p) {
+  ringEl.classList.toggle('sc', S.sc);
+  scPanel.hidden = !S.sc;
+  $('scTog').setAttribute('aria-checked', String(S.sc));
+  if (!S.sc) return '';
+  const ems = now - last, hrs = ems / HOUR;
+  rot('handH', (hrs % 12) * 30);
+  rot('handM', ((ems / 60000) % 60) * 6);
+  rot('handS', ((ems / 1000) % 60) * 6);
+  const h12 = Math.floor(hrs) % 12 || 12;
+  const read = D(`${h12}:${pad(Math.floor(ems / 60000) % 60)}:${pad(Math.floor(ems / 1000) % 60)}`);
+  $('scRead').textContent = read;
+  $('scSub').textContent = `${since ? t('since') : t('until')}: ${clockText}`;
+  const sr = c.flat.find(e => e.k === 'sunrise' && e.ms > last && e.ms < next);
+  const night = sr ? now < sr.ms : sun.alt < -0.833;
+  let tag = (night ? t('nightOf') : t('dayOf')).replace('{w}', p.wd);
+  if (p.hd) tag += ' · ' + (night ? t('hNight') : t('hDay')).replace('{d}', p.hd).replace('{m}', p.hmn);
+  $('scTag').textContent = tag;
+  $('scBars').hidden = !sr;
+  if (sr) {
+    const nightLen = sr.ms - last, dayLen = next - sr.ms;
+    const passed = clamp(now - last, 0, nightLen), left = night ? dayLen : clamp(next - now, 0, dayLen);
+    $('nBar').style.width = (passed / nightLen * 100).toFixed(2) + '%';
+    $('dBar').style.width = (left / dayLen * 100).toFixed(2) + '%';
+    $('nVal').textContent = `${hms(passed)} / ${durHM(nightLen)}`;
+    $('dVal').textContent = `${hms(left)} / ${durHM(dayLen)}`;
+    $('nRow').classList.toggle('idle', !night);
+    $('dRow').classList.toggle('idle', night);
+  }
+  return read;
+}
+
 function render() {
   const now = Date.now(), loc = getLoc(), c = buildCtx(now, loc);
   const last = Math.max(...c.ss.filter(x => x <= now)), next = Math.min(...c.ss.filter(x => x > now));
@@ -611,7 +690,8 @@ function render() {
   el.phase.textContent = `${t('ph')[phaseKey(sun.alt)]} · ${t('sunAlt')} ${altTxt}`;
   paintSky(sun.alt, sun.morning);
 
-  renderDates(now, loc.tz, last);
+  const pinfo = renderDates(now, loc.tz, last);
+  const scRead = renderSC(now, last, next, c, sun, clockText, since, pinfo);
 
   // chart
   const cs = [last, S.lang, loc.tz].join('|');
@@ -631,7 +711,7 @@ function render() {
   const tgt = (nextEv && nextEv.ms <= next) ? nextEv : { k: 'sunset', ms: next };
   const uName = t('ev')[tgt.k], uOff = offs(tgt.ms, last), uCd = hms(tgt.ms - now);
   el.upnext.innerHTML = upText(uName, uOff, uCd, true);
-  if (live.on) updateLive(`${clockText}  ${since ? t('modeSince') : t('modeUntil')}`, upText(uName, uOff, uCd, false), loc.name);
+  if (live.on) updateLive(S.sc ? `${scRead}  ${t('scName')}` : `${clockText}  ${since ? t('modeSince') : t('modeUntil')}`, upText(uName, uOff, uCd, false), loc.name);
 }
 
 /* ---------- UI wiring ---------- */
@@ -650,6 +730,10 @@ function fillStatic() {
   $('installBtn').title = t('installLabel'); $('installBtn').setAttribute('aria-label', t('installLabel'));
   $('mSince').setAttribute('aria-pressed', S.mode === 'since');
   $('mUntil').setAttribute('aria-pressed', S.mode === 'until');
+  $('scTog').setAttribute('aria-label', t('scLabel'));
+  $('deskBtn').title = t('deskLabel'); $('deskBtn').setAttribute('aria-label', t('deskLabel'));
+  $('deskExit').title = t('deskExit'); $('deskExit').setAttribute('aria-label', t('deskExit'));
+  buildDial(); updateAdj();
 }
 function refresh() { sigRows = ''; sigChart = ''; fillStatic(); render(); }
 
@@ -658,6 +742,35 @@ $('mSince').onclick = () => { S.mode = 'since'; persist(); fillStatic(); render(
 $('mUntil').onclick = () => { S.mode = 'until'; persist(); fillStatic(); render(); };
 $('selMethod').onchange = e => { S.method = e.target.value; persist(); refresh(); };
 $('selAsr').onchange = e => { S.asr = +e.target.value; persist(); refresh(); };
+$('scTog').onclick = () => { S.sc = !S.sc; persist(); render(); };
+
+function updateAdj() {
+  const v = S.hAdj;
+  $('hVal').textContent = D((v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v));
+  $('hMinus').disabled = v <= -1; $('hPlus').disabled = v >= 1;
+}
+$('hMinus').onclick = () => { S.hAdj = clamp(S.hAdj - 1, -1, 1); persist(); updateAdj(); render(); };
+$('hPlus').onclick = () => { S.hAdj = clamp(S.hAdj + 1, -1, 1); persist(); updateAdj(); render(); };
+
+// Desk / full-screen mode: big clock and sky, screen kept awake where the browser allows it.
+let wake = null, deskFs = false;
+async function keepAwake() { try { if ('wakeLock' in navigator) wake = await navigator.wakeLock.request('screen'); } catch (e) {} }
+function releaseAwake() { try { wake && wake.release(); } catch (e) {} wake = null; }
+async function setDesk(on) {
+  document.body.classList.toggle('desk', on);
+  if (on) {
+    deskFs = false;
+    try { if (document.documentElement.requestFullscreen) { await document.documentElement.requestFullscreen(); deskFs = true; } } catch (e) {}
+    keepAwake();
+  } else {
+    releaseAwake();
+    try { if (document.fullscreenElement) await document.exitFullscreen(); } catch (e) {}
+    deskFs = false;
+  }
+}
+$('deskBtn').onclick = () => setDesk(true);
+$('deskExit').onclick = () => setDesk(false);
+document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && deskFs && document.body.classList.contains('desk')) setDesk(false); });
 
 // Location dialog
 const dlg = $('locDlg'), selCountry = $('selCountry'), selCity = $('selCity');
@@ -716,7 +829,7 @@ $('saveBtn').onclick = () => {
   persist(); dlg.close(); ctx = null; refresh();
 };
 
-document.addEventListener('visibilitychange', () => { if (!document.hidden) render(); });
+document.addEventListener('visibilitychange', () => { if (!document.hidden) { render(); if (document.body.classList.contains('desk')) keepAwake(); } });
 
 function upText(name, off, cd, html) {
   const w = s => html ? `<span class="ltr">${s}</span>` : s;
@@ -792,9 +905,13 @@ function stopLive() {
 }
 $('liveBtn').onclick = () => (live.on ? stopLive() : startLive());
 
-fillStatic();
-render();
-setInterval(render, 250);
+async function loadI18n() {
+  const [en, fa] = await Promise.all(['en', 'fa'].map(l => fetch(`i18n/${l}.json`).then(r => { if (!r.ok) throw new Error(l); return r.json(); })));
+  T = { en, fa };
+}
+loadI18n().then(() => { fillStatic(); render(); setInterval(render, 250); }).catch(() => {
+  document.body.insertAdjacentHTML('afterbegin', '<p style="position:relative;z-index:3;padding:24px;line-height:1.7">Couldn’t load the translation files (i18n/*.json). Serve this folder over HTTP (for example <code>python3 -m http.server</code>) or deploy it to GitHub Pages; opening index.html straight from disk blocks them.</p>');
+});
 })();
 </script>
 </body>
